@@ -11,25 +11,25 @@ describe('directive.js', () => {
 
   it('should add an attribute selector', () => {
     const wrapper = mount({
-      template: '<div v-hubble="\'selector\'"></div>',
+      template: '<div><span v-hubble="\'selector\'"></span></div>',
     });
 
-    expect('selector' in wrapper.attributes()).toBeTruthy();
+    expect(wrapper.contains('[selector]')).toBe(true);
   });
 
   it('should add a class selector', () => {
     const wrapper = mount({
-      template: '<div v-hubble:class="\'selector\'"></div>',
+      template: '<div><span v-hubble:class="\'selector\'"></span></div>',
     });
 
-    expect(wrapper.classes()).toContain('selector');
+    expect(wrapper.contains('.selector')).toBe(true);
   });
 
   it('should add an id selector', () => {
     const wrapper = mount({
-      template: '<div v-hubble:id="\'selector\'"></div>',
+      template: '<div><span v-hubble:id="\'selector\'"></span></div>',
     });
 
-    expect(wrapper.element.id).toBe('selector');
+    expect(wrapper.contains('#selector')).toBe(true);
   });
 });
