@@ -30,7 +30,7 @@ Vue.use(VueHubble);
 <div v-hubble:id="'id-selector'" id="existing-id"></div>
 ```
 
-#### Result
+#### Result (when NODE_ENV === 'test')
 ```html
 <div attribute-selector></div>
 <div class="existing-class class-selector"></div>
