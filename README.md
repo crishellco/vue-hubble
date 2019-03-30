@@ -39,6 +39,17 @@ Vue.use(VueHubble);
 
 #### Writing Tests
 [Examples](test/directive.spec.js)
+```javascript
+describe('directive.js', () => {
+  it('should add an attribute selector', () => {
+    const wrapper = mount({
+      template: '<div><span v-hubble="\'selector\'"></span></div>',
+    });
+
+    expect(wrapper.contains('[selector]')).toBe(true);
+  });
+});
+```
 
 ## Lint
 ```bash
