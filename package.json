@@ -1,6 +1,6 @@
 {
   "name": "vue-hubble",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A better way to select elements for UI testing in Vue",
   "main": "src/index.js",
   "scripts": {
