@@ -38,7 +38,7 @@ Vue.use(VueHubble);
 ```
 
 #### Tests
-[Examples](test/directive.js)
+[Examples](test/directive.spec.js)
 
 ## Lint
 ```bash
