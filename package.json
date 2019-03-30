@@ -1,0 +1,20 @@
+{
+  "name": "vue-hubble",
+  "version": "0.0.1",
+  "description": "A better way to select elements for UI testing in Vue",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/crishellco/vue-hubble.git"
+  },
+  "author": "Chris Mitchell (crishellco)",
+  "license": "MIT",
+  "homepage": "https://github.com/crishellco/vue-hubble#readme",
+  "devDependencies": {
+    "jest": "^24.5.0",
+    "vue": "^2.6.10"
+  }
+}
