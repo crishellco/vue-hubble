@@ -37,6 +37,9 @@ Vue.use(VueHubble);
 <div id="id-selector"></div>
 ```
 
+#### Tests
+[Examples](test/directive.js)
+
 ## Lint
 ```bash
 yarn lint
