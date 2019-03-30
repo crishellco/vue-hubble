@@ -37,7 +37,7 @@ Vue.use(VueHubble);
 <div id="id-selector"></div>
 ```
 
-#### Tests
+#### Writing Tests
 [Examples](test/directive.spec.js)
 
 ## Lint
