@@ -2,8 +2,9 @@
   "name": "vue-hubble",
   "version": "0.0.3",
   "description": "A better way to select elements for UI testing in Vue",
-  "main": "src/index.js",
+  "main": "build/index.js",
   "scripts": {
+    "build": "node_modules/.bin/babel src -d build",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "test": "jest"
   },
@@ -18,6 +19,7 @@
     "@babel/core": "^7.4.0",
     "@babel/preset-env": "^7.4.2",
     "@vue/test-utils": "^1.0.0-beta.29",
+    "babel-cli": "^6.26.0",
     "babel-jest": "^24.5.0",
     "babel-preset-env": "^1.7.0",
     "eslint": "^5.16.0",
@@ -30,5 +32,6 @@
     "vue": "^2.6.10",
     "vue-template-compiler": "^2.6.10",
     "vue-test-utils": "^1.0.0-beta.11"
-  }
+  },
+  "dependencies": {}
 }
