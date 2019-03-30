@@ -18,5 +18,5 @@ module.exports = {
     ],
     testMatch: [
       '**/test/**/*.spec.(js|jsx|ts|tsx)|**/__tests__/*.(js|jsx|ts|tsx)',
-    ],
+    ]
   };
