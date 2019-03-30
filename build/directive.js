@@ -1,12 +1,12 @@
+'use strict';
 
-
-Object.defineProperty(exports, '__esModule', {
-  value: true,
+Object.defineProperty(exports, "__esModule", {
+  value: true
 });
 function handleHook(element, _ref) {
-  const { arg } = _ref;
-  const { value } = _ref;
-  const { oldValue } = _ref;
+  var arg = _ref.arg,
+      value = _ref.value,
+      oldValue = _ref.oldValue;
 
   if (process.env.NODE_ENV !== 'test') return;
 
@@ -24,5 +24,5 @@ function handleHook(element, _ref) {
 exports.default = {
   bind: handleHook,
   inserted: handleHook,
-  update: handleHook,
+  update: handleHook
 };

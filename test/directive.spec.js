@@ -6,7 +6,7 @@ Vue.use(VueHubble);
 
 describe('directive.js', () => {
   beforeEach(() => {
-
+    process.env.NODE_ENV = 'test';
   });
 
   it('should add an attribute selector', () => {
@@ -31,5 +31,15 @@ describe('directive.js', () => {
     });
 
     expect(wrapper.contains('#selector')).toBe(true);
+  });
+
+  it('should not add a selector if NODE_ENV is not test', () => {
+    process.env.NODE_ENV = 'not-test';
+
+    const wrapper = mount({
+      template: '<div><span v-hubble:id="\'selector\'"></span></div>',
+    });
+
+    expect(wrapper.contains('#selector')).toBe(false);
   });
 });

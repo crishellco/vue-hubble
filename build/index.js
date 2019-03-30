@@ -1,13 +1,13 @@
+'use strict';
 
-
-Object.defineProperty(exports, '__esModule', {
-  value: true,
+Object.defineProperty(exports, "__esModule", {
+  value: true
 });
 exports.directive = undefined;
 
-const _directive = require('./directive');
+var _directive = require('./directive');
 
-const _directive2 = _interopRequireDefault(_directive);
+var _directive2 = _interopRequireDefault(_directive);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
