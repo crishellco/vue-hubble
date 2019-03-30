@@ -37,6 +37,16 @@ Vue.use(VueHubble);
 <div id="id-selector"></div>
 ```
 
+## Lint
+```bash
+yarn lint
+```
+
+## Test
+```bash
+yarn test
+```
+
 ## How to Contribute
 
 ### Pull Requests

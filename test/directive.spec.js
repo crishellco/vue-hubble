@@ -1,4 +1,4 @@
-import { mount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils';
 import Vue from 'vue';
 import VueHubble from '@/src';
 
@@ -11,7 +11,7 @@ describe('directive.js', () => {
 
   it('should add an attribute selector', () => {
     const wrapper = mount({
-      template: '<div v-hubble="\'selector\'"></div>'
+      template: '<div v-hubble="\'selector\'"></div>',
     });
 
     expect('selector' in wrapper.attributes()).toBeTruthy();
@@ -19,7 +19,7 @@ describe('directive.js', () => {
 
   it('should add a class selector', () => {
     const wrapper = mount({
-      template: '<div v-hubble:class="\'selector\'"></div>'
+      template: '<div v-hubble:class="\'selector\'"></div>',
     });
 
     expect(wrapper.classes()).toContain('selector');
@@ -27,7 +27,7 @@ describe('directive.js', () => {
 
   it('should add an id selector', () => {
     const wrapper = mount({
-      template: '<div v-hubble:id="\'selector\'"></div>'
+      template: '<div v-hubble:id="\'selector\'"></div>',
     });
 
     expect(wrapper.element.id).toBe('selector');
