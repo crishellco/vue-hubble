@@ -1,9 +1,9 @@
 const path = require('path');
 
 module.exports = {
-  entry: './src/index.js',
+  mode: 'none',
   output: {
-    path: path.resolve(__dirname, 'build'),
+    path: path.resolve(__dirname, 'dist'),
     filename: 'index.js',
     libraryTarget: 'commonjs2',
   },
@@ -11,7 +11,7 @@ module.exports = {
     rules: [{
       test: /\.js$/,
       include: path.resolve(__dirname, 'src'),
-      exclude: /(node_modules|build)/,
+      exclude: /(node_modules|dist)/,
       use: {
         loader: 'babel-loader',
         options: {
