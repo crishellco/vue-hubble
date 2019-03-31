@@ -1,8 +1,9 @@
 import { mount } from '@vue/test-utils';
 import Vue from 'vue';
-import VueHubble from '@/src';
+import VueHubble from '../src';
 
 Vue.use(VueHubble);
+
 
 describe('directive.js', () => {
   beforeEach(() => {
