@@ -2,9 +2,9 @@
   "name": "vue-hubble",
   "version": "0.1.6",
   "description": "A better way to select elements for UI testing in Vue",
-  "main": "dist/index.js",
+  "main": "dist/bundle.js",
   "scripts": {
-    "build": "webpack",
+    "build": "node_modules/.bin/rollup -c",
     "lint": "eslint --ext .js,.vue .",
     "test": "jest"
   },
@@ -17,9 +17,6 @@
   "homepage": "https://github.com/crishellco/vue-hubble#readme",
   "devDependencies": {
     "@vue/test-utils": "^1.0.0-beta.29",
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.3",
-    "babel-loader": "^8.0.5",
     "babel-preset-env": "^1.7.0",
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.1.0",
@@ -28,11 +25,11 @@
     "jest": "^24.5.0",
     "jest-serializer-vue": "^2.0.2",
     "regenerator-runtime": "^0.13.2",
+    "rollup": "^1.7.4",
+    "rollup-plugin-commonjs": "^9.2.2",
+    "rollup-plugin-node-resolve": "^4.0.1",
     "vue": "^2.6.10",
-    "vue-template-compiler": "^2.6.10",
-    "vue-test-utils": "^1.0.0-beta.11",
-    "webpack": "^4.29.6",
-    "webpack-cli": "^3.3.0"
+    "vue-template-compiler": "^2.6.10"
   },
   "dependencies": {}
 }
