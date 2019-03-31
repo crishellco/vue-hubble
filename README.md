@@ -3,7 +3,7 @@
 
 A better way to select elements for UI testing in Vue.
 
-Vue Hubble makes it simple to add selectors and target component elements in tests without worrying about collisions, extraneous classes, etc.
+Vue Hubble makes it simple to add selectors (only in your testing environment) and target component elements in tests without worrying about collisions, extraneous classes, etc.
 
 **Only if `NODE_ENV === 'test'` will the selectors be added.**
 
