@@ -4,6 +4,11 @@ module.exports = {
     'src/**/*.{js,vue}',
     '!src/index.js',
   ],
+  coverageReporters: [
+    'json-summary',
+    'text',
+    'lcov',
+  ],
   moduleFileExtensions: [
     'js',
     'jsx',
