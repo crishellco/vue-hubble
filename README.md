@@ -29,16 +29,35 @@ Vue.use(VueHubble);
 
 #### Implementation
 ```html
-<div v-hubble="'attribute-selector'"></div>
-<div v-hubble:class="'class-selector'" class="existing-class"></div>
-<div v-hubble:id="'id-selector'" id="existing-id"></div>
-```
+<template>
+  <div v-hubble="'attribute-selector'"></div>
+  <div v-hubble:class="'class-selector'" class="existing-class"></div>
+  <div v-hubble:id="'id-selector'" id="existing-id"></div>
+</template>
 
-#### Result (when NODE_ENV === 'test')
-```html
+<!-- Resulting HTML when NODE_ENV === 'test' -->
 <div attribute-selector></div>
 <div class="existing-class class-selector"></div>
 <div id="id-selector"></div>
+```
+
+#### Namespacing
+Hubble gives you the ability to namespace all selectors in a given component.
+```html
+<template>
+  <div v-hubble="'attribute-selector'"></div>
+</template>
+
+<script>
+export default {
+  hubble: {
+    namespace: 'login-form',
+  },
+};
+</script>
+
+<!-- Resulting HTML when NODE_ENV === 'test' -->
+<div login-form--attribute-selector></div>
 ```
 
 #### Writing Tests

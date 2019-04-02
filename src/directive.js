@@ -1,5 +1,16 @@
-function handleHook(element, { arg, value, oldValue }) {
+import _ from 'lodash';
+
+function getRealValue(context, value) {
+  const namespace = _.get(context, '$options.hubble.namespace');
+
+  return namespace ? `${namespace}--${value}` : value;
+}
+
+function handleHook(element, { arg, value, oldValue }, { context }) {
   if (process.env.NODE_ENV !== 'test') return;
+
+  oldValue = getRealValue(context, oldValue);
+  value = getRealValue(context, value);
 
   if (arg === 'class') {
     element.classList.remove(oldValue);

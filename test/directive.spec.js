@@ -42,4 +42,13 @@ describe('directive.js', () => {
 
     expect(wrapper.contains('#selector')).toBe(false);
   });
+
+  it('should namespace the selector', () => {
+    const wrapper = mount({
+      hubble: { namespace: 'my-special-namespace' },
+      template: '<div><span v-hubble="\'selector\'"></span></div>',
+    });
+
+    expect(wrapper.contains('[my-special-namespace--selector]')).toBe(true);
+  });
 });
