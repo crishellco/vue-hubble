@@ -4,12 +4,11 @@ import VueHubble from '../src';
 
 Vue.use(VueHubble);
 
+beforeEach(() => {
+  process.env.NODE_ENV = 'test';
+});
 
 describe('directive.js', () => {
-  beforeEach(() => {
-    process.env.NODE_ENV = 'test';
-  });
-
   it('should add an attribute selector', () => {
     const wrapper = mount({
       template: '<div><span v-hubble="\'selector\'"></span></div>',
