@@ -22,7 +22,7 @@ npm i -D vue-hubble
 ```javascript
 import VueHubble from 'vue-hubble';
 
-Vue.use(VueHubble);
+Vue.use(VueHubble, options);
 ```
 
 ## Usage
@@ -73,6 +73,12 @@ describe('directive.js', () => {
   });
 });
 ```
+
+#### Install Options
+| Name                  | Type     | Default | Description                                                                |
+|-----------------------|----------|---------|----------------------------------------------------------------------------|
+| `defaultSelectorType` | `String` | `attr`  | Defines the selector type if not passed into the directive `v-hubble:attr` |
+
 
 ## Lint
 ```bash

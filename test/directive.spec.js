@@ -11,7 +11,7 @@ beforeEach(() => {
 describe('directive.js', () => {
   it('should add an attribute selector', () => {
     const wrapper = mount({
-      template: '<div><span v-hubble="\'selector\'"></span></div>',
+      template: '<div><span v-hubble:attr="\'selector\'"></span></div>',
     });
 
     expect(wrapper.contains('[selector]')).toBe(true);

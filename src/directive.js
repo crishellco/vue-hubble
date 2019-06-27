@@ -12,14 +12,28 @@ function handleHook(element, { arg, value, oldValue }, { context }) {
   oldValue = getRealValue(context, oldValue);
   value = getRealValue(context, value);
 
-  if (arg === 'class') {
-    element.classList.remove(oldValue);
-    element.classList.add(value);
-  } else if (arg === 'id') {
-    element.id = value;
-  } else {
-    element.removeAttribute(oldValue);
-    element.setAttributeNode(element.ownerDocument.createAttribute(value));
+  arg = arg || context.$hubble.defaultSelectorType;
+
+  switch (arg) {
+    case 'class':
+      element.classList.remove(oldValue);
+      element.classList.add(value);
+      break;
+
+    case 'id':
+      element.id = value;
+      break;
+
+    case 'attr':
+      element.removeAttribute(oldValue);
+      element.setAttributeNode(element.ownerDocument.createAttribute(value));
+      break;
+
+    default:
+      console.warn(`${arg} is not a value selector type, using attr instead`);
+      element.removeAttribute(oldValue);
+      element.setAttributeNode(element.ownerDocument.createAttribute(value));
+      break;
   }
 }
 

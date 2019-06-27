@@ -2,7 +2,7 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-var commonjsGlobal = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
+var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
 function createCommonjsModule(fn, module) {
 	return module = { exports: {} }, fn(module, module.exports), module.exports;
@@ -425,7 +425,7 @@ var lodash = createCommonjsModule(function (module, exports) {
   var root = freeGlobal || freeSelf || Function('return this')();
 
   /** Detect free variable `exports`. */
-  var freeExports = exports && !exports.nodeType && exports;
+  var freeExports =  exports && !exports.nodeType && exports;
 
   /** Detect free variable `module`. */
   var freeModule = freeExports && 'object' == 'object' && module && !module.nodeType && module;
@@ -17108,14 +17108,28 @@ function handleHook(element, { arg, value, oldValue }, { context }) {
   oldValue = getRealValue(context, oldValue);
   value = getRealValue(context, value);
 
-  if (arg === 'class') {
-    element.classList.remove(oldValue);
-    element.classList.add(value);
-  } else if (arg === 'id') {
-    element.id = value;
-  } else {
-    element.removeAttribute(oldValue);
-    element.setAttributeNode(element.ownerDocument.createAttribute(value));
+  arg = arg || context.$hubble.defaultSelectorType;
+
+  switch (arg) {
+    case 'class':
+      element.classList.remove(oldValue);
+      element.classList.add(value);
+      break;
+
+    case 'id':
+      element.id = value;
+      break;
+
+    case 'attr':
+      element.removeAttribute(oldValue);
+      element.setAttributeNode(element.ownerDocument.createAttribute(value));
+      break;
+
+    default:
+      console.warn(`${arg} is not a value selector type, using attr instead`);
+      element.removeAttribute(oldValue);
+      element.setAttributeNode(element.ownerDocument.createAttribute(value));
+      break;
   }
 }
 
@@ -17125,8 +17139,19 @@ var directive = {
   update: handleHook,
 };
 
-function install(Vue) {
-  Vue.directive('hubble', directive);
+let installed = false;
+
+const defaultConfig = {
+  defaultSelectorType: 'attr',
+};
+
+function install(Vue, options = {}) {
+  Vue.prototype.$hubble = lodash.defaults(options, defaultConfig);
+
+  if (!installed) {
+    Vue.directive('hubble', directive);
+    installed = true;
+  }
 }
 
 if (typeof window !== 'undefined' && window.Vue) {

@@ -1,7 +1,20 @@
+import _ from 'lodash';
+
 import directive from './directive';
 
-function install(Vue) {
-  Vue.directive('hubble', directive);
+let installed = false;
+
+const defaultConfig = {
+  defaultSelectorType: 'attr',
+};
+
+function install(Vue, options = {}) {
+  Vue.prototype.$hubble = _.defaults(options, defaultConfig);
+
+  if (!installed) {
+    Vue.directive('hubble', directive);
+    installed = true;
+  }
 }
 
 export default install;
