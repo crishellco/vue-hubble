@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 import directive from './directive';
 
 let installed = false;
@@ -9,7 +7,7 @@ const defaultConfig = {
 };
 
 function install(Vue, options = {}) {
-  Vue.prototype.$hubble = _.defaults(options, defaultConfig);
+  Vue.prototype.$hubble = Object.assign({}, defaultConfig, options);
 
   if (!installed) {
     Vue.directive('hubble', directive);

@@ -1,6 +1,6 @@
 {
   "name": "vue-hubble",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "A better way to select elements for UI testing in Vue",
   "main": "dist/bundle.js",
   "scripts": {
@@ -32,8 +32,5 @@
     "rollup-plugin-node-resolve": "^4.0.1",
     "vue": "^2.6.10",
     "vue-template-compiler": "^2.6.10"
-  },
-  "dependencies": {
-    "lodash": "^4.17.11"
   }
 }

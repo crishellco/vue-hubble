@@ -1,7 +1,5 @@
-import _ from 'lodash';
-
 function getRealValue(context, value) {
-  const namespace = _.get(context, '$options.hubble.namespace');
+  const namespace = context.$options.hubble.namespace;
 
   return namespace ? `${namespace}--${value}` : value;
 }
