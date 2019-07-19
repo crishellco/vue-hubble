@@ -1,10 +1,11 @@
-import _ from 'lodash';
-
 function getRealValue(context, value) {
-  const namespace = _.get(context, '$options.hubble.namespace');
-
-  return namespace ? `${namespace}--${value}` : value;
-}
+  if (context.$options && context.$options.hubble) {
+    const namespace = context.$options.hubble.namespace;
+    return namespace ? `${namespace}--${value}` : value;
+  } else {
+    return value;
+  }
+};
 
 function handleHook(element, { arg, value, oldValue }, { context }) {
   if (process.env.NODE_ENV !== 'test') return;
