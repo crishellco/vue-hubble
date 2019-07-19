@@ -4,12 +4,13 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 function getRealValue(context, value) {
   if (context.$options && context.$options.hubble) {
-    const namespace = context.$options.hubble.namespace;
+    const { namespace } = context.$options.hubble;
     return namespace ? `${namespace}--${value}` : value;
-  } else {
-    return value;
   }
+
+  return value;
 }
+
 function handleHook(element, { arg, value, oldValue }, { context }) {
   if (process.env.NODE_ENV !== 'test') return;
 
