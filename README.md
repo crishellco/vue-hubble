@@ -90,6 +90,11 @@ yarn lint
 yarn test
 ```
 
+## Build Dist
+```bash
+yarn build
+```
+
 ## How to Contribute
 
 ### Pull Requests
