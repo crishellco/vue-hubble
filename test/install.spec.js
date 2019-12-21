@@ -11,10 +11,13 @@ describe('install.js', () => {
     Vue.use(VueHubble, { defaultSelectorType: 'class' });
 
     const wrapper = mount({
-      template: '<div><span v-hubble="\'selector\'"></span></div>',
+      hubble: {
+        namespace: 'test',
+      },
+      template: "<div><span v-hubble=\"'selector'\"></span></div>",
     });
 
-    expect(wrapper.contains('.selector')).toBe(true);
+    expect(wrapper.contains('.test--selector')).toBe(true);
   });
 
   it('should handle an invalid defaultSelectorType to be set', () => {
@@ -22,7 +25,7 @@ describe('install.js', () => {
     Vue.prototype.$hubble.defaultSelectorType = 'invalid';
 
     const wrapper = mount({
-      template: '<div><span v-hubble="\'selector\'"></span></div>',
+      template: "<div><span v-hubble=\"'selector'\"></span></div>",
     });
 
     expect(wrapper.contains('[selector]')).toBe(true);
