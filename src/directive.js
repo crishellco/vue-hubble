@@ -8,7 +8,7 @@ const directiveFactory = ({ environment }) => {
     return value;
   }
 
-  function handleHook(element, { arg, value, oldValue }, { context }) {
+  return (element, { arg, value, oldValue }, { context }) => {
     if (process.env.NODE_ENV !== environment) return;
 
     oldValue = getRealValue(context, oldValue);
@@ -37,12 +37,6 @@ const directiveFactory = ({ environment }) => {
         element.setAttributeNode(element.ownerDocument.createAttribute(value));
         break;
     }
-  }
-
-  return {
-    bind: handleHook,
-    inserted: handleHook,
-    update: handleHook
   };
 };
 
