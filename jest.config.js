@@ -1,27 +1,16 @@
 module.exports = {
   collectCoverage: true,
-  collectCoverageFrom: [
-    'src/**/*.{js,vue}',
-    '!src/index.js',
-  ],
-  coverageReporters: [
-    'json-summary',
-    'text',
-    'lcov',
-  ],
+  collectCoverageFrom: ['src/**/*.{js,vue}', '!src/index.js'],
+  coverageReporters: ['json-summary', 'text', 'lcov'],
   moduleFileExtensions: [
     'js',
-    'jsx',
     'json',
-    'vue',
+    // tell Jest to handle `*.vue` files
+    'vue'
   ],
-  moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>',
-  },
-  snapshotSerializers: [
-    'jest-serializer-vue',
-  ],
-  testMatch: [
-    '**/test/**/*.spec.(js|jsx|ts|tsx)|**/__tests__/*.(js|jsx|ts|tsx)',
-  ],
+  transform: {
+    // process `*.vue` files with `vue-jest`
+    '.*\\.(vue)$': 'vue-jest',
+    '^.+\\.js$': '<rootDir>/node_modules/babel-jest'
+  }
 };

@@ -42,7 +42,7 @@ const directiveFactory = ({ environment }) => {
   return {
     bind: handleHook,
     inserted: handleHook,
-    update: handleHook,
+    update: handleHook
   };
 };
 

@@ -1,26 +1,15 @@
 module.exports = {
+  root: true,
   env: {
-    browser: true,
-    es6: true,
+    node: true
   },
-  extends: 'airbnb-base',
-  globals: {
-    Atomics: 'readonly',
-    beforeEach: true,
-    describe: true,
-    expect: true,
-    it: true,
-    SharedArrayBuffer: 'readonly',
-  },
-  parserOptions: {
-    ecmaVersion: 2018,
-    sourceType: 'module',
-  },
-  plugins: [
-    'vue',
+  extends: [
+    'plugin:vue/recommended',
+    'eslint:recommended',
+    'prettier/vue',
+    'plugin:prettier/recommended'
   ],
-  rules: {
-    'import/no-unresolved': 0,
-    'no-param-reassign': 0,
-  },
+  parserOptions: {
+    parser: 'babel-eslint'
+  }
 };

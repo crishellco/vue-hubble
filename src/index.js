@@ -4,7 +4,7 @@ let installed = false;
 
 const defaultConfig = {
   defaultSelectorType: 'attr',
-  environment: 'test',
+  environment: 'test'
 };
 
 function install(Vue, options = {}) {
