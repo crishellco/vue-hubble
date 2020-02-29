@@ -101,7 +101,7 @@ describe('directive.js', () => {
 | Name                  | Type              | Default | Description                                                                |
 | --------------------- | ----------------- | ------- | -------------------------------------------------------------------------- |
 | `defaultSelectorType` | `String`          | `attr`  | Defines the selector type if not passed into the directive `v-hubble:attr` |
-| `environment`         | `String or Array` | `test`  | Defines the environment in which these selectors are added                 |
+| `environment`         | `String or Array` | `test`  | Defines the environment(s) in which these selectors are added              |
 
 ## Lint
 
