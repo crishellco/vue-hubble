@@ -1,4 +1,4 @@
-import directiveFactory from './directive';
+import directive from './directive';
 
 let installed = false;
 
@@ -12,7 +12,7 @@ function install(Vue, options = {}) {
   Vue.prototype.$hubble.environment = [].concat(Vue.prototype.$hubble.environment);
 
   if (!installed) {
-    Vue.directive('hubble', directiveFactory());
+    Vue.directive('hubble', directive);
     installed = true;
   }
 }

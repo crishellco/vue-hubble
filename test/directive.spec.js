@@ -139,7 +139,7 @@ describe('directive.js', () => {
           selector: ''
         };
       },
-      template: '<div><span v-hubble:fake="selector"></span></div>'
+      template: '<div><span v-hubble:invalid="selector"></span></div>'
     });
 
     expect(wrapper.contains('.new')).toBe(false);
@@ -161,7 +161,7 @@ describe('directive.js', () => {
           selector: 'old'
         };
       },
-      template: '<div><span v-hubble:fake="selector"></span></div>'
+      template: '<div><span v-hubble:invalid="selector"></span></div>'
     });
 
     expect(wrapper.contains('.old')).toBe(false);
