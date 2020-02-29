@@ -98,10 +98,10 @@ describe('directive.js', () => {
 
 #### Install Options
 
-| Name                  | Type             | Default | Description                                                                |
-| --------------------- | ---------------- | ------- | -------------------------------------------------------------------------- |
-| `defaultSelectorType` | `String`         | `attr`  | Defines the selector type if not passed into the directive `v-hubble:attr` |
-| `environment`         | `String | Array` | `test`  | Defines the environment in which these selectors are added                 |
+| Name                  | Type              | Default | Description                                                                |
+| --------------------- | ----------------- | ------- | -------------------------------------------------------------------------- |
+| `defaultSelectorType` | `String`          | `attr`  | Defines the selector type if not passed into the directive `v-hubble:attr` |
+| `environment`         | `String or Array` | `test`  | Defines the environment in which these selectors are added                 |
 
 ## Lint
 
