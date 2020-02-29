@@ -1,6 +1,6 @@
 {
   "name": "vue-hubble",
-  "version": "1.1.1",
+  "version": "2.0.0",
   "author": "Chris Mitchell (@crishellco)",
   "description": "A better way to select elements for UI testing in Vue",
   "main": "dist/index.js",
@@ -12,7 +12,7 @@
     "test": "jest && jest-coverage-badges output badges",
     "lint": "eslint --ext .js,.vue src/",
     "lint:fix": "eslint --ext .js,.vue src/ --fix",
-    "build": "cross-env NODE_ENV=production webpack --config webpack.config.js"
+    "build": "rimraf dist && rollup --config"
   },
   "repository": {
     "type": "git",
@@ -29,7 +29,6 @@
     "@babel/plugin-transform-runtime": "^7.5.5",
     "@babel/preset-env": "^7.5.5",
     "@vue/test-utils": "^1.0.0-beta.30",
-    "axios": "^0.19.0",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.0.3",
     "babel-jest": "^24.9.0",
@@ -48,15 +47,14 @@
     "poi": "^12.7.1",
     "prettier": "^1.19.1",
     "regenerator-runtime": "^0.13.3",
-    "uglifyjs-webpack-plugin": "^2.2.0",
+    "rimraf": "^3.0.2",
+    "rollup": "^1.32.0",
+    "rollup-plugin-terser": "^5.2.0",
     "vue": "^2.6.11",
     "vue-html-loader": "^1.2.4",
     "vue-jest": "^3.0.5",
     "vue-loader": "^15.7.1",
     "vue-style-loader": "^4.1.2",
-    "vue-template-compiler": "^2.6.10",
-    "vuex": "^3.1.1",
-    "webpack": "^4.39.1",
-    "webpack-cli": "^3.3.6"
+    "vue-template-compiler": "^2.6.10"
   }
 }

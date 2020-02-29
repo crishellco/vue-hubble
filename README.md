@@ -5,6 +5,7 @@
 ![](badges/badge-functionss.svg)
 ![](badges/badge-lines.svg)
 ![](badges/badge-statements.svg)
+[![Maintainability](https://api.codeclimate.com/v1/badges/e1f2536b9be3c32e6fef/maintainability)](https://codeclimate.com/github/crishellco/vue-hubble/maintainability)
 
 A better way to select elements for UI testing in Vue.
 
@@ -19,7 +20,7 @@ npm i -D vue-hubble
 ```
 
 ```javascript
-import VueHubble from "vue-hubble";
+import VueHubble from 'vue-hubble';
 
 Vue.use(VueHubble, options);
 ```
@@ -43,9 +44,10 @@ Vue.use(VueHubble, options);
 
 #### Namespacing
 
-Hubble gives you the ability to namespace all selectors in a given component.
+Hubble gives you the ability to namespace all selectors in a given component. Namespacing is recursive up the component tree, ignoring missing or empty namespace values.
 
 ```html
+<!-- Form Component (child) -->
 <template>
   <div v-hubble="'attribute-selector'"></div>
 </template>
@@ -53,13 +55,29 @@ Hubble gives you the ability to namespace all selectors in a given component.
 <script>
   export default {
     hubble: {
-      namespace: "login-form"
+      namespace: 'form'
+    }
+  };
+</script>
+
+<!-- Login Component (parent) -->
+<template>
+  <form />
+</template>
+
+<script>
+  export default {
+    components: {
+      Form
+    },
+    hubble: {
+      namespace: 'login'
     }
   };
 </script>
 
 <!-- Resulting HTML when NODE_ENV equals correct environment (see install options)-->
-<div login-form--attribute-selector></div>
+<div login--form--attribute-selector></div>
 ```
 
 #### Writing Tests
@@ -67,23 +85,23 @@ Hubble gives you the ability to namespace all selectors in a given component.
 [Examples](test/directive.spec.js)
 
 ```javascript
-describe("directive.js", () => {
-  it("should add an attribute selector", () => {
+describe('directive.js', () => {
+  it('should add an attribute selector', () => {
     const wrapper = mount({
-      template: "<div><span v-hubble=\"'selector'\"></span></div>"
+      template: '<div><span v-hubble="\'selector\'"></span></div>'
     });
 
-    expect(wrapper.contains("[selector]")).toBe(true);
+    expect(wrapper.contains('[selector]')).toBe(true);
   });
 });
 ```
 
 #### Install Options
 
-| Name                  | Type     | Default | Description                                                                |
-| --------------------- | -------- | ------- | -------------------------------------------------------------------------- |
-| `defaultSelectorType` | `String` | `attr`  | Defines the selector type if not passed into the directive `v-hubble:attr` |
-| `environment`         | `String` | `test`  | Defines the environment in which these selectors are added                 |
+| Name                  | Type             | Default | Description                                                                |
+| --------------------- | ---------------- | ------- | -------------------------------------------------------------------------- |
+| `defaultSelectorType` | `String`         | `attr`  | Defines the selector type if not passed into the directive `v-hubble:attr` |
+| `environment`         | `String | Array` | `test`  | Defines the environment in which these selectors are added                 |
 
 ## Lint
 

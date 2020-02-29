@@ -9,9 +9,10 @@ const defaultConfig = {
 
 function install(Vue, options = {}) {
   Vue.prototype.$hubble = Object.assign(defaultConfig, options);
+  Vue.prototype.$hubble.environment = [].concat(Vue.prototype.$hubble.environment);
 
   if (!installed) {
-    Vue.directive('hubble', directiveFactory(Vue.prototype.$hubble));
+    Vue.directive('hubble', directiveFactory());
     installed = true;
   }
 }
