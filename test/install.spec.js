@@ -44,4 +44,56 @@ describe('install.js', () => {
 
     expect(wrapper.contains('.test--selector')).toBe(true);
   });
+
+  it('should allow the enableDeepNamespacing to be set to false', () => {
+    Vue.prototype.$hubble.enableDeepNamespacing = false;
+
+    const wrapper = mount(
+      {
+        hubble: {
+          namespace: 'parent'
+        },
+        template: '<div><span><child /></span></div>'
+      },
+      {
+        stubs: {
+          child: {
+            template: '<div v-hubble="\'selector\'" />',
+            hubble: {
+              namespace: 'child'
+            }
+          }
+        }
+      }
+    );
+
+    expect(wrapper.contains('.parent--child--selector')).toBe(false);
+    expect(wrapper.contains('.child--selector')).toBe(true);
+  });
+
+  it('should allow the enableDeepNamespacing to be set to true', () => {
+    Vue.prototype.$hubble.enableDeepNamespacing = true;
+
+    const wrapper = mount(
+      {
+        hubble: {
+          namespace: 'parent'
+        },
+        template: '<div><span><child /></span></div>'
+      },
+      {
+        stubs: {
+          child: {
+            template: '<div v-hubble="\'selector\'" />',
+            hubble: {
+              namespace: 'child'
+            }
+          }
+        }
+      }
+    );
+
+    expect(wrapper.contains('.parent--child--selector')).toBe(true);
+    expect(wrapper.contains('.child--selector')).toBe(false);
+  });
 });

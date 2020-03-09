@@ -44,7 +44,7 @@ Vue.use(VueHubble, options);
 
 #### Namespacing
 
-Hubble gives you the ability to namespace all selectors in a given component. Namespacing is recursive up the component tree, ignoring missing or empty namespace values.
+Hubble gives you the ability to namespace all selectors in a given component. Namespacing is recursive up the component tree, ignoring missing or empty namespace values. This feature is enabled by default, but can be disabled via install options.
 
 ```html
 <!-- Form Component (child) -->
@@ -98,10 +98,11 @@ describe('directive.js', () => {
 
 #### Install Options
 
-| Name                  | Type              | Default | Description                                                                |
-| --------------------- | ----------------- | ------- | -------------------------------------------------------------------------- |
-| `defaultSelectorType` | `String`          | `attr`  | Defines the selector type if not passed into the directive `v-hubble:attr` |
-| `environment`         | `String or Array` | `test`  | Defines the environment(s) in which these selectors are added              |
+| Name                    | Type              | Default | Description                                                                |
+| ----------------------- | ----------------- | ------- | -------------------------------------------------------------------------- |
+| `defaultSelectorType`   | `String`          | `attr`  | Defines the selector type if not passed into the directive `v-hubble:attr` |
+| `enableDeepNamespacing` | `Boolean`         | `true`  | Enables or disables auto recursive namespacing                             |
+| `environment`           | `String or Array` | `test`  | Defines the environment(s) in which these selectors are added              |
 
 ## Lint
 

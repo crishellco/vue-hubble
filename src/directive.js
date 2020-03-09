@@ -12,23 +12,28 @@ const get = (obj, path, defaultValue) => {
   return result === undefined || result === obj ? defaultValue : result;
 };
 
-const getRealValue = (context, value) => {
+const getSelector = (context, value) => {
   if (!value) return '';
 
   const namespaces = [value];
+  let enableDeepNamespacing = context.$hubble.enableDeepNamespacing;
   let namespace = get(context.$options, ['hubble', 'namespace']);
 
   if (namespace) {
-    let $component = context;
+    if (!enableDeepNamespacing) {
+      namespaces.push(namespace);
+    } else {
+      let $component = context;
 
-    do {
-      const namespace = get($component.$options, ['hubble', 'namespace']);
+      do {
+        const namespace = get($component.$options, ['hubble', 'namespace']);
 
-      if (namespace) {
-        namespaces.push(namespace);
-      }
-      $component = $component.$parent;
-    } while ($component);
+        if (namespace) {
+          namespaces.push(namespace);
+        }
+        $component = $component.$parent;
+      } while ($component);
+    }
   }
 
   return namespaces.reverse().join('--');
@@ -37,30 +42,33 @@ const getRealValue = (context, value) => {
 const handleHook = (element, { arg, value, oldValue }, { context }) => {
   if (!context.$hubble.environment.includes(process.env.NODE_ENV)) return;
 
-  oldValue = getRealValue(context, oldValue);
-  value = getRealValue(context, value);
+  const oldSelector = getSelector(context, oldValue);
+  const newSelector = getSelector(context, value);
 
   arg = arg || context.$hubble.defaultSelectorType;
 
+  oldSelector && element.removeAttribute('v-hubble');
+  newSelector && element.setAttributeNode(element.ownerDocument.createAttribute('v-hubble'));
+
   switch (arg) {
     case 'class':
-      oldValue && element.classList.remove(oldValue);
-      value && element.classList.add(value);
+      oldSelector && element.classList.remove(oldSelector);
+      newSelector && element.classList.add(newSelector);
       break;
 
     case 'id':
-      element.id = value;
+      element.id = newSelector;
       break;
 
     case 'attr':
-      oldValue && element.removeAttribute(oldValue);
-      value && element.setAttributeNode(element.ownerDocument.createAttribute(value));
+      oldSelector && element.removeAttribute(oldSelector);
+      newSelector && element.setAttributeNode(element.ownerDocument.createAttribute(newSelector));
       break;
 
     default:
-      console.warn(`${arg} is not a value selector type, using attr instead`);
-      oldValue && element.removeAttribute(oldValue);
-      value && element.setAttributeNode(element.ownerDocument.createAttribute(value));
+      console.warn(`${arg} is not a valid selector type, using attr instead`);
+      oldSelector && element.removeAttribute(oldSelector);
+      newSelector && element.setAttributeNode(element.ownerDocument.createAttribute(newSelector));
       break;
   }
 };

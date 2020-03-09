@@ -9,6 +9,14 @@ beforeEach(() => {
 });
 
 describe('directive.js', () => {
+  it('should add a the v-hubble attribute', () => {
+    const wrapper = mount({
+      template: '<div><span v-hubble:attr="\'selector\'"></span></div>'
+    });
+
+    expect(wrapper.contains('[v-hubble]')).toBe(true);
+  });
+
   it('should add an attribute selector', () => {
     const wrapper = mount({
       template: '<div><span v-hubble:attr="\'selector\'"></span></div>'
@@ -66,7 +74,7 @@ describe('directive.js', () => {
     expect(wrapper.contains('[parent--child--selector]')).toBe(true);
   });
 
-  it('', done => {
+  it('should handle reactive attr selectors', done => {
     let wrapper = mount({
       data() {
         return {
@@ -88,7 +96,7 @@ describe('directive.js', () => {
     });
   });
 
-  it('', done => {
+  it('should handle reactive class selectors', done => {
     let wrapper = mount({
       data() {
         return {
@@ -110,7 +118,7 @@ describe('directive.js', () => {
     });
   });
 
-  it('', done => {
+  it('should handle reactive class selectors starting empty', done => {
     let wrapper = mount({
       data() {
         return {
@@ -132,7 +140,7 @@ describe('directive.js', () => {
     });
   });
 
-  it('', done => {
+  it('should handle reactive invalid selectors starting empty', done => {
     let wrapper = mount({
       data() {
         return {
@@ -154,7 +162,7 @@ describe('directive.js', () => {
     });
   });
 
-  it('', done => {
+  it('should handle reactive invalid selectors', done => {
     let wrapper = mount({
       data() {
         return {
