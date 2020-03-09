@@ -1,6 +1,7 @@
 import { mount } from '@vue/test-utils';
 import Vue from 'vue';
 import VueHubble from '../src';
+import { get } from '../src/directive';
 
 Vue.use(VueHubble);
 
@@ -54,9 +55,7 @@ describe('directive.js', () => {
   it('should use component tree to namespace the selector', () => {
     const wrapper = mount(
       {
-        hubble: {
-          namespace: 'parent'
-        },
+        hubble: 'parent',
         template: '<div><span><child /></span></div>'
       },
       {
@@ -72,6 +71,25 @@ describe('directive.js', () => {
     );
 
     expect(wrapper.contains('[parent--child--selector]')).toBe(true);
+  });
+  it('should use component tree to namespace the selector and skip empty namespaces', () => {
+    const wrapper = mount(
+      {
+        hubble: 'parent',
+        template: '<div><span><child /></span></div>'
+      },
+      {
+        stubs: {
+          child: {
+            template: '<div v-hubble="\'selector\'" />'
+          }
+        }
+      }
+    );
+
+    console.log(wrapper.html());
+
+    expect(wrapper.contains('[parent--selector]')).toBe(true);
   });
 
   it('should handle reactive attr selectors', done => {
@@ -181,6 +199,13 @@ describe('directive.js', () => {
     wrapper.vm.$nextTick(() => {
       expect(wrapper.contains('.new')).toBe(false);
       done();
+    });
+  });
+
+  describe('get', () => {
+    it('should correctly handle defaults', () => {
+      expect(get({}, ['foo'], 'bar')).toBe('bar');
+      expect(get({}, ['foo'])).toBe(undefined);
     });
   });
 });

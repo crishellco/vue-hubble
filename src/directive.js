@@ -1,9 +1,10 @@
-const get = (obj, path, defaultValue) => {
+export const get = (obj, path, defaultValue) => {
   const travel = regexp =>
     String.prototype.split
       .call(path, regexp)
       .filter(Boolean)
       .reduce((res, key) => {
+        // istanbul ignore next
         return res !== null && res !== undefined ? res[key] : res;
       }, obj);
 
@@ -12,31 +13,38 @@ const get = (obj, path, defaultValue) => {
   return result === undefined || result === obj ? defaultValue : result;
 };
 
+const getComponentNamespace = component => {
+  const config = get(component.$options, ['hubble'], {});
+
+  return typeof config === 'string' ? config : config.namespace;
+};
+
 const getSelector = (context, value) => {
   if (!value) return '';
 
   const namespaces = [value];
   let enableDeepNamespacing = context.$hubble.enableDeepNamespacing;
-  let namespace = get(context.$options, ['hubble', 'namespace']);
+  let namespace = getComponentNamespace(context);
 
-  if (namespace) {
-    if (!enableDeepNamespacing) {
-      namespaces.push(namespace);
-    } else {
-      let $component = context;
+  if (!enableDeepNamespacing) {
+    namespaces.push(namespace);
+  } else {
+    let $component = context;
 
-      do {
-        const namespace = get($component.$options, ['hubble', 'namespace']);
+    do {
+      const namespace = getComponentNamespace($component);
 
-        if (namespace) {
-          namespaces.push(namespace);
-        }
-        $component = $component.$parent;
-      } while ($component);
-    }
+      if (namespace) {
+        namespaces.push(namespace);
+      }
+      $component = $component.$parent;
+    } while ($component);
   }
 
-  return namespaces.reverse().join('--');
+  return namespaces
+    .filter(namespace => !!namespace)
+    .reverse()
+    .join('--');
 };
 
 const handleHook = (element, { arg, value, oldValue }, { context }) => {
