@@ -73,6 +73,10 @@ Hubble gives you the ability to namespace all selectors in a given component. Na
     hubble: {
       namespace: 'login'
     }
+    /**
+     * Or shorthand...
+     * hubble: 'login'
+     **/
   };
 </script>
 
