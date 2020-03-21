@@ -1,6 +1,6 @@
 # Vue Hubble
 
-[![Codeship Status for crishellco/vue-hubble](https://app.codeship.com/projects/383cff90-34f0-0137-f652-2a9cdaeb53f1/status?branch=master)](https://app.codeship.com/projects/332739)
+![Build](https://github.com/crishellco/vue-hubble/workflows/Build/badge.svg)
 ![](badges/badge-branches.svg)
 ![](badges/badge-functionss.svg)
 ![](badges/badge-lines.svg)
