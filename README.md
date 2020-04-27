@@ -102,12 +102,12 @@ describe('directive.js', () => {
 
 #### Install Options
 
-| Name                    | Type              | Default | Description                                                                |
-| ----------------------- | ----------------- | ------- | -------------------------------------------------------------------------- |
-| `defaultSelectorType`   | `String`          | `attr`  | Defines the selector type if not passed into the directive `v-hubble:attr` |
-| `enableDeepNamespacing` | `Boolean`         | `true`  | Enables or disables auto recursive namespacing                             |
-| `environment`           | `String or Array` | `test`  | Defines the environment(s) in which these selectors are added              |
-| `prefix`                | `String`          |         | Prefixes all selectors with the value and `--`, if value exists            |
+| Name                    | Type              | Default | Description                                                                                                                           |
+| ----------------------- | ----------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| `defaultSelectorType`   | `String`          | `attr`  | Defines the selector type if not passed into the directive `v-hubble:attr`                                                            |
+| `enableDeepNamespacing` | `Boolean`         | `true`  | Enables or disables auto recursive namespacing                                                                                        |
+| `environment`           | `String or Array` | `test`  | Defines the environment(s) in which these selectors are added                                                                         |
+| `prefix`                | `String`          |         | Prefixes all selectors with the value and `--`, if value exists. For example, if `prefix = 'qa'`, all selectors well begin with`qa--` |
 
 ## Lint
 
