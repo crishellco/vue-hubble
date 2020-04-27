@@ -87,8 +87,6 @@ describe('directive.js', () => {
       }
     );
 
-    console.log(wrapper.html());
-
     expect(wrapper.contains('[parent--selector]')).toBe(true);
   });
 
