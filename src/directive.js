@@ -41,10 +41,13 @@ const getSelector = (context, value) => {
     } while ($component);
   }
 
-  return namespaces
-    .filter(namespace => !!namespace)
-    .reverse()
-    .join('--');
+  return (
+    (context.$hubble.prefix ? `${context.$hubble.prefix}--` : '') +
+    namespaces
+      .filter(namespace => !!namespace)
+      .reverse()
+      .join('--')
+  );
 };
 
 const handleHook = (element, { arg, value, oldValue }, { context }) => {

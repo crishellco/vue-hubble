@@ -5,7 +5,8 @@ let installed = false;
 const defaultConfig = {
   defaultSelectorType: 'attr',
   enableDeepNamespacing: true,
-  environment: 'test'
+  environment: 'test',
+  prefix: ''
 };
 
 function install(Vue, options = {}) {

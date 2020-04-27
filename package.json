@@ -1,6 +1,6 @@
 {
   "name": "vue-hubble",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "author": "Chris Mitchell (@crishellco)",
   "description": "A better way to select elements for UI testing in Vue",
   "main": "dist/index.js",

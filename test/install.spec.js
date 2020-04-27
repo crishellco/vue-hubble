@@ -5,11 +5,11 @@ import VueHubble from '../src';
 describe('install.js', () => {
   beforeEach(() => {
     process.env.NODE_ENV = 'test';
+    Vue.use(VueHubble, { defaultSelectorType: 'class', environment: ['development', 'test'] });
+    Vue.prototype.$hubble.prefix = '';
   });
 
   it('should allow the defaultSelectorType to be set', () => {
-    Vue.use(VueHubble, { defaultSelectorType: 'class', environment: ['development', 'test'] });
-
     const wrapper = mount({
       hubble: {
         namespace: 'test'
@@ -32,6 +32,7 @@ describe('install.js', () => {
 
   it('should allow the defaultSelectorType to be set', () => {
     Vue.prototype.$hubble.defaultSelectorType = 'class';
+    Vue.prototype.$hubble.prefix = 'qa';
 
     process.env.NODE_ENV = 'development';
 
@@ -42,7 +43,7 @@ describe('install.js', () => {
       template: '<div><span v-hubble="\'selector\'"></span></div>'
     });
 
-    expect(wrapper.contains('.test--selector')).toBe(true);
+    expect(wrapper.contains('.qa--test--selector')).toBe(true);
   });
 
   it('should allow the enableDeepNamespacing to be set to false', () => {
@@ -95,5 +96,30 @@ describe('install.js', () => {
 
     expect(wrapper.contains('.parent--child--selector')).toBe(true);
     expect(wrapper.contains('.child--selector')).toBe(false);
+  });
+
+  it('should properly prefix selectors', () => {
+    Vue.prototype.$hubble.prefix = 'qa';
+
+    const wrapper = mount(
+      {
+        hubble: {
+          namespace: 'parent'
+        },
+        template: '<div><span><child /></span></div>'
+      },
+      {
+        stubs: {
+          child: {
+            template: '<div v-hubble="\'selector\'">child</div>',
+            hubble: {
+              namespace: 'child'
+            }
+          }
+        }
+      }
+    );
+    expect(wrapper.contains('.qa--parent--child--selector')).toBe(true);
+    expect(wrapper.contains('.qa--child--selector')).toBe(false);
   });
 });
