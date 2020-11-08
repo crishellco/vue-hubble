@@ -1,6 +1,7 @@
 import { mount } from '@vue/test-utils';
 import Vue from 'vue';
 import VueHubble from '../src';
+import { getClosingComment, getOpeningComment, getSelector } from './directive';
 
 describe('install.js', () => {
   beforeEach(() => {
@@ -44,6 +45,23 @@ describe('install.js', () => {
     });
 
     expect(wrapper.find('.qa--test--selector').exists()).toBe(true);
+  });
+
+  it('should allow the enableComments to be set to false', () => {
+    Vue.prototype.$hubble.enableComments = false;
+
+    const value = 'selector';
+    const selector = getSelector(Vue.prototype, value);
+    const closingComment = getClosingComment(selector);
+    const openingComment = getOpeningComment(selector);
+
+    const wrapper = mount({
+      template: `<div><div v-hubble="'${value}'" /></div>`
+    });
+
+    expect(wrapper.find(`.${selector}`).exists()).toBe(true);
+    expect(wrapper.html().indexOf(`<!--${openingComment}-->`)).toBe(-1);
+    expect(wrapper.html().indexOf(`<!--${closingComment}-->`)).toBe(-1);
   });
 
   it('should allow the enableDeepNamespacing to be set to false', () => {

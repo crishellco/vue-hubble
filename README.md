@@ -37,9 +37,18 @@ Vue.use(VueHubble, options);
 </template>
 
 <!-- Resulting HTML when NODE_ENV === 'test' -->
+
+<!--(vue-hubble) attribute-selector-->
 <div attribute-selector></div>
+<!--//(vue-hubble) attribute-selector-->
+
+<!--(vue-hubble) class-selector-->
 <div class="existing-class class-selector"></div>
+<!--//(vue-hubble) class-selector-->
+
+<!--(vue-hubble) id-selector-->
 <div id="id-selector"></div>
+<!--//(vue-hubble) id-selector-->
 ```
 
 #### Namespacing
@@ -81,7 +90,10 @@ Hubble gives you the ability to namespace all selectors in a given component. Na
 </script>
 
 <!-- Resulting HTML when NODE_ENV equals correct environment (see install options)-->
+
+<!--(vue-hubble) login--form--attribute-selector-->
 <div login--form--attribute-selector></div>
+<!--//(vue-hubble) login--form--attribute-selector-->
 ```
 
 #### Writing Tests
@@ -103,8 +115,9 @@ describe('directive.js', () => {
 #### Install Options
 
 | Name                    | Type              | Default | Description                                                                                                                           |
-| ----------------------- | ----------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+|-------------------------|-------------------|---------|---------------------------------------------------------------------------------------------------------------------------------------|
 | `defaultSelectorType`   | `String`          | `attr`  | Defines the selector type if not passed into the directive `v-hubble:attr`                                                            |
+| `enableComments`        | `Boolean`         | `true`  | Enables or disables comments around elements with hubble selectors                                                                    |
 | `enableDeepNamespacing` | `Boolean`         | `true`  | Enables or disables auto recursive namespacing                                                                                        |
 | `environment`           | `String or Array` | `test`  | Defines the environment(s) in which these selectors are added                                                                         |
 | `prefix`                | `String`          |         | Prefixes all selectors with the value and `--`, if value exists. For example, if `prefix = 'qa'`, all selectors well begin with`qa--` |

@@ -1,5 +1,5 @@
 const CLOSING_COMMENT = '//';
-const COMMENT_PREFIX = '(v-hubble)';
+const COMMENT_PREFIX = '(vue-hubble)';
 
 export const get = (obj, path, defaultValue) => {
   const travel = regexp =>
@@ -67,14 +67,13 @@ const handleHook = (element, { arg, value, oldValue }, { context }) => {
   const newSelector = getSelector(context, value);
   const oldSelector = getSelector(context, oldValue);
 
-  const newClosingComment = getClosingComment(newSelector);
-  const newOpeningComment = getOpeningComment(newSelector);
-  const oldClosingComment = getClosingComment(oldSelector);
-  const oldOpeningComment = getOpeningComment(oldSelector);
-
   const parent = element.parentElement;
 
-  if (parent) {
+  if (context.$hubble.enableComments && parent) {
+    const newClosingComment = getClosingComment(newSelector);
+    const newOpeningComment = getOpeningComment(newSelector);
+    const oldClosingComment = getClosingComment(oldSelector);
+    const oldOpeningComment = getOpeningComment(oldSelector);
     const nodes = parent.childNodes;
 
     for (let i = 0; i < nodes.length; i++) {

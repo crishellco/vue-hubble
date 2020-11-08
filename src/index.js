@@ -4,6 +4,7 @@ let installed = false;
 
 const defaultConfig = {
   defaultSelectorType: 'attr',
+  enableComments: true,
   enableDeepNamespacing: true,
   environment: 'test',
   prefix: ''
