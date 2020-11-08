@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils';
 import Vue from 'vue';
-import VueHubble from '../src';
-import { get, getClosingComment, getOpeningComment, getSelector } from '../src/directive';
+import VueHubble from '.';
+import { get, getClosingComment, getOpeningComment, getSelector } from './directive';
 
 Vue.use(VueHubble);
 
@@ -91,7 +91,7 @@ describe('directive.js', () => {
     expect(wrapper.find('[parent--selector]').exists()).toBe(true);
   });
 
-  it('should handle reactive attr selectors', done => {
+  it('should handle reactive attr selectors', async () => {
     const prefix = 'qa';
     const value = 'selector';
 
@@ -118,15 +118,13 @@ describe('directive.js', () => {
       value: ''
     });
 
-    wrapper.vm.$nextTick(() => {
-      expect(wrapper.find(`[${selector}]`).exists()).toBe(false);
-      expect(wrapper.html().indexOf(`<!--${openingComment}-->`)).toBe(-1);
-      expect(wrapper.html().indexOf(`<!--${closingComment}-->`)).toBe(-1);
-      done();
-    });
+    await wrapper.vm.$nextTick();
+    expect(wrapper.find(`[${selector}]`).exists()).toBe(false);
+    expect(wrapper.html().indexOf(`<!--${openingComment}-->`)).toBe(-1);
+    expect(wrapper.html().indexOf(`<!--${closingComment}-->`)).toBe(-1);
   });
 
-  it('should handle reactive class selectors', done => {
+  it('should handle reactive class selectors', async () => {
     let wrapper = mount({
       data() {
         return {
@@ -142,13 +140,11 @@ describe('directive.js', () => {
       selector: 'new'
     });
 
-    wrapper.vm.$nextTick(() => {
-      expect(wrapper.find('.new').exists()).toBe(true);
-      done();
-    });
+    await wrapper.vm.$nextTick();
+    expect(wrapper.find('.new').exists()).toBe(true);
   });
 
-  it('should handle reactive class selectors starting empty', done => {
+  it('should handle reactive class selectors starting empty', async () => {
     let wrapper = mount({
       data() {
         return {
@@ -164,13 +160,11 @@ describe('directive.js', () => {
       selector: 'new'
     });
 
-    wrapper.vm.$nextTick(() => {
-      expect(wrapper.find('.new').exists()).toBe(true);
-      done();
-    });
+    await wrapper.vm.$nextTick();
+    expect(wrapper.find('.new').exists()).toBe(true);
   });
 
-  it('should handle reactive invalid selectors starting empty', done => {
+  it('should handle reactive invalid selectors starting empty', async () => {
     let wrapper = mount({
       data() {
         return {
@@ -186,13 +180,11 @@ describe('directive.js', () => {
       selector: 'new'
     });
 
-    wrapper.vm.$nextTick(() => {
-      expect(wrapper.find('.new').exists()).toBe(false);
-      done();
-    });
+    await wrapper.vm.$nextTick();
+    expect(wrapper.find('.new').exists()).toBe(false);
   });
 
-  it('should handle reactive invalid selectors', done => {
+  it('should handle reactive invalid selectors', async () => {
     let wrapper = mount({
       data() {
         return {
@@ -208,10 +200,8 @@ describe('directive.js', () => {
       selector: 'new'
     });
 
-    wrapper.vm.$nextTick(() => {
-      expect(wrapper.find('.new').exists()).toBe(false);
-      done();
-    });
+    await wrapper.vm.$nextTick();
+    expect(wrapper.find('.new').exists()).toBe(false);
   });
 
   describe('get', () => {

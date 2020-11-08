@@ -1,6 +1,6 @@
 {
   "name": "vue-hubble",
-  "version": "2.5.0",
+  "version": "2.6.0",
   "author": "Chris Mitchell (@crishellco)",
   "description": "A better way to select elements for UI testing in Vue",
   "main": "dist/index.js",
@@ -39,6 +39,7 @@
     "eslint": "^6.7.2",
     "eslint-config-prettier": "^6.7.0",
     "eslint-loader": "^3.0.3",
+    "eslint-plugin-jest": "^24.1.0",
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-vue": "^6.0.1",
     "husky": "^4.2.3",

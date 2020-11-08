@@ -9,7 +9,7 @@ describe('install.js', () => {
     Vue.prototype.$hubble.prefix = '';
   });
 
-  it('should allow the defaultSelectorType to be set', () => {
+  it('should allow the namespace to be set', () => {
     const wrapper = mount({
       hubble: {
         namespace: 'test'
