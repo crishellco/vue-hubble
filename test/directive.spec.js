@@ -1,12 +1,13 @@
 import { mount } from '@vue/test-utils';
 import Vue from 'vue';
 import VueHubble from '../src';
-import { get } from '../src/directive';
+import { get, getClosingComment, getOpeningComment, getSelector } from '../src/directive';
 
 Vue.use(VueHubble);
 
 beforeEach(() => {
   process.env.NODE_ENV = 'test';
+  Vue.prototype.$hubble.prefix = '';
 });
 
 describe('directive.js', () => {
@@ -91,23 +92,36 @@ describe('directive.js', () => {
   });
 
   it('should handle reactive attr selectors', done => {
+    const prefix = 'qa';
+    const value = 'selector';
+
+    Vue.prototype.$hubble.prefix = prefix;
+
+    const selector = getSelector(Vue.prototype, value);
+    const closingComment = getClosingComment(selector);
+    const openingComment = getOpeningComment(selector);
+
     let wrapper = mount({
       data() {
         return {
-          selector: 'selector'
+          value
         };
       },
-      template: '<div><span v-hubble="selector"></span></div>'
+      template: '<div><span v-hubble="value"></span></div>'
     });
 
-    expect(wrapper.find('[selector]').exists()).toBe(true);
+    expect(wrapper.find(`[${selector}]`).exists()).toBe(true);
+    expect(wrapper.html().indexOf(`<!--${openingComment}-->`)).toBeGreaterThan(0);
+    expect(wrapper.html().indexOf(`<!--${closingComment}-->`)).toBeGreaterThan(0);
 
     wrapper.setData({
-      selector: ''
+      value: ''
     });
 
     wrapper.vm.$nextTick(() => {
-      expect(wrapper.find('[selector]').exists()).toBe(false);
+      expect(wrapper.find(`[${selector}]`).exists()).toBe(false);
+      expect(wrapper.html().indexOf(`<!--${openingComment}-->`)).toBe(-1);
+      expect(wrapper.html().indexOf(`<!--${closingComment}-->`)).toBe(-1);
       done();
     });
   });

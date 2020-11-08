@@ -1,3 +1,6 @@
+const CLOSING_COMMENT = '//';
+const COMMENT_PREFIX = '(v-hubble)';
+
 export const get = (obj, path, defaultValue) => {
   const travel = regexp =>
     String.prototype.split
@@ -19,7 +22,15 @@ const getComponentNamespace = component => {
   return typeof config === 'string' ? config : config.namespace;
 };
 
-const getSelector = (context, value) => {
+export const getClosingComment = selector => {
+  return `${CLOSING_COMMENT}${COMMENT_PREFIX} ${selector}`;
+};
+
+export const getOpeningComment = selector => {
+  return `${COMMENT_PREFIX} ${selector}`;
+};
+
+export const getSelector = (context, value) => {
   if (!value) return '';
 
   const namespaces = [value];
@@ -53,8 +64,49 @@ const getSelector = (context, value) => {
 const handleHook = (element, { arg, value, oldValue }, { context }) => {
   if (!context.$hubble.environment.includes(process.env.NODE_ENV)) return;
 
-  const oldSelector = getSelector(context, oldValue);
   const newSelector = getSelector(context, value);
+  const oldSelector = getSelector(context, oldValue);
+
+  const newClosingComment = getClosingComment(newSelector);
+  const newOpeningComment = getOpeningComment(newSelector);
+  const oldClosingComment = getClosingComment(oldSelector);
+  const oldOpeningComment = getOpeningComment(oldSelector);
+
+  const parent = element.parentElement;
+
+  if (parent) {
+    const nodes = parent.childNodes;
+
+    for (let i = 0; i < nodes.length; i++) {
+      const nextSibling = nodes[i + 1];
+      const prevSibling = nodes[i - 1];
+
+      if (
+        nodes[i] === element &&
+        nextSibling &&
+        nextSibling.nodeType === 8 &&
+        nextSibling.textContent === oldClosingComment
+      ) {
+        parent.removeChild(nextSibling);
+      }
+
+      if (
+        nodes[i] === element &&
+        prevSibling &&
+        prevSibling.nodeType === 8 &&
+        prevSibling.textContent === oldOpeningComment
+      ) {
+        parent.removeChild(prevSibling);
+      }
+    }
+
+    if (value && value.length) {
+      const commentAfter = document.createComment(newClosingComment);
+      const commentBefore = document.createComment(newOpeningComment);
+      parent.insertBefore(commentBefore, element);
+      parent.insertBefore(commentAfter, element.nextSibling);
+    }
+  }
 
   arg = arg || context.$hubble.defaultSelectorType;
 
