@@ -17,7 +17,7 @@ describe('install.js', () => {
       template: '<div><span v-hubble="\'selector\'"></span></div>'
     });
 
-    expect(wrapper.contains('.test--selector')).toBe(true);
+    expect(wrapper.find('.test--selector').exists()).toBe(true);
   });
 
   it('should handle an invalid defaultSelectorType to be set', () => {
@@ -27,7 +27,7 @@ describe('install.js', () => {
       template: '<div><span v-hubble="\'selector\'"></span></div>'
     });
 
-    expect(wrapper.contains('[selector]')).toBe(true);
+    expect(wrapper.find('[selector]').exists()).toBe(true);
   });
 
   it('should allow the defaultSelectorType to be set', () => {
@@ -43,7 +43,7 @@ describe('install.js', () => {
       template: '<div><span v-hubble="\'selector\'"></span></div>'
     });
 
-    expect(wrapper.contains('.qa--test--selector')).toBe(true);
+    expect(wrapper.find('.qa--test--selector').exists()).toBe(true);
   });
 
   it('should allow the enableDeepNamespacing to be set to false', () => {
@@ -68,8 +68,8 @@ describe('install.js', () => {
       }
     );
 
-    expect(wrapper.contains('.parent--child--selector')).toBe(false);
-    expect(wrapper.contains('.child--selector')).toBe(true);
+    expect(wrapper.find('.parent--child--selector').exists()).toBe(false);
+    expect(wrapper.find('.child--selector').exists()).toBe(true);
   });
 
   it('should allow the enableDeepNamespacing to be set to true', () => {
@@ -94,8 +94,8 @@ describe('install.js', () => {
       }
     );
 
-    expect(wrapper.contains('.parent--child--selector')).toBe(true);
-    expect(wrapper.contains('.child--selector')).toBe(false);
+    expect(wrapper.find('.parent--child--selector').exists()).toBe(true);
+    expect(wrapper.find('.child--selector').exists()).toBe(false);
   });
 
   it('should properly prefix selectors', () => {
@@ -119,7 +119,7 @@ describe('install.js', () => {
         }
       }
     );
-    expect(wrapper.contains('.qa--parent--child--selector')).toBe(true);
-    expect(wrapper.contains('.qa--child--selector')).toBe(false);
+    expect(wrapper.find('.qa--parent--child--selector').exists()).toBe(true);
+    expect(wrapper.find('.qa--child--selector').exists()).toBe(false);
   });
 });
