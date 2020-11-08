@@ -15,7 +15,7 @@ describe('directive.js', () => {
       template: '<div><span v-hubble:attr="\'selector\'"></span></div>'
     });
 
-    expect(wrapper.contains('[v-hubble]')).toBe(true);
+    expect(wrapper.find('[v-hubble]').exists()).toBe(true);
   });
 
   it('should add an attribute selector', () => {
@@ -23,7 +23,7 @@ describe('directive.js', () => {
       template: '<div><span v-hubble:attr="\'selector\'"></span></div>'
     });
 
-    expect(wrapper.contains('[selector]')).toBe(true);
+    expect(wrapper.find('[selector]').exists()).toBe(true);
   });
 
   it('should add a class selector', () => {
@@ -31,7 +31,7 @@ describe('directive.js', () => {
       template: '<div><span v-hubble:class="\'selector\'"></span></div>'
     });
 
-    expect(wrapper.contains('.selector')).toBe(true);
+    expect(wrapper.find('.selector').exists()).toBe(true);
   });
 
   it('should add an id selector', () => {
@@ -39,7 +39,7 @@ describe('directive.js', () => {
       template: '<div><span v-hubble:id="\'selector\'"></span></div>'
     });
 
-    expect(wrapper.contains('#selector')).toBe(true);
+    expect(wrapper.find('#selector').exists()).toBe(true);
   });
 
   it('should not add a selector if NODE_ENV is not test', () => {
@@ -49,7 +49,7 @@ describe('directive.js', () => {
       template: '<div><span v-hubble:id="\'selector\'"></span></div>'
     });
 
-    expect(wrapper.contains('#selector')).toBe(false);
+    expect(wrapper.find('#selector').exists()).toBe(false);
   });
 
   it('should use component tree to namespace the selector', () => {
@@ -70,7 +70,7 @@ describe('directive.js', () => {
       }
     );
 
-    expect(wrapper.contains('[parent--child--selector]')).toBe(true);
+    expect(wrapper.find('[parent--child--selector]').exists()).toBe(true);
   });
   it('should use component tree to namespace the selector and skip empty namespaces', () => {
     const wrapper = mount(
@@ -87,7 +87,7 @@ describe('directive.js', () => {
       }
     );
 
-    expect(wrapper.contains('[parent--selector]')).toBe(true);
+    expect(wrapper.find('[parent--selector]').exists()).toBe(true);
   });
 
   it('should handle reactive attr selectors', done => {
@@ -100,14 +100,14 @@ describe('directive.js', () => {
       template: '<div><span v-hubble="selector"></span></div>'
     });
 
-    expect(wrapper.contains('[selector]')).toBe(true);
+    expect(wrapper.find('[selector]').exists()).toBe(true);
 
     wrapper.setData({
       selector: ''
     });
 
     wrapper.vm.$nextTick(() => {
-      expect(wrapper.contains('[selector]')).toBe(false);
+      expect(wrapper.find('[selector]').exists()).toBe(false);
       done();
     });
   });
@@ -122,14 +122,14 @@ describe('directive.js', () => {
       template: '<div><span v-hubble:class="selector"></span></div>'
     });
 
-    expect(wrapper.contains('.old')).toBe(true);
+    expect(wrapper.find('.old').exists()).toBe(true);
 
     wrapper.setData({
       selector: 'new'
     });
 
     wrapper.vm.$nextTick(() => {
-      expect(wrapper.contains('.new')).toBe(true);
+      expect(wrapper.find('.new').exists()).toBe(true);
       done();
     });
   });
@@ -144,14 +144,14 @@ describe('directive.js', () => {
       template: '<div><span v-hubble:class="selector"></span></div>'
     });
 
-    expect(wrapper.contains('.new')).toBe(false);
+    expect(wrapper.find('.new').exists()).toBe(false);
 
     wrapper.setData({
       selector: 'new'
     });
 
     wrapper.vm.$nextTick(() => {
-      expect(wrapper.contains('.new')).toBe(true);
+      expect(wrapper.find('.new').exists()).toBe(true);
       done();
     });
   });
@@ -166,14 +166,14 @@ describe('directive.js', () => {
       template: '<div><span v-hubble:invalid="selector"></span></div>'
     });
 
-    expect(wrapper.contains('.new')).toBe(false);
+    expect(wrapper.find('.new').exists()).toBe(false);
 
     wrapper.setData({
       selector: 'new'
     });
 
     wrapper.vm.$nextTick(() => {
-      expect(wrapper.contains('.new')).toBe(false);
+      expect(wrapper.find('.new').exists()).toBe(false);
       done();
     });
   });
@@ -188,14 +188,14 @@ describe('directive.js', () => {
       template: '<div><span v-hubble:invalid="selector"></span></div>'
     });
 
-    expect(wrapper.contains('.old')).toBe(false);
+    expect(wrapper.find('.old').exists()).toBe(false);
 
     wrapper.setData({
       selector: 'new'
     });
 
     wrapper.vm.$nextTick(() => {
-      expect(wrapper.contains('.new')).toBe(false);
+      expect(wrapper.find('.new').exists()).toBe(false);
       done();
     });
   });
