@@ -110,10 +110,23 @@ export const handleHook = (element, { arg, value, oldValue }, { context }) => {
     handleComments({ newQuerySelector, oldQuerySelector, element, value, parent });
   }
 
-  oldSelector && element.removeAttribute(NAMESPACE);
-  element.setAttributeNode(element.ownerDocument.createAttribute(NAMESPACE));
-  element.dataset[DATASET_KEY] = newSelector ? newQuerySelector : '';
+  handleNamespaceAttribute({ element, oldSelector, newSelector, newQuerySelector });
+  handleHubbleSelector({
+    arg,
+    element,
+    oldSelector,
+    newSelector,
+    newQuerySelector
+  });
+};
 
+export const handleHubbleSelector = ({
+  arg,
+  element,
+  oldSelector,
+  newSelector,
+  newQuerySelector
+}) => {
   switch (arg) {
     case 'class':
       oldSelector && element.classList.remove(oldSelector);
@@ -142,6 +155,17 @@ export const handleHook = (element, { arg, value, oldValue }, { context }) => {
       }
       break;
   }
+};
+
+export const handleNamespaceAttribute = ({
+  element,
+  oldSelector,
+  newSelector,
+  newQuerySelector
+}) => {
+  oldSelector && element.removeAttribute(NAMESPACE);
+  element.setAttributeNode(element.ownerDocument.createAttribute(NAMESPACE));
+  element.dataset[DATASET_KEY] = newSelector ? newQuerySelector : '';
 };
 
 export const removeExistingCommentElements = ({ nodes, element, parent, oldQuerySelector }) => {
