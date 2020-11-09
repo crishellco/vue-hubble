@@ -31,24 +31,19 @@ Vue.use(VueHubble, options);
 
 ```html
 <template>
+  <!-- Attribute selectors are recommended as class and ID selectors are susceptible to collisions -->
   <div v-hubble="'attribute-selector'"></div>
-  <div v-hubble:class="'class-selector'" class="existing-class"></div>
-  <div v-hubble:id="'id-selector'" id="existing-id"></div>
+  <div v-hubble:class="'class-selector'"></div>
+  <div v-hubble:id="'id-selector'"></div>
 </template>
+```
+#### Result
 
-<!-- Resulting HTML when NODE_ENV === 'test' -->
-
-<!--(vue-hubble) attribute-selector-->
-<div attribute-selector></div>
-<!--//(vue-hubble) attribute-selector-->
-
-<!--(vue-hubble) class-selector-->
-<div class="existing-class class-selector"></div>
-<!--//(vue-hubble) class-selector-->
-
-<!--(vue-hubble) id-selector-->
-<div id="id-selector"></div>
-<!--//(vue-hubble) id-selector-->
+```html
+<!-- The data-vue-hubble-selector attribute makes it easy to copy the full selector to your clipboard -->
+<div attribute-selector vue-hubble data-vue-hubble-selector="[vue-hubble][attribute-selector]"></div>
+<div class="class-selector" vue-hubble data-vue-hubble-selector="[vue-hubble].class-selector"></div>
+<div id="id-selector" vue-hubble data-vue-hubble-selector="[vue-hubble]#id-selector"></div>
 ```
 
 #### Namespacing
@@ -89,16 +84,12 @@ Hubble gives you the ability to namespace all selectors in a given component. Na
   };
 </script>
 
-<!-- Resulting HTML when NODE_ENV equals correct environment (see install options)-->
-
-<!--(vue-hubble) login--form--attribute-selector-->
-<div login--form--attribute-selector></div>
-<!--//(vue-hubble) login--form--attribute-selector-->
+<div login--form--attribute-selector vue-hubble data-vue-hubble-selector="[vue-hubble][login--form--attribute-selector]"></div>
 ```
 
 #### Writing Tests
 
-[Examples](test/directive.spec.js)
+[Examples](src/directive.spec.js)
 
 ```javascript
 describe('directive.js', () => {
@@ -107,7 +98,7 @@ describe('directive.js', () => {
       template: '<div><span v-hubble="\'selector\'"></span></div>'
     });
 
-    expect(wrapper.contains('[selector]')).toBe(true);
+    expect(wrapper.contains('[vue-hubble][selector]')).toBe(true);
   });
 });
 ```
@@ -117,10 +108,28 @@ describe('directive.js', () => {
 | Name                    | Type              | Default | Description                                                                                                                           |
 |-------------------------|-------------------|---------|---------------------------------------------------------------------------------------------------------------------------------------|
 | `defaultSelectorType`   | `String`          | `attr`  | Defines the selector type if not passed into the directive `v-hubble:attr`                                                            |
-| `enableComments`        | `Boolean`         | `true`  | Enables or disables comments around elements with hubble selectors                                                                    |
+| `enableComments`        | `Boolean`         | `false` | Enables or disables comments around elements with hubble selectors                                                                    |
 | `enableDeepNamespacing` | `Boolean`         | `true`  | Enables or disables auto recursive namespacing                                                                                        |
 | `environment`           | `String or Array` | `test`  | Defines the environment(s) in which these selectors are added                                                                         |
 | `prefix`                | `String`          |         | Prefixes all selectors with the value and `--`, if value exists. For example, if `prefix = 'qa'`, all selectors well begin with`qa--` |
+
+## Api
+
+#### window.$hubble.all(): HTMLElement[]
+
+Gets all elements with hubble selectors.
+
+#### window.$hubble.allMapped(): { [string]: HTMLElement }
+
+Gets all elements with hubble selectors, mapped by selector.
+
+#### window.$hubble.find(string selector): HTMLElement[]
+
+Finds all elements with hubble selectors matching the passed selector.
+
+#### window.$hubble.findMapped(string selector): { [string]: HTMLElement }
+
+Finds all elements with hubble selectors matching the passed selector, mapped by selector.
 
 ## Lint
 

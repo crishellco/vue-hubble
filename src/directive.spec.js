@@ -1,22 +1,29 @@
 import { mount } from '@vue/test-utils';
 import Vue from 'vue';
 import VueHubble from '.';
-import { get, getClosingComment, getOpeningComment, getSelector } from './directive';
+import {
+  get,
+  getClosingComment,
+  getOpeningComment,
+  getGenericSelector,
+  getQuerySelector,
+  NAMESPACE
+} from './directive';
 
 Vue.use(VueHubble);
 
 beforeEach(() => {
   process.env.NODE_ENV = 'test';
   Vue.prototype.$hubble.prefix = '';
+  Vue.prototype.$hubble.enableComments = false;
 });
 
 describe('directive.js', () => {
-  it('should add a the v-hubble attribute', () => {
+  it(`should add a the ${NAMESPACE} attribute`, () => {
     const wrapper = mount({
       template: '<div><span v-hubble:attr="\'selector\'"></span></div>'
     });
-
-    expect(wrapper.find('[v-hubble]').exists()).toBe(true);
+    expect(wrapper.find(`[${NAMESPACE}]`).exists()).toBe(true);
   });
 
   it('should add an attribute selector', () => {
@@ -24,7 +31,7 @@ describe('directive.js', () => {
       template: '<div><span v-hubble:attr="\'selector\'"></span></div>'
     });
 
-    expect(wrapper.find('[selector]').exists()).toBe(true);
+    expect(wrapper.find(`[${NAMESPACE}][selector]`).exists()).toBe(true);
   });
 
   it('should add a class selector', () => {
@@ -32,7 +39,7 @@ describe('directive.js', () => {
       template: '<div><span v-hubble:class="\'selector\'"></span></div>'
     });
 
-    expect(wrapper.find('.selector').exists()).toBe(true);
+    expect(wrapper.find(`[${NAMESPACE}].selector`).exists()).toBe(true);
   });
 
   it('should add an id selector', () => {
@@ -40,7 +47,7 @@ describe('directive.js', () => {
       template: '<div><span v-hubble:id="\'selector\'"></span></div>'
     });
 
-    expect(wrapper.find('#selector').exists()).toBe(true);
+    expect(wrapper.find(`[${NAMESPACE}]#selector`).exists()).toBe(true);
   });
 
   it('should not add a selector if NODE_ENV is not test', () => {
@@ -50,7 +57,7 @@ describe('directive.js', () => {
       template: '<div><span v-hubble:id="\'selector\'"></span></div>'
     });
 
-    expect(wrapper.find('#selector').exists()).toBe(false);
+    expect(wrapper.find(`[${NAMESPACE}]#selector`).exists()).toBe(false);
   });
 
   it('should use component tree to namespace the selector', () => {
@@ -71,7 +78,7 @@ describe('directive.js', () => {
       }
     );
 
-    expect(wrapper.find('[parent--child--selector]').exists()).toBe(true);
+    expect(wrapper.find(`[${NAMESPACE}][parent--child--selector]`).exists()).toBe(true);
   });
   it('should use component tree to namespace the selector and skip empty namespaces', () => {
     const wrapper = mount(
@@ -88,7 +95,7 @@ describe('directive.js', () => {
       }
     );
 
-    expect(wrapper.find('[parent--selector]').exists()).toBe(true);
+    expect(wrapper.find(`[${NAMESPACE}][parent--selector]`).exists()).toBe(true);
   });
 
   it('should handle reactive attr selectors', async () => {
@@ -96,10 +103,12 @@ describe('directive.js', () => {
     const value = 'selector';
 
     Vue.prototype.$hubble.prefix = prefix;
+    Vue.prototype.$hubble.enableComments = true;
 
-    const selector = getSelector(Vue.prototype, value);
-    const closingComment = getClosingComment(selector);
-    const openingComment = getOpeningComment(selector);
+    const selector = getGenericSelector(Vue.prototype, value);
+    const querySelector = getQuerySelector(selector, 'attr');
+    const closingComment = getClosingComment(querySelector);
+    const openingComment = getOpeningComment(querySelector);
 
     let wrapper = mount({
       data() {
@@ -110,16 +119,16 @@ describe('directive.js', () => {
       template: '<div><span v-hubble="value"></span></div>'
     });
 
-    expect(wrapper.find(`[${selector}]`).exists()).toBe(true);
-    expect(wrapper.html().indexOf(`<!--${openingComment}-->`)).toBeGreaterThan(0);
-    expect(wrapper.html().indexOf(`<!--${closingComment}-->`)).toBeGreaterThan(0);
+    expect(wrapper.find(`[${NAMESPACE}][${selector}]`).exists()).toBe(true);
+    expect(wrapper.html().indexOf(`<!--${openingComment}-->`)).toBeGreaterThan(-1);
+    expect(wrapper.html().indexOf(`<!--${closingComment}-->`)).toBeGreaterThan(-1);
 
     wrapper.setData({
       value: ''
     });
 
     await wrapper.vm.$nextTick();
-    expect(wrapper.find(`[${selector}]`).exists()).toBe(false);
+    expect(wrapper.find(`[${NAMESPACE}][${selector}]`).exists()).toBe(false);
     expect(wrapper.html().indexOf(`<!--${openingComment}-->`)).toBe(-1);
     expect(wrapper.html().indexOf(`<!--${closingComment}-->`)).toBe(-1);
   });
@@ -134,14 +143,14 @@ describe('directive.js', () => {
       template: '<div><span v-hubble:class="selector"></span></div>'
     });
 
-    expect(wrapper.find('.old').exists()).toBe(true);
+    expect(wrapper.find(`[${NAMESPACE}].old`).exists()).toBe(true);
 
     wrapper.setData({
       selector: 'new'
     });
 
     await wrapper.vm.$nextTick();
-    expect(wrapper.find('.new').exists()).toBe(true);
+    expect(wrapper.find(`[${NAMESPACE}].new`).exists()).toBe(true);
   });
 
   it('should handle reactive class selectors starting empty', async () => {
@@ -154,14 +163,14 @@ describe('directive.js', () => {
       template: '<div><span v-hubble:class="selector"></span></div>'
     });
 
-    expect(wrapper.find('.new').exists()).toBe(false);
+    expect(wrapper.find(`[${NAMESPACE}].new`).exists()).toBe(false);
 
     wrapper.setData({
       selector: 'new'
     });
 
     await wrapper.vm.$nextTick();
-    expect(wrapper.find('.new').exists()).toBe(true);
+    expect(wrapper.find(`[${NAMESPACE}].new`).exists()).toBe(true);
   });
 
   it('should handle reactive invalid selectors starting empty', async () => {
@@ -174,14 +183,14 @@ describe('directive.js', () => {
       template: '<div><span v-hubble:invalid="selector"></span></div>'
     });
 
-    expect(wrapper.find('.new').exists()).toBe(false);
+    expect(wrapper.find(`[${NAMESPACE}].new`).exists()).toBe(false);
 
     wrapper.setData({
       selector: 'new'
     });
 
     await wrapper.vm.$nextTick();
-    expect(wrapper.find('.new').exists()).toBe(false);
+    expect(wrapper.find(`[${NAMESPACE}].new`).exists()).toBe(false);
   });
 
   it('should handle reactive invalid selectors', async () => {
@@ -194,14 +203,14 @@ describe('directive.js', () => {
       template: '<div><span v-hubble:invalid="selector"></span></div>'
     });
 
-    expect(wrapper.find('.old').exists()).toBe(false);
+    expect(wrapper.find(`[${NAMESPACE}].old`).exists()).toBe(false);
 
     wrapper.setData({
       selector: 'new'
     });
 
     await wrapper.vm.$nextTick();
-    expect(wrapper.find('.new').exists()).toBe(false);
+    expect(wrapper.find(`[${NAMESPACE}].new`).exists()).toBe(false);
   });
 
   describe('get', () => {

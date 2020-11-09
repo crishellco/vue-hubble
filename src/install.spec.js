@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils';
 import Vue from 'vue';
 import VueHubble from '../src';
-import { getClosingComment, getOpeningComment, getSelector } from './directive';
+import { getClosingComment, getOpeningComment, getGenericSelector } from './directive';
 
 describe('install.js', () => {
   beforeEach(() => {
@@ -51,7 +51,7 @@ describe('install.js', () => {
     Vue.prototype.$hubble.enableComments = false;
 
     const value = 'selector';
-    const selector = getSelector(Vue.prototype, value);
+    const selector = getGenericSelector(Vue.prototype, value);
     const closingComment = getClosingComment(selector);
     const openingComment = getOpeningComment(selector);
 

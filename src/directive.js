@@ -1,5 +1,6 @@
-const CLOSING_COMMENT = '//';
-const COMMENT_PREFIX = '(vue-hubble)';
+export const CLOSING_COMMENT = '//';
+export const DATASET_KEY = 'vueHubbleSelector';
+export const NAMESPACE = 'vue-hubble';
 
 export const get = (obj, path, defaultValue) => {
   const travel = regexp =>
@@ -16,21 +17,17 @@ export const get = (obj, path, defaultValue) => {
   return result === undefined || result === obj ? defaultValue : result;
 };
 
-const getComponentNamespace = component => {
+export const getClosingComment = querySelector => {
+  return `${CLOSING_COMMENT} ${querySelector}`;
+};
+
+export const getComponentNamespace = component => {
   const config = get(component.$options, ['hubble'], {});
 
   return typeof config === 'string' ? config : config.namespace;
 };
 
-export const getClosingComment = selector => {
-  return `${CLOSING_COMMENT}${COMMENT_PREFIX} ${selector}`;
-};
-
-export const getOpeningComment = selector => {
-  return `${COMMENT_PREFIX} ${selector}`;
-};
-
-export const getSelector = (context, value) => {
+export const getGenericSelector = (context, value) => {
   if (!value) return '';
 
   const namespaces = [value];
@@ -61,61 +58,69 @@ export const getSelector = (context, value) => {
   );
 };
 
-const handleHook = (element, { arg, value, oldValue }, { context }) => {
-  if (!context.$hubble.environment.includes(process.env.NODE_ENV)) return;
+export const getOpeningComment = querySelector => {
+  return `${querySelector}`;
+};
 
-  const newSelector = getSelector(context, value);
-  const oldSelector = getSelector(context, oldValue);
-
-  const parent = element.parentElement;
-
-  if (context.$hubble.enableComments && parent) {
-    const newClosingComment = getClosingComment(newSelector);
-    const newOpeningComment = getOpeningComment(newSelector);
-    const oldClosingComment = getClosingComment(oldSelector);
-    const oldOpeningComment = getOpeningComment(oldSelector);
-    const nodes = parent.childNodes;
-
-    for (let i = 0; i < nodes.length; i++) {
-      const nextSibling = nodes[i + 1];
-      const prevSibling = nodes[i - 1];
-
-      if (
-        nodes[i] === element &&
-        nextSibling &&
-        nextSibling.nodeType === 8 &&
-        nextSibling.textContent === oldClosingComment
-      ) {
-        parent.removeChild(nextSibling);
-      }
-
-      if (
-        nodes[i] === element &&
-        prevSibling &&
-        prevSibling.nodeType === 8 &&
-        prevSibling.textContent === oldOpeningComment
-      ) {
-        parent.removeChild(prevSibling);
-      }
-    }
-
-    if (value && value.length) {
-      const commentAfter = document.createComment(newClosingComment);
-      const commentBefore = document.createComment(newOpeningComment);
-      parent.insertBefore(commentBefore, element);
-      parent.insertBefore(commentAfter, element.nextSibling);
-    }
+export const getQuerySelector = (selector, selectorType) => {
+  switch (selectorType) {
+    case 'class':
+      return `[${NAMESPACE}].${selector}`;
+    case 'id':
+      return `[${NAMESPACE}]#${selector}`;
+    case 'attr':
+      return `[${NAMESPACE}][${selector}]`;
+    default:
+      return `[${NAMESPACE}][${selector}]`;
   }
+};
+
+export const handleComments = ({ newQuerySelector, oldQuerySelector, element, value, parent }) => {
+  const newClosingComment = getClosingComment(newQuerySelector);
+  const newOpeningComment = getOpeningComment(newQuerySelector);
+  const nodes = parent.childNodes;
+
+  removeExistingCommentElements({ nodes, element, parent, oldQuerySelector });
+
+  /**
+   * Add new opening and closing comment elements
+   */
+  if (value && value.length) {
+    const commentAfter = document.createComment(newClosingComment);
+    const commentBefore = document.createComment(newOpeningComment);
+
+    parent.insertBefore(commentBefore, element);
+    parent.insertBefore(commentAfter, element.nextSibling);
+  }
+};
+
+export const handleHook = (element, { arg, value, oldValue }, { context }) => {
+  if (!context.$hubble.environment.includes(process.env.NODE_ENV)) return;
 
   arg = arg || context.$hubble.defaultSelectorType;
 
-  oldSelector && element.removeAttribute('v-hubble');
-  newSelector && element.setAttributeNode(element.ownerDocument.createAttribute('v-hubble'));
+  const parent = element.parentElement;
+  const newSelector = getGenericSelector(context, value);
+  const oldSelector = getGenericSelector(context, oldValue);
+
+  const newQuerySelector = getQuerySelector(newSelector, arg);
+  const oldQuerySelector = getQuerySelector(oldSelector, arg);
+
+  if (context.$hubble.enableComments && parent) {
+    handleComments({ newQuerySelector, oldQuerySelector, element, value, parent });
+  }
+
+  oldSelector && element.removeAttribute(NAMESPACE);
+  element.setAttributeNode(element.ownerDocument.createAttribute(NAMESPACE));
+  element.dataset[DATASET_KEY] = newSelector ? newQuerySelector : '';
 
   switch (arg) {
     case 'class':
       oldSelector && element.classList.remove(oldSelector);
-      newSelector && element.classList.add(newSelector);
+      if (newSelector) {
+        element.classList.add(newSelector);
+        element.dataset[DATASET_KEY] = newQuerySelector;
+      }
       break;
 
     case 'id':
@@ -124,14 +129,46 @@ const handleHook = (element, { arg, value, oldValue }, { context }) => {
 
     case 'attr':
       oldSelector && element.removeAttribute(oldSelector);
-      newSelector && element.setAttributeNode(element.ownerDocument.createAttribute(newSelector));
+      if (newSelector) {
+        element.setAttributeNode(element.ownerDocument.createAttribute(newSelector));
+      }
       break;
 
     default:
       console.warn(`${arg} is not a valid selector type, using attr instead`);
       oldSelector && element.removeAttribute(oldSelector);
-      newSelector && element.setAttributeNode(element.ownerDocument.createAttribute(newSelector));
+      if (newSelector) {
+        element.setAttributeNode(element.ownerDocument.createAttribute(newSelector));
+      }
       break;
+  }
+};
+
+export const removeExistingCommentElements = ({ nodes, element, parent, oldQuerySelector }) => {
+  const oldClosingComment = getClosingComment(oldQuerySelector);
+  const oldOpeningComment = getOpeningComment(oldQuerySelector);
+
+  for (let i = 0; i < nodes.length; i++) {
+    const nextSibling = nodes[i + 1];
+    const prevSibling = nodes[i - 1];
+
+    if (
+      nodes[i] === element &&
+      nextSibling &&
+      nextSibling.nodeType === 8 &&
+      nextSibling.textContent === oldClosingComment
+    ) {
+      parent.removeChild(nextSibling);
+    }
+
+    if (
+      nodes[i] === element &&
+      prevSibling &&
+      prevSibling.nodeType === 8 &&
+      prevSibling.textContent === oldOpeningComment
+    ) {
+      parent.removeChild(prevSibling);
+    }
   }
 };
 
