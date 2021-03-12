@@ -1,6 +1,9 @@
 name: Publish
 
-on: push
+on:
+  push:
+    branches:
+      - master
 
 jobs:
   publish:
@@ -23,4 +26,3 @@ jobs:
       - uses: JS-DevTools/npm-publish@v1
         with:
           token: ${{ secrets.NPM_TOKEN }}
-          dry-run: true
