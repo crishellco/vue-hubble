@@ -13,6 +13,8 @@ import {
 Vue.use(VueHubble);
 
 const getWrapper = (type = 'attr', selector = 'selector') => {
+  global.console.warn = jest.fn();
+
   return mount({
     data() {
       return {
@@ -158,6 +160,9 @@ describe('directive.js', () => {
     let wrapper = getWrapper('invalid', '');
 
     expect(wrapper.find(`[${NAMESPACE}].new`).exists()).toBe(false);
+    expect(global.console.warn).toHaveBeenCalledWith(
+      'invalid is not a valid selector type, using attr instead'
+    );
 
     wrapper.setData({
       selector: 'new'
@@ -171,6 +176,9 @@ describe('directive.js', () => {
     let wrapper = getWrapper('invalid', 'old');
 
     expect(wrapper.find(`[${NAMESPACE}].old`).exists()).toBe(false);
+    expect(global.console.warn).toHaveBeenCalledWith(
+      'invalid is not a valid selector type, using attr instead'
+    );
 
     wrapper.setData({
       selector: 'new'

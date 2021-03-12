@@ -5,6 +5,7 @@ import { getClosingComment, getOpeningComment, getGenericSelector } from './dire
 
 describe('install.js', () => {
   beforeEach(() => {
+    global.console.warn = jest.fn();
     process.env.NODE_ENV = 'test';
     Vue.use(VueHubble, { defaultSelectorType: 'class', environment: ['development', 'test'] });
     Vue.prototype.$hubble.prefix = '';
@@ -29,6 +30,9 @@ describe('install.js', () => {
     });
 
     expect(wrapper.find('[selector]').exists()).toBe(true);
+    expect(global.console.warn).toHaveBeenCalledWith(
+      'invalid is not a valid selector type, using attr instead'
+    );
   });
 
   it('should allow the defaultSelectorType to be set', () => {

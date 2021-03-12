@@ -14,13 +14,13 @@ Vue Hubble makes it simple to add selectors (only in your testing environment) a
 ## Install
 
 ```bash
-yarn add -D vue-hubble
+yarn add -D @crishellco/vue-hubble
 # or
-npm i -D vue-hubble
+npm i -D @crishellco/vue-hubble
 ```
 
 ```javascript
-import VueHubble from 'vue-hubble';
+import VueHubble from '@crishellco/vue-hubble';
 
 Vue.use(VueHubble, options);
 ```

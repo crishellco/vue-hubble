@@ -1,5 +1,5 @@
 {
-  "name": "vue-hubble",
+  "name": "@crishellco/vue-hubble",
   "version": "3.0.0",
   "author": "Chris Mitchell (@crishellco)",
   "description": "A better way to select elements for UI testing in Vue",
@@ -23,11 +23,14 @@
     "url": "https://github.com/crishellco/vue-hubble/issues"
   },
   "homepage": "https://crishellco.github.io/vue-hubble/",
+  "publishConfig": {
+    "access": "public"
+  },
   "devDependencies": {
-    "@babel/core": "^7.5.5",
+    "@babel/core": "^7.12.9",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
     "@babel/plugin-transform-runtime": "^7.5.5",
-    "@babel/preset-env": "^7.5.5",
+    "@babel/preset-env": "^7.12.7",
     "@vue/test-utils": "^1.0.0-beta.30",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.0.3",
@@ -35,6 +38,7 @@
     "babel-loader": "^8.0.6",
     "babel-preset-env": "^1.7.0",
     "babel-preset-vue": "^2.0.2",
+    "core-js": "^3.8.1",
     "cross-env": "^5.2.0",
     "eslint": "^6.7.2",
     "eslint-config-prettier": "^6.7.0",
@@ -47,9 +51,12 @@
     "jest-coverage-badges": "^1.1.2",
     "poi": "^12.7.1",
     "prettier": "^1.19.1",
-    "regenerator-runtime": "^0.13.3",
+    "regenerator-runtime": "^0.13.7",
     "rimraf": "^3.0.2",
-    "rollup": "^1.32.0",
+    "rollup": "^2.34.1",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-terser": "^5.2.0",
     "vue": "^2.6.11",
     "vue-html-loader": "^1.2.4",
