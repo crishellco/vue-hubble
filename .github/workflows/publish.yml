@@ -1,13 +1,17 @@
 name: Publish
 
 on:
-  push:
+  workflow_run:
+    workflows: ["Build"]
     branches:
       - master
+    types:
+      - completed
 
 jobs:
   publish:
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     strategy:
       matrix:
@@ -20,8 +24,6 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: yarn
-      - run: yarn lint
-      - run: yarn test
       - run: yarn build
       - id: publish
         uses: JS-DevTools/npm-publish@v1
