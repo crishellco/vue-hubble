@@ -1,10 +1,7 @@
 # Vue Hubble
 
 ![Build](https://github.com/crishellco/vue-hubble/workflows/Build/badge.svg)
-![](badges/badge-branches.svg)
-![](badges/badge-functionss.svg)
-![](badges/badge-lines.svg)
-![](badges/badge-statements.svg)
+[![codecov](https://codecov.io/gh/crishellco/vue-hubble/branch/master/graph/badge.svg?token=IKcXpNL84k)](https://codecov.io/gh/crishellco/vue-hubble)
 [![Maintainability](https://api.codeclimate.com/v1/badges/e1f2536b9be3c32e6fef/maintainability)](https://codeclimate.com/github/crishellco/vue-hubble/maintainability)
 
 A better way to select elements for UI testing in Vue.
