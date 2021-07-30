@@ -17,7 +17,10 @@ function install(Vue, options = {}) {
   Vue.prototype.$hubble.environment = [].concat(Vue.prototype.$hubble.environment);
 
   if (!installed) {
-    window.$hubble = api;
+    window.$hubble = {
+      ...api,
+      options: Vue.prototype.$hubble,
+    };
 
     Vue.directive('hubble', directive);
     installed = true;

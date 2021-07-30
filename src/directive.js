@@ -8,6 +8,10 @@ export const inCorrectEnvironment = (context) => {
   return context.$hubble.environment.includes(process.env.NODE_ENV);
 };
 
+export const selectorPickerEnabled = () => {
+  return window.$hubble.options.enableSelectorPicker;
+};
+
 export const get = (obj, path, defaultValue) => {
   const travel = (regexp) =>
     String.prototype.split
@@ -255,6 +259,8 @@ export const addHighlight = (target, id) => {
 };
 
 export const handleMouseover = (element, id) => (event) => {
+  if (!selectorPickerEnabled()) return;
+
   const { target } = event;
   const oldTooltip = document.querySelector(`[data-vue-hubble-tooltip-id="${id}"]`);
   const oldHighlight = document.querySelector(`[data-vue-hubble-highlight-id="${id}"]`);
@@ -273,7 +279,6 @@ export const handleMouseover = (element, id) => (event) => {
 };
 
 export const handleBind = async (element, _, { context }) => {
-  if (!context.$hubble.enableSelectorPicker) return;
   if (!inCorrectEnvironment(context)) return;
 
   const id = Math.random().toString(36).substr(2, 11);
@@ -283,7 +288,6 @@ export const handleBind = async (element, _, { context }) => {
 };
 
 export const handleUnbind = async (element, _, { context }) => {
-  if (!context.$hubble.enableSelectorPicker) return;
   if (!inCorrectEnvironment(context)) return;
 
   document.removeEventListener('mouseover', handleMouseover(element, element.getAttribute('data-vue-hubble-id')));

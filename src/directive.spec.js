@@ -281,5 +281,16 @@ describe('directive.js', () => {
       expect(tooltip.innerText).toBe(`'[${NAMESPACE}][selector]'`);
       expect(document.execCommand).toHaveBeenCalledWith('copy');
     });
+
+    it('should remove event listeners', () => {
+      Vue.prototype.$hubble.enableSelectorPicker = true;
+      jest.spyOn(document, 'removeEventListener');
+
+      let wrapper = getWrapper();
+
+      wrapper.destroy();
+
+      expect(document.removeEventListener).toHaveBeenCalledWith('mouseover', expect.anything());
+    });
   });
 });
