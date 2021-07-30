@@ -1,7 +1,13 @@
 <template>
   <div class="hello">
-    <h1 v-hubble="'header'">View my source to see Hubble</h1>
-    <code>$ yarn serve --mode test</code>
+    <h1 v-hubble="'header'">Hover over elements to see and copy selectors</h1>
+    <code v-hubble="'command'">$ yarn serve --mode test</code>
+    <div style="position: fixed; bottom: 0; right: 0; padding: 1rem">
+      <button v-hubble="'submit'">Submit</button>
+    </div>
+    <div style="position: fixed; bottom: 0; left: 0; padding: 1rem">
+      <button v-hubble="'cancel'">Cancel</button>
+    </div>
   </div>
 </template>
 
