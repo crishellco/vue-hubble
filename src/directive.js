@@ -3,7 +3,7 @@ export const DATASET_KEY = 'vueHubbleSelector';
 export const NAMESPACE = 'vue-hubble';
 
 export const get = (obj, path, defaultValue) => {
-  const travel = regexp =>
+  const travel = (regexp) =>
     String.prototype.split
       .call(path, regexp)
       .filter(Boolean)
@@ -17,11 +17,11 @@ export const get = (obj, path, defaultValue) => {
   return result === undefined || result === obj ? defaultValue : result;
 };
 
-export const getClosingComment = querySelector => {
+export const getClosingComment = (querySelector) => {
   return `${CLOSING_COMMENT} ${querySelector}`;
 };
 
-export const getComponentNamespace = component => {
+export const getComponentNamespace = (component) => {
   const config = get(component.$options, ['hubble'], {});
 
   return typeof config === 'string' ? config : config.namespace;
@@ -52,13 +52,13 @@ export const getGenericSelector = (context, value) => {
   return (
     (context.$hubble.prefix ? `${context.$hubble.prefix}--` : '') +
     namespaces
-      .filter(namespace => !!namespace)
+      .filter((namespace) => !!namespace)
       .reverse()
       .join('--')
   );
 };
 
-export const getOpeningComment = querySelector => {
+export const getOpeningComment = (querySelector) => {
   return `${querySelector}`;
 };
 
@@ -94,7 +94,7 @@ export const handleComments = ({ newQuerySelector, oldQuerySelector, element, va
   }
 };
 
-export const handleHook = (element, { arg, value, oldValue }, { context }) => {
+export const handleUpdate = async (element, { arg, value, oldValue }, { context }) => {
   if (!context.$hubble.environment.includes(process.env.NODE_ENV)) return;
 
   arg = arg || context.$hubble.defaultSelectorType;
@@ -116,17 +116,11 @@ export const handleHook = (element, { arg, value, oldValue }, { context }) => {
     element,
     oldSelector,
     newSelector,
-    newQuerySelector
+    newQuerySelector,
   });
 };
 
-export const handleHubbleSelector = ({
-  arg,
-  element,
-  oldSelector,
-  newSelector,
-  newQuerySelector
-}) => {
+export const handleHubbleSelector = ({ arg, element, oldSelector, newSelector, newQuerySelector }) => {
   switch (arg) {
     case 'class':
       oldSelector && element.classList.remove(oldSelector);
@@ -157,12 +151,7 @@ export const handleHubbleSelector = ({
   }
 };
 
-export const handleNamespaceAttribute = ({
-  element,
-  oldSelector,
-  newSelector,
-  newQuerySelector
-}) => {
+export const handleNamespaceAttribute = ({ element, oldSelector, newSelector, newQuerySelector }) => {
   oldSelector && element.removeAttribute(NAMESPACE);
   element.setAttributeNode(element.ownerDocument.createAttribute(NAMESPACE));
   element.dataset[DATASET_KEY] = newSelector ? newQuerySelector : '';
@@ -196,8 +185,105 @@ export const removeExistingCommentElements = ({ nodes, element, parent, oldQuery
   }
 };
 
+export const addTooltip = (target, id) => {
+  const { top, left, width } = target.getBoundingClientRect();
+  const selector = target.getAttribute('data-vue-hubble-selector');
+  const text = `'${selector}'`;
+  const tooltip = document.createElement('span');
+
+  tooltip.style.position = 'fixed';
+  tooltip.style.padding = '6px 10px';
+  tooltip.style.background = '#374151';
+  tooltip.style.borderRadius = '2px';
+  tooltip.style.boxShadow = '0 10px 15px -3px rgba(0,0,0,0.1),0 4px 6px -2px rgba(0,0,0,0.05)';
+  tooltip.style.color = '#A5B4FC';
+  tooltip.style.fontWeight = '400';
+  tooltip.style.userSelect = 'all';
+  tooltip.style.zIndex = '99999999';
+  tooltip.style.cursor = 'pointer';
+  tooltip.style.fontSize = '16px';
+  tooltip.style.fontFamily = 'monospace';
+  tooltip.style.whiteSpace = 'nowrap';
+  tooltip.style.textAlign = 'center';
+  tooltip.innerText = text;
+  tooltip.setAttribute('data-vue-hubble-tooltip-id', id);
+  tooltip.setAttributeNode(tooltip.ownerDocument.createAttribute(`${NAMESPACE}-tooltip`));
+
+  document.body.appendChild(tooltip);
+
+  tooltip.style.width = `${tooltip.offsetWidth}px`;
+  tooltip.style.left = `${Math.min(
+    window.innerWidth - tooltip.offsetWidth,
+    Math.max(0, left + width / 2 - tooltip.offsetWidth / 2)
+  )}px`;
+  tooltip.style.top = `${Math.min(
+    window.outerHeight - tooltip.offsetHeight,
+    Math.max(0, top - tooltip.offsetHeight)
+  )}px`;
+
+  tooltip.addEventListener('click', () => {
+    document.execCommand('copy');
+    tooltip.innerText = 'Copied!';
+    setTimeout(() => {
+      tooltip.innerText = text;
+    }, 1000);
+  });
+};
+
+export const addHighlight = (target, id) => {
+  const highlight = document.createElement('div');
+  const { top, left, height, width } = target.getBoundingClientRect();
+
+  highlight.style.position = 'fixed';
+  highlight.style.width = `${width}px`;
+  highlight.style.height = `${height}px`;
+  highlight.style.left = `${left}px`;
+  highlight.style.top = `${top}px`;
+  highlight.style.pointerEvents = 'none';
+  highlight.style.zIndex = '99999998';
+  highlight.style.background = 'rgba(99, 102, 241, .1)';
+  highlight.style.border = '1px solid #6366F1';
+  highlight.setAttribute('data-vue-hubble-highlight-id', id);
+
+  document.body.appendChild(highlight);
+};
+
+export const handleMouseover = (element, id) => (event) => {
+  const { target } = event;
+  const oldTooltip = document.querySelector(`[data-vue-hubble-tooltip-id="${id}"]`);
+  const oldHighlight = document.querySelector(`[data-vue-hubble-highlight-id="${id}"]`);
+  const shouldRender = target === element || target === oldTooltip || element.contains(target);
+
+  if (!shouldRender) {
+    oldTooltip && oldTooltip.remove();
+
+    return oldHighlight && oldHighlight.remove();
+  }
+
+  if (oldTooltip) return;
+
+  addTooltip(element, id);
+  addHighlight(element, id);
+};
+
+export const handleBind = async (element, _, { context }) => {
+  if (!context.$hubble.enableSelectorPicker) return;
+
+  const id = Math.random().toString(36).substr(2, 11);
+
+  element.setAttribute('data-vue-hubble-id', id);
+  document.addEventListener('mouseover', handleMouseover(element, id));
+};
+
+export const handleUnbind = async (element, _, { context }) => {
+  if (!context.$hubble.enableSelectorPicker) return;
+
+  document.removeEventListener('mouseover', handleMouseover(element, element.getAttribute('data-vue-hubble-id')));
+};
+
 export default {
-  bind: handleHook,
-  inserted: handleHook,
-  update: handleHook
+  bind: handleBind,
+  inserted: handleUpdate,
+  update: handleUpdate,
+  unbind: handleUnbind,
 };

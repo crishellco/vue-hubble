@@ -1,4 +1,6 @@
 {
-  "printWidth": 100,
+  "endOfLine": "auto",
+  "jsxBracketSameLine": true,
+  "printWidth": 120,
   "singleQuote": true
 }

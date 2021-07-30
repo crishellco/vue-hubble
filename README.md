@@ -107,6 +107,7 @@ describe('directive.js', () => {
 | `defaultSelectorType`   | `String`          | `attr`  | Defines the selector type if not passed into the directive `v-hubble:attr`                                                            |
 | `enableComments`        | `Boolean`         | `false` | Enables or disables comments around elements with hubble selectors                                                                    |
 | `enableDeepNamespacing` | `Boolean`         | `true`  | Enables or disables auto recursive namespacing                                                                                        |
+| `enableSelectorPicker`  | `Boolean`         | `false` | Enables or disables the selector picker feature                                                                                       |
 | `environment`           | `String or Array` | `test`  | Defines the environment(s) in which these selectors are added                                                                         |
 | `prefix`                | `String`          |         | Prefixes all selectors with the value and `--`, if value exists. For example, if `prefix = 'qa'`, all selectors well begin with`qa--` |
 
@@ -131,13 +132,13 @@ Finds all elements with hubble selectors matching the passed selector, mapped by
 ## Lint
 
 ```bash
-yarn lint
+yarn lint:js
 ```
 
 ## Test
 
 ```bash
-yarn test
+yarn test:unit
 ```
 
 ## Build Dist

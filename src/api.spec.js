@@ -20,7 +20,7 @@ mount(
     <span v-hubble:class="'class-selector'"></span>
     <span v-hubble:id="'id-selector'"></span>
   </div>
-  `
+  `,
   },
   { attachTo }
 );

@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Hubble from '../../src';
 import App from './App.vue';
 
-Vue.use(Hubble);
+Vue.use(Hubble, { environment: 'development', enableSelectorPicker: true });
 
 Vue.config.productionTip = false;
 

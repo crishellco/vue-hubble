@@ -7,8 +7,9 @@ const defaultConfig = {
   defaultSelectorType: 'attr',
   enableComments: false,
   enableDeepNamespacing: true,
+  enableSelectorPicker: false,
   environment: 'test',
-  prefix: ''
+  prefix: '',
 };
 
 function install(Vue, options = {}) {
