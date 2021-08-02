@@ -129,6 +129,31 @@ Finds all elements with hubble selectors matching the passed selector.
 
 Finds all elements with hubble selectors matching the passed selector, mapped by selector.
 
+## Selector Picker
+
+The Selector Picker is similar to the element picker in Chrome Dev Tools, except it shows a tooltip (which copies the Vue-Hubble selector when clicked) when you hover over an element which has Vue-Hubble applied. 
+
+### Preview
+
+![selector-picker](https://user-images.githubusercontent.com/1878509/127924941-3e5e2d41-ed80-4892-a98d-2b210cd2a514.gif)
+
+
+### Enable Selector Picker
+
+You can enable the selector two ways:
+
+**1. Set `enableSelectorPicker` to `true` when installing Vue-Hubble**
+
+``` javascript
+Vue.use(VueHubble, { enableSelectorPicker: true });
+```
+
+**2. Use the console in dev tools to set `window.$hubble.options.enableSelectorPicker` to `true`**
+
+```javascript
+$ window.$hubble.options.enableSelectorPicker = true;
+```
+
 ## Lint
 
 ```bash
