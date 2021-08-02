@@ -197,7 +197,7 @@ export const removeExistingCommentElements = ({ nodes, element, parent, oldQuery
 
 export const addTooltip = (target, id) => {
   const { top, left, width } = target.getBoundingClientRect();
-  const selector = target.getAttribute('data-vue-hubble-selector');
+  const selector = target.getAttribute(`data-${NAMESPACE}-selector`);
   const text = `'${selector}'`;
   const tooltip = document.createElement('span');
 
@@ -216,7 +216,7 @@ export const addTooltip = (target, id) => {
   tooltip.style.whiteSpace = 'nowrap';
   tooltip.style.textAlign = 'center';
   tooltip.innerText = text;
-  tooltip.setAttribute('data-vue-hubble-tooltip-id', id);
+  tooltip.setAttribute(`data-${NAMESPACE}-tooltip-id`, id);
   tooltip.setAttributeNode(tooltip.ownerDocument.createAttribute(`${NAMESPACE}-tooltip`));
 
   document.body.appendChild(tooltip);
@@ -253,7 +253,7 @@ export const addHighlight = (target, id) => {
   highlight.style.zIndex = '99999998';
   highlight.style.background = 'rgba(99, 102, 241, .1)';
   highlight.style.border = '1px solid #6366F1';
-  highlight.setAttribute('data-vue-hubble-highlight-id', id);
+  highlight.setAttribute(`data-${NAMESPACE}-highlight-id`, id);
 
   document.body.appendChild(highlight);
 };
@@ -262,8 +262,8 @@ export const handleMouseover = (element, id) => (event) => {
   if (!selectorPickerEnabled()) return;
 
   const { target } = event;
-  const oldTooltip = document.querySelector(`[data-vue-hubble-tooltip-id="${id}"]`);
-  const oldHighlight = document.querySelector(`[data-vue-hubble-highlight-id="${id}"]`);
+  const oldTooltip = document.querySelector(`[data-${NAMESPACE}-tooltip-id="${id}"]`);
+  const oldHighlight = document.querySelector(`[data-${NAMESPACE}-highlight-id="${id}"]`);
   const shouldRender = target === element || target === oldTooltip || element.contains(target);
 
   if (!shouldRender) {
@@ -283,14 +283,14 @@ export const handleBind = async (element, _, { context }) => {
 
   const id = Math.random().toString(36).substr(2, 11);
 
-  element.setAttribute('data-vue-hubble-id', id);
+  element.setAttribute(`data-${NAMESPACE}-id`, id);
   document.addEventListener('mouseover', handleMouseover(element, id));
 };
 
 export const handleUnbind = async (element, _, { context }) => {
   if (!inCorrectEnvironment(context)) return;
 
-  document.removeEventListener('mouseover', handleMouseover(element, element.getAttribute('data-vue-hubble-id')));
+  document.removeEventListener('mouseover', handleMouseover(element, element.getAttribute(`data-${NAMESPACE}-id`)));
 };
 
 export default {
