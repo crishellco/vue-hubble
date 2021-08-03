@@ -14,9 +14,9 @@ describe('install.js', () => {
   it('should allow the namespace to be set', () => {
     const wrapper = mount({
       hubble: {
-        namespace: 'test'
+        namespace: 'test',
       },
-      template: '<div><span v-hubble="\'selector\'"></span></div>'
+      template: '<div><span v-hubble="\'selector\'"></span></div>',
     });
 
     expect(wrapper.find('.test--selector').exists()).toBe(true);
@@ -26,13 +26,11 @@ describe('install.js', () => {
     Vue.prototype.$hubble.defaultSelectorType = 'invalid';
 
     const wrapper = mount({
-      template: '<div><span v-hubble="\'selector\'"></span></div>'
+      template: '<div><span v-hubble="\'selector\'"></span></div>',
     });
 
     expect(wrapper.find('[selector]').exists()).toBe(true);
-    expect(global.console.warn).toHaveBeenCalledWith(
-      'invalid is not a valid selector type, using attr instead'
-    );
+    expect(global.console.warn).toHaveBeenCalledWith('invalid is not a valid selector type, using attr instead');
   });
 
   it('should allow the defaultSelectorType to be set', () => {
@@ -43,9 +41,9 @@ describe('install.js', () => {
 
     const wrapper = mount({
       hubble: {
-        namespace: 'test'
+        namespace: 'test',
       },
-      template: '<div><span v-hubble="\'selector\'"></span></div>'
+      template: '<div><span v-hubble="\'selector\'"></span></div>',
     });
 
     expect(wrapper.find('.qa--test--selector').exists()).toBe(true);
@@ -60,7 +58,7 @@ describe('install.js', () => {
     const openingComment = getOpeningComment(selector);
 
     const wrapper = mount({
-      template: `<div><div v-hubble="'${value}'" /></div>`
+      template: `<div><div v-hubble="'${value}'" /></div>`,
     });
 
     expect(wrapper.find(`.${selector}`).exists()).toBe(true);
@@ -74,19 +72,19 @@ describe('install.js', () => {
     const wrapper = mount(
       {
         hubble: {
-          namespace: 'parent'
+          namespace: 'parent',
         },
-        template: '<div><span><child /></span></div>'
+        template: '<div><span><child /></span></div>',
       },
       {
         stubs: {
           child: {
             template: '<div v-hubble="\'selector\'" />',
             hubble: {
-              namespace: 'child'
-            }
-          }
-        }
+              namespace: 'child',
+            },
+          },
+        },
       }
     );
 
@@ -100,19 +98,19 @@ describe('install.js', () => {
     const wrapper = mount(
       {
         hubble: {
-          namespace: 'parent'
+          namespace: 'parent',
         },
-        template: '<div><span><child /></span></div>'
+        template: '<div><span><child /></span></div>',
       },
       {
         stubs: {
           child: {
             template: '<div v-hubble="\'selector\'" />',
             hubble: {
-              namespace: 'child'
-            }
-          }
-        }
+              namespace: 'child',
+            },
+          },
+        },
       }
     );
 
@@ -126,19 +124,19 @@ describe('install.js', () => {
     const wrapper = mount(
       {
         hubble: {
-          namespace: 'parent'
+          namespace: 'parent',
         },
-        template: '<div><span><child /></span></div>'
+        template: '<div><span><child /></span></div>',
       },
       {
         stubs: {
           child: {
             template: '<div v-hubble="\'selector\'">child</div>',
             hubble: {
-              namespace: 'child'
-            }
-          }
-        }
+              namespace: 'child',
+            },
+          },
+        },
       }
     );
     expect(wrapper.find('.qa--parent--child--selector').exists()).toBe(true);

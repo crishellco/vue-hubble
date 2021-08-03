@@ -8,6 +8,6 @@ export default {
   output: {
     file: 'dist/index.js',
     format: 'cjs',
-    plugins: [commonjs(), nodeResolve(), babel()]
-  }
+    plugins: [commonjs(), nodeResolve(), babel()],
+  },
 };

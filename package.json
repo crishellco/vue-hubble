@@ -10,9 +10,9 @@
   ],
   "scripts": {
     "test": "npm-run-all --print-label --parallel lint:* --parallel test:*",
-    "test:js": "jest",
-    "lint:js": "eslint --ext .js,.vue src/",
-    "lint:js:fix": "eslint --ext .js,.vue src/ --fix",
+    "test:unit": "jest",
+    "lint:js": "eslint --ext .js,.vue ./src",
+    "lint:js:fix": "eslint --ext .js,.vue  ./src --fix",
     "build": "rimraf dist && rollup --config",
     "release": "semantic-release"
   },
@@ -50,6 +50,7 @@
     "eslint-loader": "^3.0.3",
     "eslint-plugin-jest": "^24.1.0",
     "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-prettier-vue": "^3.1.0",
     "eslint-plugin-vue": "^6.0.1",
     "husky": "^7.0.0",
     "jest": "^26.0.0",

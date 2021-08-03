@@ -7,8 +7,10 @@ import {
   getOpeningComment,
   getGenericSelector,
   getQuerySelector,
-  NAMESPACE
+  NAMESPACE,
 } from './directive';
+
+jest.useFakeTimers();
 
 Vue.use(VueHubble);
 
@@ -16,12 +18,13 @@ const getWrapper = (type = 'attr', selector = 'selector') => {
   global.console.warn = jest.fn();
 
   return mount({
+    attachToDocument: true,
     data() {
       return {
-        selector
+        selector,
       };
     },
-    template: `<div><span v-hubble:${type}="selector"></span></div>`
+    template: `<div><span v-hubble:${type}="selector"><span v-hubble:${type}="'child'"></span></span></div>`,
   });
 };
 
@@ -68,17 +71,17 @@ describe('directive.js', () => {
     const wrapper = mount(
       {
         hubble: 'parent',
-        template: '<div><span><child /></span></div>'
+        template: '<div><span><child /></span></div>',
       },
       {
         stubs: {
           child: {
             template: '<div v-hubble="\'selector\'" />',
             hubble: {
-              namespace: 'child'
-            }
-          }
-        }
+              namespace: 'child',
+            },
+          },
+        },
       }
     );
 
@@ -88,14 +91,14 @@ describe('directive.js', () => {
     const wrapper = mount(
       {
         hubble: 'parent',
-        template: '<div><span><child /></span></div>'
+        template: '<div><span><child /></span></div>',
       },
       {
         stubs: {
           child: {
-            template: '<div v-hubble="\'selector\'" />'
-          }
-        }
+            template: '<div v-hubble="\'selector\'" />',
+          },
+        },
       }
     );
 
@@ -121,7 +124,7 @@ describe('directive.js', () => {
     expect(wrapper.html().indexOf(`<!--${closingComment}-->`)).toBeGreaterThan(-1);
 
     wrapper.setData({
-      selector: ''
+      selector: '',
     });
 
     await wrapper.vm.$nextTick();
@@ -136,7 +139,7 @@ describe('directive.js', () => {
     expect(wrapper.find(`[${NAMESPACE}].old`).exists()).toBe(true);
 
     wrapper.setData({
-      selector: 'new'
+      selector: 'new',
     });
 
     await wrapper.vm.$nextTick();
@@ -149,7 +152,7 @@ describe('directive.js', () => {
     expect(wrapper.find(`[${NAMESPACE}].new`).exists()).toBe(false);
 
     wrapper.setData({
-      selector: 'new'
+      selector: 'new',
     });
 
     await wrapper.vm.$nextTick();
@@ -160,12 +163,10 @@ describe('directive.js', () => {
     let wrapper = getWrapper('invalid', '');
 
     expect(wrapper.find(`[${NAMESPACE}].new`).exists()).toBe(false);
-    expect(global.console.warn).toHaveBeenCalledWith(
-      'invalid is not a valid selector type, using attr instead'
-    );
+    expect(global.console.warn).toHaveBeenCalledWith('invalid is not a valid selector type, using attr instead');
 
     wrapper.setData({
-      selector: 'new'
+      selector: 'new',
     });
 
     await wrapper.vm.$nextTick();
@@ -176,12 +177,10 @@ describe('directive.js', () => {
     let wrapper = getWrapper('invalid', 'old');
 
     expect(wrapper.find(`[${NAMESPACE}].old`).exists()).toBe(false);
-    expect(global.console.warn).toHaveBeenCalledWith(
-      'invalid is not a valid selector type, using attr instead'
-    );
+    expect(global.console.warn).toHaveBeenCalledWith('invalid is not a valid selector type, using attr instead');
 
     wrapper.setData({
-      selector: 'new'
+      selector: 'new',
     });
 
     await wrapper.vm.$nextTick();
@@ -192,6 +191,106 @@ describe('directive.js', () => {
     it('should correctly handle defaults', () => {
       expect(get({}, ['foo'], 'bar')).toBe('bar');
       expect(get({}, ['foo'])).toBe(undefined);
+    });
+  });
+
+  describe('selector picker', () => {
+    it('should not render if enableSelectorPicker is false', async () => {
+      let wrapper = getWrapper();
+      const element = wrapper.find(`[${NAMESPACE}][selector]`);
+
+      const event = new MouseEvent('mouseover', {
+        view: window,
+        bubbles: true,
+        cancelable: true,
+      });
+      Object.defineProperty(event, 'target', { value: element.element, enumerable: true });
+
+      document.dispatchEvent(event);
+
+      await wrapper.vm.$nextTick();
+
+      expect(document.querySelector(`[${NAMESPACE}-tooltip]`)).toBeNull();
+    });
+
+    it('should render if enableSelectorPicker is true', async () => {
+      Vue.prototype.$hubble.enableSelectorPicker = true;
+
+      let wrapper = getWrapper();
+      const element = wrapper.find(`[${NAMESPACE}][selector]`);
+
+      const event = new MouseEvent('mouseover', {
+        view: window,
+        bubbles: true,
+        cancelable: true,
+      });
+      Object.defineProperty(event, 'target', { value: element.element, enumerable: true });
+
+      document.dispatchEvent(event);
+
+      await wrapper.vm.$nextTick();
+
+      expect(document.querySelector(`[${NAMESPACE}-tooltip]`)).toBeTruthy();
+    });
+
+    it('should render if a child is hovered over', async () => {
+      Vue.prototype.$hubble.enableSelectorPicker = true;
+
+      let wrapper = getWrapper();
+      const element = wrapper.find(`[${NAMESPACE}][child]`);
+
+      const event = new MouseEvent('mouseover', {
+        view: window,
+        bubbles: true,
+        cancelable: true,
+      });
+      Object.defineProperty(event, 'target', { value: element.element, enumerable: true });
+
+      document.dispatchEvent(event);
+
+      await wrapper.vm.$nextTick();
+
+      expect(document.querySelector(`[${NAMESPACE}-tooltip]`)).toBeTruthy();
+    });
+
+    it('should copy the selector to clipboard', async () => {
+      Vue.prototype.$hubble.enableSelectorPicker = true;
+      document.execCommand = jest.fn();
+
+      let wrapper = getWrapper();
+      const element = wrapper.find(`[${NAMESPACE}][selector]`);
+
+      const event = new MouseEvent('mouseover', {
+        view: window,
+        bubbles: true,
+        cancelable: true,
+      });
+      Object.defineProperty(event, 'target', { value: element.element, enumerable: true });
+
+      document.dispatchEvent(event);
+
+      await wrapper.vm.$nextTick();
+
+      const tooltip = document.querySelector(`[${NAMESPACE}-tooltip]`);
+
+      tooltip.click();
+      expect(tooltip.innerText).toBe('Copied!');
+
+      jest.runAllTimers();
+
+      expect(tooltip.innerText).toBe(`'[${NAMESPACE}][selector]'`);
+      expect(document.execCommand).toHaveBeenCalledWith('copy');
+    });
+
+    it('should remove event listeners', () => {
+      Vue.prototype.$hubble.enableSelectorPicker = true;
+      jest.spyOn(document, 'removeEventListener');
+
+      let wrapper = getWrapper();
+
+      wrapper.destroy();
+
+      expect(document.removeEventListener).toHaveBeenCalledWith('mouseover', expect.anything());
     });
   });
 });
