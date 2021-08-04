@@ -13,20 +13,20 @@ const api = {
     return [
       ...document.querySelectorAll(`[${NAMESPACE}][${selector}]`),
       ...document.querySelectorAll(`[${NAMESPACE}][class*="${selector}"]`),
-      ...document.querySelectorAll(`[${NAMESPACE}][id*="${selector}"]`)
+      ...document.querySelectorAll(`[${NAMESPACE}][id*="${selector}"]`),
     ];
   },
 
   findMapped(selector) {
     return mapResults(this.find(selector));
-  }
+  },
 };
 
 function mapResults(nodes) {
   return [...nodes].reduce((result, node) => {
     return {
       ...result,
-      [node.dataset[DATASET_KEY]]: node
+      [node.dataset[DATASET_KEY]]: node,
     };
   }, {});
 }
