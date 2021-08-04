@@ -3,5 +3,3 @@
 - item
 
 ### Screenshots
-
-### Code Coverage
