@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils';
 import Vue from 'vue';
-import VueHubble from '.';
+import VueHubble, { defaultConfig } from '.';
 import {
   get,
   getClosingComment,
@@ -25,7 +25,7 @@ const getWrapper = (type = 'attr', selector = 'selector', overrides = {}) => {
       };
     },
     beforeMount() {
-      this.$hubble = { ...this.$hubble, prefix: '', enableComments: false, ...overrides };
+      this.$hubble = { ...defaultConfig, ...overrides };
     },
     template: `<div><span v-hubble:${type}="selector"><span v-hubble:${type}="'child'"></span></span></div>`,
   });
@@ -112,7 +112,7 @@ describe('directive.js', () => {
     const prefix = 'qa';
     const value = 'selector';
 
-    let wrapper = getWrapper('attr', value, { prefix, enableComments: true });
+    const wrapper = getWrapper('attr', value, { prefix, enableComments: true });
 
     const selector = getGenericSelector(wrapper.vm, value);
     const querySelector = getQuerySelector(selector, 'attr');
@@ -134,7 +134,7 @@ describe('directive.js', () => {
   });
 
   it('should handle reactive class selectors', async () => {
-    let wrapper = getWrapper('class', 'old');
+    const wrapper = getWrapper('class', 'old');
 
     expect(wrapper.find(`[${NAMESPACE}].old`).exists()).toBe(true);
 
@@ -147,7 +147,7 @@ describe('directive.js', () => {
   });
 
   it('should handle reactive class selectors starting empty', async () => {
-    let wrapper = getWrapper('class', '');
+    const wrapper = getWrapper('class', '');
 
     expect(wrapper.find(`[${NAMESPACE}].new`).exists()).toBe(false);
 
@@ -160,7 +160,7 @@ describe('directive.js', () => {
   });
 
   it('should handle reactive invalid selectors starting empty', async () => {
-    let wrapper = getWrapper('invalid', '');
+    const wrapper = getWrapper('invalid', '');
 
     expect(wrapper.find(`[${NAMESPACE}].new`).exists()).toBe(false);
     expect(global.console.warn).toHaveBeenCalledWith('invalid is not a valid selector type, using attr instead');
@@ -174,7 +174,7 @@ describe('directive.js', () => {
   });
 
   it('should handle reactive invalid selectors', async () => {
-    let wrapper = getWrapper('invalid', 'old');
+    const wrapper = getWrapper('invalid', 'old');
 
     expect(wrapper.find(`[${NAMESPACE}].old`).exists()).toBe(false);
     expect(global.console.warn).toHaveBeenCalledWith('invalid is not a valid selector type, using attr instead');
@@ -196,7 +196,7 @@ describe('directive.js', () => {
 
   describe('selector picker', () => {
     it('should not render if enableSelectorPicker is false', async () => {
-      let wrapper = getWrapper();
+      const wrapper = getWrapper();
       const element = wrapper.find(`[${NAMESPACE}][selector]`);
 
       const event = new MouseEvent('mouseover', {
@@ -214,7 +214,7 @@ describe('directive.js', () => {
     });
 
     it('should render if enableSelectorPicker is true', async () => {
-      let wrapper = getWrapper(undefined, undefined, { enableSelectorPicker: true });
+      const wrapper = getWrapper(undefined, undefined, { enableSelectorPicker: true });
 
       const element = wrapper.find(`[${NAMESPACE}][selector]`);
 
@@ -233,7 +233,7 @@ describe('directive.js', () => {
     });
 
     it('should render if a child is hovered over', async () => {
-      let wrapper = getWrapper(undefined, undefined, { enableSelectorPicker: true });
+      const wrapper = getWrapper(undefined, undefined, { enableSelectorPicker: true });
 
       const element = wrapper.find(`[${NAMESPACE}][child]`);
 
@@ -254,12 +254,7 @@ describe('directive.js', () => {
     it('should copy the selector to clipboard', async () => {
       document.execCommand = jest.fn();
 
-      let wrapper = getWrapper();
-
-      wrapper.$hubble = {
-        ...wrapper.$hubble,
-        enableSelectorPicker: true,
-      };
+      const wrapper = getWrapper(undefined, undefined, { enableSelectorPicker: true });
 
       const element = wrapper.find(`[${NAMESPACE}][selector]`);
 
@@ -288,7 +283,7 @@ describe('directive.js', () => {
     it('should remove event listeners', () => {
       jest.spyOn(document, 'removeEventListener');
 
-      let wrapper = getWrapper();
+      const wrapper = getWrapper();
 
       wrapper.$hubble = {
         ...wrapper.$hubble,
