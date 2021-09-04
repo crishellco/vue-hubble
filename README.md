@@ -133,7 +133,7 @@ describe('directive.js', () => {
 ### Install Options
 
 | Name                    | Type              | Default | Description                                                                                                                           |
-| ----------------------- | ----------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+|-------------------------|-------------------|---------|---------------------------------------------------------------------------------------------------------------------------------------|
 | `defaultSelectorType`   | `String`          | `attr`  | Defines the selector type if not passed into the directive `v-hubble:attr`                                                            |
 | `enableComments`        | `Boolean`         | `false` | Enables or disables comments around elements with hubble selectors                                                                    |
 | `enableDeepNamespacing` | `Boolean`         | `true`  | Enables or disables auto recursive namespacing                                                                                        |

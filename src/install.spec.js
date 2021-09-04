@@ -1,14 +1,15 @@
 import { mount } from '@vue/test-utils';
+import { wrap } from 'regenerator-runtime';
 import Vue from 'vue';
-import VueHubble from '../src';
+import VueHubble, { defaultConfig } from '../src';
 import { getClosingComment, getOpeningComment, getGenericSelector } from './directive';
+
+Vue.use(VueHubble, { defaultSelectorType: 'class', environment: ['development', 'test'] });
 
 describe('install.js', () => {
   beforeEach(() => {
     global.console.warn = jest.fn();
     process.env.NODE_ENV = 'test';
-    Vue.use(VueHubble, { defaultSelectorType: 'class', environment: ['development', 'test'] });
-    Vue.prototype.$hubble.prefix = '';
   });
 
   it('should allow the namespace to be set', () => {
@@ -23,9 +24,10 @@ describe('install.js', () => {
   });
 
   it('should handle an invalid defaultSelectorType to be set', () => {
-    Vue.prototype.$hubble.defaultSelectorType = 'invalid';
-
     const wrapper = mount({
+      beforeMount() {
+        this.$hubble = { ...defaultConfig, defaultSelectorType: 'invalid' };
+      },
       template: '<div><span v-hubble="\'selector\'"></span></div>',
     });
 
@@ -34,14 +36,14 @@ describe('install.js', () => {
   });
 
   it('should allow the defaultSelectorType to be set', () => {
-    Vue.prototype.$hubble.defaultSelectorType = 'class';
-    Vue.prototype.$hubble.prefix = 'qa';
-
     process.env.NODE_ENV = 'development';
 
     const wrapper = mount({
       hubble: {
         namespace: 'test',
+      },
+      beforeMount() {
+        this.$hubble = { ...defaultConfig, prefix: 'qa', defaultSelectorType: 'class' };
       },
       template: '<div><span v-hubble="\'selector\'"></span></div>',
     });
@@ -50,16 +52,17 @@ describe('install.js', () => {
   });
 
   it('should allow the enableComments to be set to false', () => {
-    Vue.prototype.$hubble.enableComments = false;
-
     const value = 'selector';
-    const selector = getGenericSelector(Vue.prototype, value);
-    const closingComment = getClosingComment(selector);
-    const openingComment = getOpeningComment(selector);
 
     const wrapper = mount({
+      beforeMount() {
+        this.$hubble = { ...defaultConfig, enableComments: false };
+      },
       template: `<div><div v-hubble="'${value}'" /></div>`,
     });
+    const selector = getGenericSelector(wrapper.vm, value);
+    const closingComment = getClosingComment(selector);
+    const openingComment = getOpeningComment(selector);
 
     expect(wrapper.find(`.${selector}`).exists()).toBe(true);
     expect(wrapper.html().indexOf(`<!--${openingComment}-->`)).toBe(-1);
@@ -67,12 +70,13 @@ describe('install.js', () => {
   });
 
   it('should allow the enableDeepNamespacing to be set to false', () => {
-    Vue.prototype.$hubble.enableDeepNamespacing = false;
-
     const wrapper = mount(
       {
         hubble: {
           namespace: 'parent',
+        },
+        beforeMount() {
+          this.$hubble = { ...defaultConfig, enableDeepNamespacing: false };
         },
         template: '<div><span><child /></span></div>',
       },
@@ -93,12 +97,13 @@ describe('install.js', () => {
   });
 
   it('should allow the enableDeepNamespacing to be set to true', () => {
-    Vue.prototype.$hubble.enableDeepNamespacing = true;
-
     const wrapper = mount(
       {
         hubble: {
           namespace: 'parent',
+        },
+        beforeMount() {
+          this.$hubble = { ...defaultConfig, enableDeepNamespacing: true };
         },
         template: '<div><span><child /></span></div>',
       },
@@ -119,12 +124,13 @@ describe('install.js', () => {
   });
 
   it('should properly prefix selectors', () => {
-    Vue.prototype.$hubble.prefix = 'qa';
-
     const wrapper = mount(
       {
         hubble: {
           namespace: 'parent',
+        },
+        beforeMount() {
+          this.$hubble = { ...defaultConfig, prefix: 'qa' };
         },
         template: '<div><span><child /></span></div>',
       },
@@ -139,6 +145,7 @@ describe('install.js', () => {
         },
       }
     );
+
     expect(wrapper.find('.qa--parent--child--selector').exists()).toBe(true);
     expect(wrapper.find('.qa--child--selector').exists()).toBe(false);
   });
