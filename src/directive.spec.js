@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils';
 import Vue from 'vue';
-import VueHubble from '.';
+import VueHubble, { defaultConfig } from '.';
 import {
   get,
   getClosingComment,
@@ -14,24 +14,27 @@ jest.useFakeTimers();
 
 Vue.use(VueHubble);
 
-const getWrapper = (type = 'attr', selector = 'selector') => {
+const getWrapper = (type = 'attr', selector = 'selector', overrides = {}) => {
   global.console.warn = jest.fn();
 
-  return mount({
+  const wrapper = mount({
     attachToDocument: true,
     data() {
       return {
         selector,
       };
     },
+    beforeMount() {
+      this.$hubble = { ...defaultConfig, ...overrides };
+    },
     template: `<div><span v-hubble:${type}="selector"><span v-hubble:${type}="'child'"></span></span></div>`,
   });
+
+  return wrapper;
 };
 
 beforeEach(() => {
   process.env.NODE_ENV = 'test';
-  Vue.prototype.$hubble.prefix = '';
-  Vue.prototype.$hubble.enableComments = false;
 });
 
 describe('directive.js', () => {
@@ -109,15 +112,12 @@ describe('directive.js', () => {
     const prefix = 'qa';
     const value = 'selector';
 
-    Vue.prototype.$hubble.prefix = prefix;
-    Vue.prototype.$hubble.enableComments = true;
+    const wrapper = getWrapper('attr', value, { prefix, enableComments: true });
 
-    const selector = getGenericSelector(Vue.prototype, value);
+    const selector = getGenericSelector(wrapper.vm, value);
     const querySelector = getQuerySelector(selector, 'attr');
     const closingComment = getClosingComment(querySelector);
     const openingComment = getOpeningComment(querySelector);
-
-    let wrapper = getWrapper('attr', value);
 
     expect(wrapper.find(`[${NAMESPACE}][${selector}]`).exists()).toBe(true);
     expect(wrapper.html().indexOf(`<!--${openingComment}-->`)).toBeGreaterThan(-1);
@@ -134,7 +134,7 @@ describe('directive.js', () => {
   });
 
   it('should handle reactive class selectors', async () => {
-    let wrapper = getWrapper('class', 'old');
+    const wrapper = getWrapper('class', 'old');
 
     expect(wrapper.find(`[${NAMESPACE}].old`).exists()).toBe(true);
 
@@ -147,7 +147,7 @@ describe('directive.js', () => {
   });
 
   it('should handle reactive class selectors starting empty', async () => {
-    let wrapper = getWrapper('class', '');
+    const wrapper = getWrapper('class', '');
 
     expect(wrapper.find(`[${NAMESPACE}].new`).exists()).toBe(false);
 
@@ -160,7 +160,7 @@ describe('directive.js', () => {
   });
 
   it('should handle reactive invalid selectors starting empty', async () => {
-    let wrapper = getWrapper('invalid', '');
+    const wrapper = getWrapper('invalid', '');
 
     expect(wrapper.find(`[${NAMESPACE}].new`).exists()).toBe(false);
     expect(global.console.warn).toHaveBeenCalledWith('invalid is not a valid selector type, using attr instead');
@@ -174,7 +174,7 @@ describe('directive.js', () => {
   });
 
   it('should handle reactive invalid selectors', async () => {
-    let wrapper = getWrapper('invalid', 'old');
+    const wrapper = getWrapper('invalid', 'old');
 
     expect(wrapper.find(`[${NAMESPACE}].old`).exists()).toBe(false);
     expect(global.console.warn).toHaveBeenCalledWith('invalid is not a valid selector type, using attr instead');
@@ -196,7 +196,7 @@ describe('directive.js', () => {
 
   describe('selector picker', () => {
     it('should not render if enableSelectorPicker is false', async () => {
-      let wrapper = getWrapper();
+      const wrapper = getWrapper();
       const element = wrapper.find(`[${NAMESPACE}][selector]`);
 
       const event = new MouseEvent('mouseover', {
@@ -214,9 +214,8 @@ describe('directive.js', () => {
     });
 
     it('should render if enableSelectorPicker is true', async () => {
-      Vue.prototype.$hubble.enableSelectorPicker = true;
+      const wrapper = getWrapper(undefined, undefined, { enableSelectorPicker: true });
 
-      let wrapper = getWrapper();
       const element = wrapper.find(`[${NAMESPACE}][selector]`);
 
       const event = new MouseEvent('mouseover', {
@@ -234,9 +233,8 @@ describe('directive.js', () => {
     });
 
     it('should render if a child is hovered over', async () => {
-      Vue.prototype.$hubble.enableSelectorPicker = true;
+      const wrapper = getWrapper(undefined, undefined, { enableSelectorPicker: true });
 
-      let wrapper = getWrapper();
       const element = wrapper.find(`[${NAMESPACE}][child]`);
 
       const event = new MouseEvent('mouseover', {
@@ -254,10 +252,10 @@ describe('directive.js', () => {
     });
 
     it('should copy the selector to clipboard', async () => {
-      Vue.prototype.$hubble.enableSelectorPicker = true;
       document.execCommand = jest.fn();
 
-      let wrapper = getWrapper();
+      const wrapper = getWrapper(undefined, undefined, { enableSelectorPicker: true });
+
       const element = wrapper.find(`[${NAMESPACE}][selector]`);
 
       const event = new MouseEvent('mouseover', {
@@ -283,10 +281,14 @@ describe('directive.js', () => {
     });
 
     it('should remove event listeners', () => {
-      Vue.prototype.$hubble.enableSelectorPicker = true;
       jest.spyOn(document, 'removeEventListener');
 
-      let wrapper = getWrapper();
+      const wrapper = getWrapper();
+
+      wrapper.$hubble = {
+        ...wrapper.$hubble,
+        enableSelectorPicker: true,
+      };
 
       wrapper.destroy();
 

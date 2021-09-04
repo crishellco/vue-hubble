@@ -6,7 +6,33 @@
 
 A better way to select elements for UI testing in Vue.
 
-Vue Hubble makes it simple to add selectors (only in your testing environment) and target component elements in tests without worrying about collisions, extraneous classes, etc.
+Vue Hubble makes it simple to add selectors (only in your testing environment)
+and target component elements in tests without worrying
+about collisions, extraneous classes, etc.
+
+## Table of Contents
+
+* [Install](#install)
+* [Usage](#usage)
+  * [Implementation](#implementation)
+  * [Result](#result)
+  * [Namespacing](#namespacing)
+  * [Writing Tests](#writing-tests)
+  * [Install Options](#install-options)
+* [Api](#api)
+  * [window.$hubble.all(): HTMLElement\[\]](#windowhubbleall-htmlelement)
+  * [window.$hubble.allMapped(): { \[string\]: HTMLElement }](#windowhubbleallmapped--string-htmlelement-)
+  * [window.$hubble.find(string selector): HTMLElement\[\]](#windowhubblefindstring-selector-htmlelement)
+  * [window.$hubble.findMapped(string selector): { \[string\]: HTMLElement }](#windowhubblefindmappedstring-selector--string-htmlelement-)
+* [Selector Picker](#selector-picker)
+  * [Preview](#preview)
+  * [Enable Selector Picker](#enable-selector-picker)
+* [Lint](#lint)
+* [Test](#test)
+* [Build Dist](#build-dist)
+* [How to Contribute](#how-to-contribute)
+  * [Pull Requests](#pull-requests)
+* [License](#license)
 
 ## Install
 
@@ -24,7 +50,7 @@ Vue.use(VueHubble, options);
 
 ## Usage
 
-#### Implementation
+### Implementation
 
 ```html
 <template>
@@ -34,7 +60,8 @@ Vue.use(VueHubble, options);
   <div v-hubble:id="'id-selector'"></div>
 </template>
 ```
-#### Result
+
+### Result
 
 ```html
 <!-- The data-vue-hubble-selector attribute makes it easy to copy the full selector to your clipboard -->
@@ -43,9 +70,12 @@ Vue.use(VueHubble, options);
 <div id="id-selector" vue-hubble data-vue-hubble-selector="[vue-hubble]#id-selector"></div>
 ```
 
-#### Namespacing
+### Namespacing
 
-Hubble gives you the ability to namespace all selectors in a given component. Namespacing is recursive up the component tree, ignoring missing or empty namespace values. This feature is enabled by default, but can be disabled via install options.
+Hubble gives you the ability to namespace all selectors in a given component.
+Namespacing is recursive up the component tree, ignoring missing
+or empty namespace values. This feature is enabled by
+default, but can be disabled via install options.
 
 ```html
 <!-- Form Component (child) -->
@@ -84,7 +114,7 @@ Hubble gives you the ability to namespace all selectors in a given component. Na
 <div login--form--attribute-selector vue-hubble data-vue-hubble-selector="[vue-hubble][login--form--attribute-selector]"></div>
 ```
 
-#### Writing Tests
+### Writing Tests
 
 [Examples](src/directive.spec.js)
 
@@ -100,7 +130,7 @@ describe('directive.js', () => {
 });
 ```
 
-#### Install Options
+### Install Options
 
 | Name                    | Type              | Default | Description                                                                                                                           |
 |-------------------------|-------------------|---------|---------------------------------------------------------------------------------------------------------------------------------------|
@@ -113,42 +143,45 @@ describe('directive.js', () => {
 
 ## Api
 
-#### window.$hubble.all(): HTMLElement[]
+### window.$hubble.all(): HTMLElement\[]
 
 Gets all elements with hubble selectors.
 
-#### window.$hubble.allMapped(): { [string]: HTMLElement }
+### window.$hubble.allMapped(): { \[string]: HTMLElement }
 
 Gets all elements with hubble selectors, mapped by selector.
 
-#### window.$hubble.find(string selector): HTMLElement[]
+### window.$hubble.find(string selector): HTMLElement\[]
 
 Finds all elements with hubble selectors matching the passed selector.
 
-#### window.$hubble.findMapped(string selector): { [string]: HTMLElement }
+### window.$hubble.findMapped(string selector): { \[string]: HTMLElement }
 
 Finds all elements with hubble selectors matching the passed selector, mapped by selector.
 
 ## Selector Picker
 
-The Selector Picker is similar to the element picker in Chrome Dev Tools, except it shows a tooltip (which copies the Vue-Hubble selector when clicked) when you hover over an element which has Vue-Hubble applied. 
+The Selector Picker is similar to the element picker in Chrome Dev Tools, except it shows a tooltip
+(which copies the Vue-Hubble selector when clicked) when you
+hover over an element which has Vue-Hubble applied.
 
 ### Preview
 
 ![selector-picker](https://user-images.githubusercontent.com/1878509/127924941-3e5e2d41-ed80-4892-a98d-2b210cd2a514.gif)
 
-
 ### Enable Selector Picker
 
-You can enable the selector two ways:
+You can enable the selector three ways:
 
-**1. Set `enableSelectorPicker` to `true` when installing Vue-Hubble**
+__1. Use the [Vue Hubble Official Browser Extension](https://crishellco.github.io/vue-hubble-browser-extension/)__
 
-``` javascript
+__2. Set `enableSelectorPicker` to `true` when installing Vue-Hubble__
+
+```javascript
 Vue.use(VueHubble, { enableSelectorPicker: true });
 ```
 
-**2. Use the console in dev tools to set `window.$hubble.options.enableSelectorPicker` to `true`**
+__3. Use the console in dev tools to set `window.$hubble.options.enableSelectorPicker` to `true`__
 
 ```javascript
 $ window.$hubble.options.enableSelectorPicker = true;
@@ -177,9 +210,9 @@ yarn build
 ### Pull Requests
 
 1. Fork the repository
-2. Create a new branch for each feature or improvement
-3. Please follow [semantic-release commit format](https://semantic-release.gitbook.io/semantic-release/#commit-message-format)
-4. Send a pull request from each feature branch to the **develop** branch
+1. Create a new branch for each feature or improvement
+1. Please follow [semantic-release commit format](https://semantic-release.gitbook.io/semantic-release/#commit-message-format)
+1. Send a pull request from each feature branch to the __develop__ branch
 
 ## License
 

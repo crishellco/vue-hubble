@@ -13,7 +13,9 @@
     "test:unit": "jest",
     "lint:js": "eslint --ext .js,.vue ./src",
     "lint:js:fix": "eslint --ext .js,.vue  ./src --fix",
+    "lint:md": "remark . --frail",
     "build": "rimraf dist && rollup --config",
+    "generate:md": "remark . --output",
     "release": "semantic-release"
   },
   "repository": {
@@ -35,6 +37,7 @@
     "@babel/preset-env": "^7.12.7",
     "@commitlint/cli": "^12.1.4",
     "@form8ion/commitlint-config": "^1.0.19",
+    "@form8ion/remark-lint-preset": "^2.1.1",
     "@vue/test-utils": "^1.0.0-beta.30",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.0.3",
@@ -58,6 +61,8 @@
     "poi": "^12.7.1",
     "prettier": "^1.19.1",
     "regenerator-runtime": "^0.13.7",
+    "remark-cli": "10.0.0",
+    "remark-toc": "8.0.0",
     "rimraf": "^3.0.2",
     "rollup": "^2.34.1",
     "rollup-plugin-babel": "^4.4.0",

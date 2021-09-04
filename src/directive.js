@@ -8,8 +8,8 @@ export const inCorrectEnvironment = (context) => {
   return context.$hubble.environment.includes(process.env.NODE_ENV);
 };
 
-export const selectorPickerEnabled = () => {
-  return window.$hubble.options.enableSelectorPicker;
+export const selectorPickerEnabled = (context) => {
+  return context.$hubble.enableSelectorPicker;
 };
 
 export const get = (obj, path, defaultValue) => {
@@ -118,6 +118,10 @@ export const handleInsertAndUpdate = async (element, { arg, value, oldValue }, {
 
   if (context.$hubble.enableComments && parent) {
     handleComments({ newQuerySelector, oldQuerySelector, element, value, parent });
+  } else if (parent) {
+    const nodes = parent.childNodes;
+
+    removeExistingCommentElements({ nodes, element, parent, oldQuerySelector });
   }
 
   handleNamespaceAttribute({ element, oldSelector, newSelector, newQuerySelector });
@@ -258,8 +262,8 @@ export const addHighlight = (target, id) => {
   document.body.appendChild(highlight);
 };
 
-export const handleMouseover = (element, id) => (event) => {
-  if (!selectorPickerEnabled()) return;
+export const handleMouseover = (context, element, id) => (event) => {
+  if (!selectorPickerEnabled(context)) return;
 
   const { target } = event;
   const oldTooltip = document.querySelector(`[data-${NAMESPACE}-tooltip-id="${id}"]`);
@@ -281,10 +285,18 @@ export const handleMouseover = (element, id) => (event) => {
 export const handleBind = async (element, _, { context }) => {
   if (!inCorrectEnvironment(context)) return;
 
+  context.$watch(
+    '$hubble',
+    function () {
+      context.$forceUpdate();
+    },
+    { deep: true }
+  );
+
   const id = Math.random().toString(36).substr(2, 11);
 
   element.setAttribute(`data-${NAMESPACE}-id`, id);
-  document.addEventListener('mouseover', handleMouseover(element, id));
+  document.addEventListener('mouseover', handleMouseover(context, element, id));
 };
 
 export const handleUnbind = async (element, _, { context }) => {

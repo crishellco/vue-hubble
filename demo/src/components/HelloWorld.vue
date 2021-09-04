@@ -12,7 +12,9 @@
 </template>
 
 <script>
-export default {};
+export default {
+  hubble: 'child',
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

@@ -3,7 +3,7 @@ import api from './api';
 
 let installed = false;
 
-const defaultConfig = {
+export const defaultConfig = {
   defaultSelectorType: 'attr',
   enableComments: false,
   enableDeepNamespacing: true,
@@ -13,13 +13,31 @@ const defaultConfig = {
 };
 
 function install(Vue, options = {}) {
-  Vue.prototype.$hubble = Object.assign(defaultConfig, options);
-  Vue.prototype.$hubble.environment = [].concat(Vue.prototype.$hubble.environment);
-
   if (!installed) {
+    let globalData = new Vue({
+      data: { $hubble: Object.assign(defaultConfig, options) },
+    });
+
+    Vue.mixin({
+      computed: {
+        $hubble: {
+          get() {
+            return { ...globalData.$data.$hubble, environment: [].concat(globalData.$data.$hubble.environment) };
+          },
+
+          set($hubble) {
+            globalData.$data.$hubble = {
+              ...$hubble,
+              environment: [].concat($hubble.environment),
+            };
+          },
+        },
+      },
+    });
+
     window.$hubble = {
       ...api,
-      options: Vue.prototype.$hubble,
+      options: globalData.$data.$hubble,
     };
 
     Vue.directive('hubble', directive);
