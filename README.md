@@ -140,15 +140,17 @@ The Selector Picker is similar to the element picker in Chrome Dev Tools, except
 
 ### Enable Selector Picker
 
-You can enable the selector two ways:
+You can enable the selector three ways:
 
-**1. Set `enableSelectorPicker` to `true` when installing Vue-Hubble**
+**1. Use the [Vue Hubble Official Browser Extension](https://crishellco.github.io/vue-hubble-browser-extension/)**
+
+**2. Set `enableSelectorPicker` to `true` when installing Vue-Hubble**
 
 ``` javascript
 Vue.use(VueHubble, { enableSelectorPicker: true });
 ```
 
-**2. Use the console in dev tools to set `window.$hubble.options.enableSelectorPicker` to `true`**
+**3. Use the console in dev tools to set `window.$hubble.options.enableSelectorPicker` to `true`**
 
 ```javascript
 $ window.$hubble.options.enableSelectorPicker = true;
