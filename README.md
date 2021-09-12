@@ -173,7 +173,7 @@ hover over an element which has Vue-Hubble applied.
 
 You can enable the selector three ways:
 
-__1. Use the [Vue Hubble Official Browser Extension](https://crishellco.github.io/vue-hubble-browser-extension/)__
+__1. Use the [Vue Hubble Official Browser Extension](https://chrome.google.com/webstore/detail/vue-hubble/kgmcnpoibbdnlheneapenlckppkfhejh/related)__
 
 __2. Set `enableSelectorPicker` to `true` when installing Vue-Hubble__
 

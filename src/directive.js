@@ -199,10 +199,14 @@ export const removeExistingCommentElements = ({ nodes, element, parent, oldQuery
   }
 };
 
-export const addTooltip = (target, id) => {
+export const getTooltip = (selector) => {
+  return `'${selector}'`;
+};
+
+export const addTooltip = (target, id, context) => {
   const { top, left, width } = target.getBoundingClientRect();
   const selector = target.getAttribute(`data-${NAMESPACE}-selector`);
-  const text = `'${selector}'`;
+  const text = getTooltip(selector, context);
   const tooltip = document.createElement('span');
 
   tooltip.style.position = 'fixed';
@@ -278,7 +282,7 @@ export const handleMouseover = (context, element, id) => (event) => {
 
   if (oldTooltip) return;
 
-  addTooltip(element, id);
+  addTooltip(element, id, context);
   addHighlight(element, id);
 };
 
