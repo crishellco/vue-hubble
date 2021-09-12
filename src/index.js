@@ -14,15 +14,18 @@ export const defaultConfig = {
 
 function install(Vue, options = {}) {
   if (!installed) {
+    const merged = Object.assign(defaultConfig, options);
+    merged.environment = [].concat(merged.environment);
+
     let globalData = new Vue({
-      data: { $hubble: Object.assign(defaultConfig, options) },
+      data: { $hubble: merged },
     });
 
     Vue.mixin({
       computed: {
         $hubble: {
           get() {
-            return { ...globalData.$data.$hubble, environment: [].concat(globalData.$data.$hubble.environment) };
+            return { ...globalData.$data.$hubble };
           },
 
           set($hubble) {
