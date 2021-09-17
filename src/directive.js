@@ -1,5 +1,4 @@
 export const CLOSING_COMMENT = '//';
-export const DATASET_KEY = 'vueHubbleSelector';
 export const NAMESPACE = 'vue-hubble';
 
 const COPY_MESSAGE_RESET_TIMEOUT = 1000;
@@ -140,7 +139,7 @@ export const handleHubbleSelector = ({ arg, element, oldSelector, newSelector, n
       oldSelector && element.classList.remove(oldSelector);
       if (newSelector) {
         element.classList.add(newSelector);
-        element.dataset[DATASET_KEY] = newQuerySelector;
+        element.setAttribute(`${NAMESPACE}-selector`, newQuerySelector);
       }
       break;
 
@@ -168,7 +167,7 @@ export const handleHubbleSelector = ({ arg, element, oldSelector, newSelector, n
 export const handleNamespaceAttribute = ({ element, oldSelector, newSelector, newQuerySelector }) => {
   oldSelector && element.removeAttribute(NAMESPACE);
   element.setAttributeNode(element.ownerDocument.createAttribute(NAMESPACE));
-  element.dataset[DATASET_KEY] = newSelector ? newQuerySelector : '';
+  element.setAttribute(`${NAMESPACE}-selector`, newSelector ? newQuerySelector : '');
 };
 
 export const removeExistingCommentElements = ({ nodes, element, parent, oldQuerySelector }) => {
@@ -205,7 +204,7 @@ export const getTooltip = (selector) => {
 
 export const addTooltip = (target, id, context) => {
   const { top, left, width } = target.getBoundingClientRect();
-  const selector = target.getAttribute(`data-${NAMESPACE}-selector`);
+  const selector = target.getAttribute(`${NAMESPACE}-selector`);
   const text = getTooltip(selector, context);
   const tooltip = document.createElement('span');
 
@@ -224,7 +223,7 @@ export const addTooltip = (target, id, context) => {
   tooltip.style.whiteSpace = 'nowrap';
   tooltip.style.textAlign = 'center';
   tooltip.innerText = text;
-  tooltip.setAttribute(`data-${NAMESPACE}-tooltip-id`, id);
+  tooltip.setAttribute(`${NAMESPACE}-tooltip-id`, id);
   tooltip.setAttributeNode(tooltip.ownerDocument.createAttribute(`${NAMESPACE}-tooltip`));
 
   document.body.appendChild(tooltip);
@@ -261,7 +260,7 @@ export const addHighlight = (target, id) => {
   highlight.style.zIndex = '99999998';
   highlight.style.background = 'rgba(99, 102, 241, .1)';
   highlight.style.border = '1px solid #6366F1';
-  highlight.setAttribute(`data-${NAMESPACE}-highlight-id`, id);
+  highlight.setAttribute(`${NAMESPACE}-highlight-id`, id);
 
   document.body.appendChild(highlight);
 };
@@ -270,8 +269,8 @@ export const handleMouseover = (context, element, id) => (event) => {
   if (!selectorPickerEnabled(context)) return;
 
   const { target } = event;
-  const oldTooltip = document.querySelector(`[data-${NAMESPACE}-tooltip-id="${id}"]`);
-  const oldHighlight = document.querySelector(`[data-${NAMESPACE}-highlight-id="${id}"]`);
+  const oldTooltip = document.querySelector(`[${NAMESPACE}-tooltip-id="${id}"]`);
+  const oldHighlight = document.querySelector(`[${NAMESPACE}-highlight-id="${id}"]`);
   const shouldRender = target === element || target === oldTooltip || element.contains(target);
 
   if (!shouldRender) {
