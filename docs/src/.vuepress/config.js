@@ -59,6 +59,7 @@ module.exports = {
             'plugin-options',
             'usage',
             'api',
+            'selector-picker',
             'advanced',
           ]
         }
