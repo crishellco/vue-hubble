@@ -2,7 +2,7 @@
 
 ## Deep Namespacing
 
-If the [plugin option](/guide/plugin-options) `enableDeepNamespacing` is `true` (default), Vue Hubble will automatically
+If the [Plugin Option](/guide/plugin-options.md) `enableDeepNamespacing` is `true` (default), Vue Hubble will automatically
 namespace all selectors in a given component by using it's own and it's ancestral
 component namespaces. Deep namespacing recurses up the component
 tree, ignoring missing or empty namespace values, to create
@@ -54,7 +54,7 @@ ancestral namespaces.
 
 ## Shallow Namespacing
 
-If the [plugin option](/guide/plugin-options) `enableDeepNamespacing` is `false`, Vue Hubble will automatically namespace
+If the [Plugin Option](/guide/plugin-options.md) `enableDeepNamespacing` is `false`, Vue Hubble will automatically namespace
 all selectors in a given component by using only it's own component namespace.
 
 ### Example
