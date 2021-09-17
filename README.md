@@ -26,6 +26,7 @@ Check out the [demo](https://vue-hubble.netlify.app/)
   * [window.$hubble.allMapped(): { \[string\]: HTMLElement }](#windowhubbleallmapped--string-htmlelement-)
   * [window.$hubble.find(string selector): HTMLElement\[\]](#windowhubblefindstring-selector-htmlelement)
   * [window.$hubble.findMapped(string selector): { \[string\]: HTMLElement }](#windowhubblefindmappedstring-selector--string-htmlelement-)
+  * [window.$hubble.first(string selector): HTMLElement | undefined](#windowhubblefirststring-selector-htmlelement--undefined)
 * [Selector Picker](#selector-picker)
   * [Preview](#preview)
   * [Enable Selector Picker](#enable-selector-picker)
@@ -160,6 +161,10 @@ Finds all elements with hubble selectors matching the passed selector.
 ### window.$hubble.findMapped(string selector): { \[string]: HTMLElement }
 
 Finds all elements with hubble selectors matching the passed selector, mapped by selector.
+
+### window.$hubble.first(string selector): HTMLElement | undefined
+
+Finds the first element with hubble selectors matching the passed selector.
 
 ## Selector Picker
 

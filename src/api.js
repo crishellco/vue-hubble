@@ -20,6 +20,9 @@ const api = {
   findMapped(selector) {
     return mapResults(this.find(selector));
   },
+
+  first(selector) {
+    return this.find(selector).shift();
 };
 
 function mapResults(nodes) {
