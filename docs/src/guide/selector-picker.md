@@ -6,7 +6,7 @@ hover over an element which has Vue-Hubble applied.
 
 ## Preview
 
-![selector-picker](https://user-images.githubusercontent.com/1878509/127924941-3e5e2d41-ed80-4892-a98d-2b210cd2a514.gif)
+![selector-picker](/assets/img/selector-picker.gif)
 
 ## Enable Selector Picker
 
