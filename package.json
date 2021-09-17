@@ -5,14 +5,13 @@
   "description": "Vue test selectors made easy",
   "main": "dist/index.js",
   "files": [
-    "dist",
-    "src"
+    "dist"
   ],
   "scripts": {
     "test": "npm-run-all --print-label --parallel lint:* --parallel test:*",
     "test:unit": "jest",
-    "lint:js": "eslint --ext .js,.vue ./src",
-    "lint:js:fix": "eslint --ext .js,.vue  ./src --fix",
+    "lint:js": "eslint --ext .js,.vue .",
+    "lint:js:fix": "yarn lint:js --fix",
     "lint:md": "remark . --frail",
     "build": "rimraf dist && rollup --config",
     "generate:md": "remark . --output",
