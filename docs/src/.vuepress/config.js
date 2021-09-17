@@ -1,6 +1,7 @@
 const { description } = require('../../package')
 
 module.exports = {
+  base: "/",
   /**
    * Ref：https://v1.vuepress.vuejs.org/config/#title
    */
@@ -35,6 +36,10 @@ module.exports = {
     lastUpdated: false,
     nav: [
       {
+        text: 'Home',
+        link: '/',
+      },
+      {
         text: 'Guide',
         link: '/guide/',
       },
@@ -67,5 +72,6 @@ module.exports = {
   plugins: [
     '@vuepress/plugin-back-to-top',
     '@vuepress/plugin-medium-zoom',
+    'dehydrate'
   ]
 }

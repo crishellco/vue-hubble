@@ -11,7 +11,7 @@ export default ({
   siteData // site metadata
 }) => {
   // ...apply enhancements for the site.
-  router.addRoutes([
+  router.addRoute(
     { path: '/', redirect: '/guide' },
-  ])
+  )
 }
