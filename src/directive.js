@@ -298,14 +298,13 @@ export const handleBind = async (element, _, { context }) => {
 
   const id = Math.random().toString(36).substr(2, 11);
 
-  element.setAttribute(`data-${NAMESPACE}-id`, id);
   document.addEventListener('mouseover', handleMouseover(context, element, id));
 };
 
 export const handleUnbind = async (element, _, { context }) => {
   if (!inCorrectEnvironment(context)) return;
 
-  document.removeEventListener('mouseover', handleMouseover(element, element.getAttribute(`data-${NAMESPACE}-id`)));
+  document.removeEventListener('mouseover', handleMouseover(context, element));
 };
 
 export default {
