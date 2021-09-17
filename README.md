@@ -1,4 +1,4 @@
-<p align="center"><a href="https://vue-hubble.netlify.app/" target="_blank" rel="noopener noreferrer"><img src="docs/src/.vuepress/public/assets/img/logo.png"></a><br></p>
+<p align="center"><a href="https://vue-hubble.crishell.co/" target="_blank" rel="noopener noreferrer"><img src="docs/src/.vuepress/public/assets/img/logo.png"></a><br></p>
 
 
 <p align="center">
@@ -27,7 +27,7 @@ Check out the [demo](https://vue-hubble-demo.netlify.app)
 
 ## Documentation
 
-Please visit <https://vue-hubble.netlify.app/>.
+Please visit <https://vue-hubble.crishell.co/>.
 
 ## How to Contribute
 
