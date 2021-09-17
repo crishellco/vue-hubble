@@ -300,13 +300,15 @@ export const handleBind = async (element, _, { context }) => {
 
   const id = Math.random().toString(36).substr(2, 11);
 
-  document.addEventListener('mouseover', handleMouseover(context, element, id));
+  context.mouseoverCallback = handleMouseover(context, element, id);
+
+  document.addEventListener('mouseover', context.mouseoverCallback);
 };
 
 export const handleUnbind = async (element, _, { context }) => {
   if (!inCorrectEnvironment(context)) return;
 
-  document.removeEventListener('mouseover', handleMouseover(context, element));
+  document.removeEventListener('mouseover', context.mouseoverCallback);
 };
 
 export default {
