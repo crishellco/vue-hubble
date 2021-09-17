@@ -42,7 +42,11 @@ module.exports = {
       },
       {
         text: 'Guide',
-        link: '/guide/',
+        link: '/guide/getting-started.md',
+      },
+      {
+        text: 'API',
+        link: '/api/methods.md',
       },
       {
         text: 'Demo',
@@ -55,13 +59,26 @@ module.exports = {
           title: 'Guide',
           collapsable: false,
           children: [
-            '',
             'getting-started',
             'plugin-options',
             'usage',
-            'api',
             'selector-picker',
-            'advanced',
+          ]
+        },{
+          title: 'Advanced',
+          collapsable: false,
+          children: [
+            'namespacing',
+          ]
+        }
+      ],
+      '/api/': [
+        {
+          title: 'API',
+          collapsable: false,
+          children: [
+            'methods',
+            'properties',
           ]
         }
       ],

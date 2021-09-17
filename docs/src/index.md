@@ -1,8 +1,8 @@
 ---
 home: true
 heroImage: /assets/img/logo.png
-actionText: Learn more
-actionLink: /guide/
+actionText: Get Started →
+actionLink: /guide/getting-started.md
 footer: MIT Licensed | Copyright © 2020-present Chris Mitchell
 publishUser:
   name: "EqualMa"

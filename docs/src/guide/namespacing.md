@@ -1,4 +1,4 @@
-# Advanced
+# Namespacing
 
 ## Deep Namespacing
 
