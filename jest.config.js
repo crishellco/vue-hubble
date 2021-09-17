@@ -1,6 +1,6 @@
 module.exports = {
   collectCoverage: true,
-  collectCoverageFrom: ['src/**/*.{js,vue}'],
+  collectCoverageFrom: ['plugin/**/*.{js,vue}'],
   coverageReporters: ['json-summary', 'text', 'lcov'],
   moduleFileExtensions: [
     'js',
