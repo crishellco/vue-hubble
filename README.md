@@ -1,4 +1,4 @@
-<p align="center"><a href="https://vue-hubble-docs.netlify.app/" target="_blank" rel="noopener noreferrer"><img src="docs/src/.vuepress/public/assets/img/logo.png"></a><br></p>
+<p align="center"><a href="https://vue-hubble.netlify.app/" target="_blank" rel="noopener noreferrer"><img src="docs/src/.vuepress/public/assets/img/logo.png"></a><br></p>
 
 
 <p align="center">
@@ -16,7 +16,7 @@ Vue Hubble makes it simple to add selectors (only in your testing environment)
 and target component elements in tests without worrying
 about collisions, extraneous classes, etc.
 
-Check out the [demo](https://vue-hubble.netlify.app/)
+Check out the [demo](https://vue-hubble-demo.netlify.app)
 
 ## Table of Contents
 
@@ -27,7 +27,7 @@ Check out the [demo](https://vue-hubble.netlify.app/)
 
 ## Documentation
 
-Please visit <https://vue-hubble-docs.netlify.app/>.
+Please visit <https://vue-hubble.netlify.app/>.
 
 ## How to Contribute
 
