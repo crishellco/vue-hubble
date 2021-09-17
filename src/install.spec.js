@@ -149,7 +149,7 @@ describe('install.js', () => {
     expect(wrapper.find('.qa--child--selector').exists()).toBe(false);
   });
 
-  it('should allow the includeHubblePrefix to be set to true', () => {
+  it('should allow the enableGroupedSelectors to be set to true', () => {
     let selector = 'selector';
     const wrapper = getWrapper();
 
@@ -160,9 +160,9 @@ describe('install.js', () => {
     );
   });
 
-  it('should allow the includeHubblePrefix to be set to false', () => {
+  it('should allow the enableGroupedSelectors to be set to false', () => {
     let selector = 'selector';
-    const wrapper = getWrapper({ hubbleOptions: { includeHubblePrefix: false } });
+    const wrapper = getWrapper({ hubbleOptions: { enableGroupedSelectors: false } });
 
     selector = getGenericSelector(wrapper.vm, selector);
 

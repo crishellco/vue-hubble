@@ -72,7 +72,7 @@ export const getOpeningComment = (querySelector) => {
 };
 
 export const getQuerySelector = (selector, selectorType, context) => {
-  const prefix = context.$hubble.includeHubblePrefix ? `[${NAMESPACE}]` : '';
+  const prefix = context.$hubble.enableGroupedSelectors ? `[${NAMESPACE}]` : '';
 
   switch (selectorType) {
     case 'class':

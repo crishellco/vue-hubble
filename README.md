@@ -65,7 +65,7 @@ const options = {
   enableDeepNamespacing: true,
   enableSelectorPicker: false,
   environment: 'test',
-  includeHubblePrefix: true,
+  enableGroupedSelectors: true,
   prefix: '',
 };
 
@@ -74,15 +74,15 @@ Vue.use(VueHubble, options);
 
 ## Plugin Options
 
-| Name                    | Type              | Default | Description                                                                                                                           |
-|-------------------------|-------------------|---------|---------------------------------------------------------------------------------------------------------------------------------------|
-| `defaultSelectorType`   | `String`          | `attr`  | Defines the selector type if not passed into the directive `v-hubble:attr`                                                            |
-| `enableComments`        | `Boolean`         | `false` | Enables or disables comments around elements with hubble selectors                                                                    |
-| `enableDeepNamespacing` | `Boolean`         | `true`  | Enables or disables auto recursive namespacing                                                                                        |
-| `enableSelectorPicker`  | `Boolean`         | `false` | Enables or disables the selector picker feature                                                                                       |
-| `environment`           | `String or Array` | `test`  | Defines the environment(s) in which these selectors are added                                                                         |
-| `includeHubblePrefix`   | `Boolean`         | `true`  | Enables or disables prefixing the `vue-hubble-selector` attribute value with `[vue-hubble]`                                           |
-| `prefix`                | `String`          |         | Prefixes all selectors with the value and `--`, if value exists. For example, if `prefix = 'qa'`, all selectors well begin with`qa--` |
+| Name                     | Type              | Default | Description                                                                                                                           |
+| ------------------------ | ----------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| `defaultSelectorType`    | `String`          | `attr`  | Defines the selector type if not passed into the directive `v-hubble:attr`                                                            |
+| `enableComments`         | `Boolean`         | `false` | Enables or disables comments around elements with hubble selectors                                                                    |
+| `enableDeepNamespacing`  | `Boolean`         | `true`  | Enables or disables auto recursive namespacing                                                                                        |
+| `enableSelectorPicker`   | `Boolean`         | `false` | Enables or disables the selector picker feature                                                                                       |
+| `environment`            | `String or Array` | `test`  | Defines the environment(s) in which these selectors are added                                                                         |
+| `enableGroupedSelectors` | `Boolean`         | `true`  | Enables or disables grouping the `vue-hubble-selector` attribute value with `[vue-hubble]`                                            |
+| `prefix`                 | `String`          |         | Prefixes all selectors with the value and `--`, if value exists. For example, if `prefix = 'qa'`, all selectors well begin with`qa--` |
 
 ## Usage
 
