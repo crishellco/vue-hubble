@@ -26,7 +26,7 @@
   "bugs": {
     "url": "https://github.com/crishellco/vue-hubble/issues"
   },
-  "homepage": "https://crishellco.github.io/vue-hubble/",
+  "homepage": "https://vue-hubble-docs.netlify.app/",
   "publishConfig": {
     "access": "public"
   },
