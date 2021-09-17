@@ -6,6 +6,11 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
+  "author": "Chris Mitchell (@crishellco)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/crishellco/vue-hubble.git"
+  },
   "dependencies": {
     "vue": "^2.6.11"
   },
@@ -50,5 +55,6 @@
       "vue-cli-service lint",
       "git add"
     ]
-  }
+  },
+  "license": "MIT"
 }
