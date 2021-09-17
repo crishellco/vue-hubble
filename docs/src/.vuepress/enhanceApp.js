@@ -12,6 +12,6 @@ export default ({
 }) => {
   // ...apply enhancements for the site.
   router.addRoutes([
-    { path: '/', redirect: '/guide/' },
+    { path: '/', redirect: '/guide' },
   ])
 }
