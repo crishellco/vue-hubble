@@ -24,9 +24,11 @@ Check out the [demo](https://vue-hubble.netlify.app/)
     * [Resulting Markup](#resulting-markup)
   * [Writing Tests](#writing-tests)
 * [Advanced](#advanced)
-  * [Namespacing](#namespacing)
+  * [Deep Namespacing](#deep-namespacing)
     * [Generated Selector Naming Convention](#generated-selector-naming-convention)
     * [Example](#example)
+  * [Shallow Namespacing](#shallow-namespacing)
+    * [Example](#example-1)
 * [Api](#api)
   * [window.$hubble.all(): HTMLElement\[\]](#windowhubbleall-htmlelement)
   * [window.$hubble.allMapped(): { \[string\]: HTMLElement }](#windowhubbleallmapped--string-htmlelement-)
@@ -73,7 +75,7 @@ Vue.use(VueHubble, options);
 ## Plugin Options
 
 | Name                    | Type              | Default | Description                                                                                                                           |
-| ----------------------- | ----------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+|-------------------------|-------------------|---------|---------------------------------------------------------------------------------------------------------------------------------------|
 | `defaultSelectorType`   | `String`          | `attr`  | Defines the selector type if not passed into the directive `v-hubble:attr`                                                            |
 | `enableComments`        | `Boolean`         | `false` | Enables or disables comments around elements with hubble selectors                                                                    |
 | `enableDeepNamespacing` | `Boolean`         | `true`  | Enables or disables auto recursive namespacing                                                                                        |
@@ -138,13 +140,14 @@ describe('directive.js', () => {
 
 ## Advanced
 
-### Namespacing
+### Deep Namespacing
 
-Hubble will automatically namespace all selectors in a given component by using it's own
-and it's ancestral component namespaces. Deep namespacing recurses up the component
-tree, ignoring missing or empty namespace values, to create a selector prefixed
-by joined (`--` delimiter) ancestral namespaces. This feature is enabled by
-default, but can be disabled via the install option `enableDeepNamespacing`.
+If the install option `enableDeepNamespacing` is `true` (default), Vue Hubble will automatically
+namespace all selectors in a given component by using it's own and it's ancestral
+component namespaces. Deep namespacing recurses up the component
+tree, ignoring missing or empty namespace values, to create
+a selector prefixed by joined(`--` delimiter)
+ancestral namespaces.
 
 #### Generated Selector Naming Convention
 
@@ -187,6 +190,50 @@ default, but can be disabled via the install option `enableDeepNamespacing`.
 </script>
 
 <div vue-hubble-selector="[vue-hubble][login--form--attribute-selector]" vue-hubble login--form--attribute-selector></div>
+```
+
+### Shallow Namespacing
+
+If the install option `enableDeepNamespacing` is `false`, Vue Hubble will automatically namespace
+all selectors in a given component by using only it's own component namespace.
+
+#### Example
+
+```html
+<!-- Form Component (child) -->
+<template>
+  <div v-hubble="'attribute-selector'"></div>
+</template>
+
+<script>
+  export default {
+    hubble: {
+      namespace: 'form'
+    }
+  };
+</script>
+
+<!-- Login Component (parent) -->
+<template>
+  <form />
+</template>
+
+<script>
+  export default {
+    components: {
+      Form
+    },
+    hubble: {
+      namespace: 'login'
+    }
+    /**
+     * Or shorthand...
+     * hubble: 'login'
+     **/
+  };
+</script>
+
+<div vue-hubble-selector="[vue-hubble][form--attribute-selector]" vue-hubble form--attribute-selector></div>
 ```
 
 ## Api
