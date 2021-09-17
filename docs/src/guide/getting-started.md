@@ -8,7 +8,7 @@ yarn add -D @crishellco/vue-hubble
 
 ## Add The Plugin To Your App
 
-See the [Plugin Options](/guide/plugin-options) reference for details.
+See the [Plugin Options](/guide/plugin-options.md) reference for details.
 
 ```javascript
 import VueHubble from '@crishellco/vue-hubble';
