@@ -1,7 +1,7 @@
 {
   "name": "vue-hubble-docs",
   "version": "0.0.1",
-  "description": "A better way to select elements for UI testing in Vue",
+  "description": "Vue test selectors made easy",
   "main": "index.js",
   "author": "Chris Mitchell (@crishellco)",
   "repository": {

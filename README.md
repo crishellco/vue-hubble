@@ -10,7 +10,7 @@
 
 # Vue Hubble
 
-A better way to select elements for UI testing in Vue.
+Vue test selectors made easy.
 
 Vue Hubble makes it simple to add selectors (only in your testing environment)
 and target component elements in tests without worrying
