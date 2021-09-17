@@ -9,6 +9,7 @@ export const defaultConfig = {
   enableDeepNamespacing: true,
   enableSelectorPicker: false,
   environment: 'test',
+  enableGroupedSelectors: true,
   prefix: '',
 };
 
@@ -50,6 +51,7 @@ function install(Vue, options = {}) {
 
 export default install;
 
+/* istanbul ignore next */
 if (typeof window !== 'undefined' && window.Vue) {
   window.Vue.use(install);
 }

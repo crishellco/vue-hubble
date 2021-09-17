@@ -1,4 +1,4 @@
-import { DATASET_KEY, NAMESPACE } from './directive';
+import { NAMESPACE } from './directive';
 
 const api = {
   all() {
@@ -20,13 +20,17 @@ const api = {
   findMapped(selector) {
     return mapResults(this.find(selector));
   },
+
+  first(selector) {
+    return this.find(selector).shift();
+  },
 };
 
 function mapResults(nodes) {
   return [...nodes].reduce((result, node) => {
     return {
       ...result,
-      [node.dataset[DATASET_KEY]]: node,
+      [node.getAttribute(`${NAMESPACE}-selector`)]: node,
     };
   }, {});
 }

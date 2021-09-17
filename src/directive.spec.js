@@ -115,7 +115,7 @@ describe('directive.js', () => {
     const wrapper = getWrapper('attr', value, { prefix, enableComments: true });
 
     const selector = getGenericSelector(wrapper.vm, value);
-    const querySelector = getQuerySelector(selector, 'attr');
+    const querySelector = getQuerySelector(selector, 'attr', wrapper.vm);
     const closingComment = getClosingComment(querySelector);
     const openingComment = getOpeningComment(querySelector);
 

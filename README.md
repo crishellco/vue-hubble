@@ -14,18 +14,28 @@ Check out the [demo](https://vue-hubble.netlify.app/)
 
 ## Table of Contents
 
-* [Install](#install)
+* [Getting Started](#getting-started)
+  * [Install Package](#install-package)
+  * [Add The Plugin To Your App](#add-the-plugin-to-your-app)
+* [Plugin Options](#plugin-options)
 * [Usage](#usage)
-  * [Implementation](#implementation)
-  * [Result](#result)
-  * [Namespacing](#namespacing)
+  * [Directive](#directive)
+    * [Template Example](#template-example)
+    * [Resulting Markup](#resulting-markup)
   * [Writing Tests](#writing-tests)
-  * [Install Options](#install-options)
+* [Advanced](#advanced)
+  * [Deep Namespacing](#deep-namespacing)
+    * [Generated Selector Naming Convention](#generated-selector-naming-convention)
+    * [Example](#example)
+  * [Shallow Namespacing](#shallow-namespacing)
+    * [Example](#example-1)
 * [Api](#api)
   * [window.$hubble.all(): HTMLElement\[\]](#windowhubbleall-htmlelement)
   * [window.$hubble.allMapped(): { \[string\]: HTMLElement }](#windowhubbleallmapped--string-htmlelement-)
   * [window.$hubble.find(string selector): HTMLElement\[\]](#windowhubblefindstring-selector-htmlelement)
   * [window.$hubble.findMapped(string selector): { \[string\]: HTMLElement }](#windowhubblefindmappedstring-selector--string-htmlelement-)
+  * [window.$hubble.first(string selector): HTMLElement | undefined](#windowhubblefirststring-selector-htmlelement--undefined)
+  * [window.$hubble.options: { \[string\]: Array | Boolean | String }](#windowhubbleoptions--string-array--boolean--string-)
 * [Selector Picker](#selector-picker)
   * [Preview](#preview)
   * [Enable Selector Picker](#enable-selector-picker)
@@ -36,48 +46,114 @@ Check out the [demo](https://vue-hubble.netlify.app/)
   * [Pull Requests](#pull-requests)
 * [License](#license)
 
-## Install
+## Getting Started
+
+### Install Package
 
 ```bash
 yarn add -D @crishellco/vue-hubble
-# or
-npm i -D @crishellco/vue-hubble
 ```
+
+### Add The Plugin To Your App
 
 ```javascript
 import VueHubble from '@crishellco/vue-hubble';
 
+const options = {
+  defaultSelectorType: 'attr',
+  enableComments: false,
+  enableDeepNamespacing: true,
+  enableSelectorPicker: false,
+  environment: 'test',
+  enableGroupedSelectors: true,
+  prefix: '',
+};
+
 Vue.use(VueHubble, options);
 ```
 
+## Plugin Options
+
+| Name                     | Type              | Default | Description                                                                                                                           |
+| ------------------------ | ----------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| `defaultSelectorType`    | `String`          | `attr`  | Defines the selector type if not passed into the directive `v-hubble:attr`                                                            |
+| `enableComments`         | `Boolean`         | `false` | Enables or disables comments around elements with hubble selectors                                                                    |
+| `enableDeepNamespacing`  | `Boolean`         | `true`  | Enables or disables auto recursive namespacing                                                                                        |
+| `enableSelectorPicker`   | `Boolean`         | `false` | Enables or disables the selector picker feature                                                                                       |
+| `environment`            | `String or Array` | `test`  | Defines the environment(s) in which these selectors are added                                                                         |
+| `enableGroupedSelectors` | `Boolean`         | `true`  | Enables or disables grouping the `vue-hubble-selector` attribute value with `[vue-hubble]`                                            |
+| `prefix`                 | `String`          |         | Prefixes all selectors with the value and `--`, if value exists. For example, if `prefix = 'qa'`, all selectors well begin with`qa--` |
+
 ## Usage
 
-### Implementation
+### Directive
+
+Use the directive to add test selectors to elements you wish to test.
+
+#### Template Example
 
 ```html
 <template>
   <!-- Attribute selectors are recommended as class and ID selectors are susceptible to collisions -->
+
+  <!-- Generates a selector of type `options.defaultSelectorType` (default is attr) -->
   <div v-hubble="'attribute-selector'"></div>
+
+  <!-- Generates an attribute selector -->
+  <div v-hubble:attr="'explicit-attribute-selector'"></div>
+
+  <!-- Generates a class selector -->
   <div v-hubble:class="'class-selector'"></div>
+
+  <!-- Generates an id selector -->
   <div v-hubble:id="'id-selector'"></div>
 </template>
 ```
 
-### Result
+#### Resulting Markup
 
 ```html
-<!-- The data-vue-hubble-selector attribute makes it easy to copy the full selector to your clipboard -->
-<div attribute-selector vue-hubble data-vue-hubble-selector="[vue-hubble][attribute-selector]"></div>
-<div class="class-selector" vue-hubble data-vue-hubble-selector="[vue-hubble].class-selector"></div>
-<div id="id-selector" vue-hubble data-vue-hubble-selector="[vue-hubble]#id-selector"></div>
+<div vue-hubble-selector="[vue-hubble][attribute-selector]" vue-hubble attribute-selector></div>
+
+<div vue-hubble-selector="[vue-hubble][explicit-attribute-selector]" vue-hubble explicit-attribute-selector></div>
+
+<div vue-hubble-selector="[vue-hubble].class-selector" vue-hubble class="class-selector"></div>
+
+<div vue-hubble-selector="[vue-hubble]#id-selector" vue-hubble id="id-selector"></div>
 ```
 
-### Namespacing
+### Writing Tests
 
-Hubble gives you the ability to namespace all selectors in a given component.
-Namespacing is recursive up the component tree, ignoring missing
-or empty namespace values. This feature is enabled by
-default, but can be disabled via install options.
+[Examples](src/directive.spec.js)
+
+```javascript
+describe('directive.js', () => {
+  it('should add an attribute selector', () => {
+    const wrapper = mount({
+      template: '<div><span v-hubble="\'selector\'"></span></div>'
+    });
+
+    expect(wrapper.contains('[vue-hubble][selector]')).toBe(true);
+  });
+});
+```
+
+## Advanced
+
+### Deep Namespacing
+
+If the install option `enableDeepNamespacing` is `true` (default), Vue Hubble will automatically
+namespace all selectors in a given component by using it's own and it's ancestral
+component namespaces. Deep namespacing recurses up the component
+tree, ignoring missing or empty namespace values, to create
+a selector prefixed by joined(`--` delimiter)
+ancestral namespaces.
+
+#### Generated Selector Naming Convention
+
+`{parent namespace}--{child namespace}--{directive hubble selector}`
+
+#### Example
 
 ```html
 <!-- Form Component (child) -->
@@ -113,35 +189,52 @@ default, but can be disabled via install options.
   };
 </script>
 
-<div login--form--attribute-selector vue-hubble data-vue-hubble-selector="[vue-hubble][login--form--attribute-selector]"></div>
+<div vue-hubble-selector="[vue-hubble][login--form--attribute-selector]" vue-hubble login--form--attribute-selector></div>
 ```
 
-### Writing Tests
+### Shallow Namespacing
 
-[Examples](src/directive.spec.js)
+If the install option `enableDeepNamespacing` is `false`, Vue Hubble will automatically namespace
+all selectors in a given component by using only it's own component namespace.
 
-```javascript
-describe('directive.js', () => {
-  it('should add an attribute selector', () => {
-    const wrapper = mount({
-      template: '<div><span v-hubble="\'selector\'"></span></div>'
-    });
+#### Example
 
-    expect(wrapper.contains('[vue-hubble][selector]')).toBe(true);
-  });
-});
+```html
+<!-- Form Component (child) -->
+<template>
+  <div v-hubble="'attribute-selector'"></div>
+</template>
+
+<script>
+  export default {
+    hubble: {
+      namespace: 'form'
+    }
+  };
+</script>
+
+<!-- Login Component (parent) -->
+<template>
+  <form />
+</template>
+
+<script>
+  export default {
+    components: {
+      Form
+    },
+    hubble: {
+      namespace: 'login'
+    }
+    /**
+     * Or shorthand...
+     * hubble: 'login'
+     **/
+  };
+</script>
+
+<div vue-hubble-selector="[vue-hubble][form--attribute-selector]" vue-hubble form--attribute-selector></div>
 ```
-
-### Install Options
-
-| Name                    | Type              | Default | Description                                                                                                                           |
-|-------------------------|-------------------|---------|---------------------------------------------------------------------------------------------------------------------------------------|
-| `defaultSelectorType`   | `String`          | `attr`  | Defines the selector type if not passed into the directive `v-hubble:attr`                                                            |
-| `enableComments`        | `Boolean`         | `false` | Enables or disables comments around elements with hubble selectors                                                                    |
-| `enableDeepNamespacing` | `Boolean`         | `true`  | Enables or disables auto recursive namespacing                                                                                        |
-| `enableSelectorPicker`  | `Boolean`         | `false` | Enables or disables the selector picker feature                                                                                       |
-| `environment`           | `String or Array` | `test`  | Defines the environment(s) in which these selectors are added                                                                         |
-| `prefix`                | `String`          |         | Prefixes all selectors with the value and `--`, if value exists. For example, if `prefix = 'qa'`, all selectors well begin with`qa--` |
 
 ## Api
 
@@ -160,6 +253,14 @@ Finds all elements with hubble selectors matching the passed selector.
 ### window.$hubble.findMapped(string selector): { \[string]: HTMLElement }
 
 Finds all elements with hubble selectors matching the passed selector, mapped by selector.
+
+### window.$hubble.first(string selector): HTMLElement | undefined
+
+Finds the first element with hubble selectors matching the passed selector.
+
+### window.$hubble.options: { \[string]: Array | Boolean | String }
+
+The plugin options values.
 
 ## Selector Picker
 

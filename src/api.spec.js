@@ -12,11 +12,12 @@ process.env.NODE_ENV = 'test';
 const attachTo = document.createElement('div');
 document.body.appendChild(attachTo);
 
-mount(
+const wrapper = mount(
   {
     template: `
   <div>
     <span v-hubble:attr="'attribute-selector'"></span>
+    <span v-hubble:class="'class-selector'" id="first-class"></span>
     <span v-hubble:class="'class-selector'"></span>
     <span v-hubble:id="'id-selector'"></span>
   </div>
@@ -29,14 +30,14 @@ describe('api.js', () => {
   it('all', () => {
     const nodes = api.all();
 
-    expect(nodes.length).toBe(3);
+    expect(nodes.length).toBe(4);
     expect(nodes[0].outerHTML.indexOf('attribute-selector')).toBeGreaterThan(-1);
   });
 
   it('allMapped', () => {
     const nodes = api.allMapped();
 
-    expect(nodes[getQuerySelector('attribute-selector', 'attr')]).toBeTruthy();
+    expect(nodes[getQuerySelector('attribute-selector', 'attr', wrapper.vm)]).toBeTruthy();
   });
 
   it('find', () => {
@@ -45,6 +46,11 @@ describe('api.js', () => {
   });
 
   it('findMapped', () => {
-    expect(api.findMapped('id-selector')[getQuerySelector('id-selector', 'id')]).toBeTruthy();
+    expect(api.findMapped('id-selector')[getQuerySelector('id-selector', 'id', wrapper.vm)]).toBeTruthy();
+  });
+
+  it('first', () => {
+    expect(api.find('class-selector').length).toBe(2);
+    expect(api.first('class-selector')).toEqual(wrapper.element.querySelector('#first-class'));
   });
 });

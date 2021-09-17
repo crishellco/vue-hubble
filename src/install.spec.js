@@ -1,8 +1,7 @@
 import { mount } from '@vue/test-utils';
-import { wrap } from 'regenerator-runtime';
 import Vue from 'vue';
 import VueHubble, { defaultConfig } from '../src';
-import { getClosingComment, getOpeningComment, getGenericSelector } from './directive';
+import { getClosingComment, getOpeningComment, getGenericSelector, NAMESPACE } from './directive';
 
 Vue.use(VueHubble, { defaultSelectorType: 'class', environment: ['development', 'test'] });
 
@@ -25,7 +24,7 @@ const getWrapper = (
       ...overrides,
 
       beforeMount() {
-        this.$hubble = { ...defaultConfig, prefix: '', enableComments: false, ...hubbleOptions };
+        this.$hubble = { ...defaultConfig, ...hubbleOptions };
       },
     },
     moutOptions
@@ -148,5 +147,25 @@ describe('install.js', () => {
 
     expect(wrapper.find('.qa--parent--child--selector').exists()).toBe(true);
     expect(wrapper.find('.qa--child--selector').exists()).toBe(false);
+  });
+
+  it('should allow the enableGroupedSelectors to be set to true', () => {
+    let selector = 'selector';
+    const wrapper = getWrapper();
+
+    selector = getGenericSelector(wrapper.vm, selector);
+
+    expect(wrapper.find(`[${NAMESPACE}].${selector}`).attributes(`${NAMESPACE}-selector`)).toBe(
+      `[${NAMESPACE}].${selector}`
+    );
+  });
+
+  it('should allow the enableGroupedSelectors to be set to false', () => {
+    let selector = 'selector';
+    const wrapper = getWrapper({ hubbleOptions: { enableGroupedSelectors: false } });
+
+    selector = getGenericSelector(wrapper.vm, selector);
+
+    expect(wrapper.find(`.${selector}`).attributes(`${NAMESPACE}-selector`)).toBe(`.${selector}`);
   });
 });
