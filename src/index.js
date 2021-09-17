@@ -51,6 +51,7 @@ function install(Vue, options = {}) {
 
 export default install;
 
+/* istanbul ignore next */
 if (typeof window !== 'undefined' && window.Vue) {
   window.Vue.use(install);
 }
