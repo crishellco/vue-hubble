@@ -37,7 +37,7 @@ describe('api.js', () => {
   it('allMapped', () => {
     const nodes = api.allMapped();
 
-    expect(nodes[getQuerySelector('attribute-selector', 'attr')]).toBeTruthy();
+    expect(nodes[getQuerySelector('attribute-selector', 'attr', wrapper.vm)]).toBeTruthy();
   });
 
   it('find', () => {
@@ -46,9 +46,11 @@ describe('api.js', () => {
   });
 
   it('findMapped', () => {
-    expect(api.findMapped('id-selector')[getQuerySelector('id-selector', 'id')]).toBeTruthy();
+    expect(api.findMapped('id-selector')[getQuerySelector('id-selector', 'id', wrapper.vm)]).toBeTruthy();
+  });
 
   it('first', () => {
     expect(api.find('class-selector').length).toBe(2);
+    expect(api.first('class-selector')).toEqual(wrapper.element.querySelector('#first-class'));
   });
 });

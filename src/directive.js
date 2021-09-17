@@ -71,16 +71,18 @@ export const getOpeningComment = (querySelector) => {
   return `${querySelector}`;
 };
 
-export const getQuerySelector = (selector, selectorType) => {
+export const getQuerySelector = (selector, selectorType, context) => {
+  const prefix = context.$hubble.includeHubblePrefix ? `[${NAMESPACE}]` : '';
+
   switch (selectorType) {
     case 'class':
-      return `[${NAMESPACE}].${selector}`;
+      return `${prefix}.${selector}`;
     case 'id':
-      return `[${NAMESPACE}]#${selector}`;
+      return `${prefix}#${selector}`;
     case 'attr':
-      return `[${NAMESPACE}][${selector}]`;
+      return `${prefix}[${selector}]`;
     default:
-      return `[${NAMESPACE}][${selector}]`;
+      return `${prefix}[${selector}]`;
   }
 };
 
@@ -112,8 +114,8 @@ export const handleInsertAndUpdate = async (element, { arg, value, oldValue }, {
   const newSelector = getGenericSelector(context, value);
   const oldSelector = getGenericSelector(context, oldValue);
 
-  const newQuerySelector = getQuerySelector(newSelector, arg);
-  const oldQuerySelector = getQuerySelector(oldSelector, arg);
+  const newQuerySelector = getQuerySelector(newSelector, arg, context);
+  const oldQuerySelector = getQuerySelector(oldSelector, arg, context);
 
   if (context.$hubble.enableComments && parent) {
     handleComments({ newQuerySelector, oldQuerySelector, element, value, parent });

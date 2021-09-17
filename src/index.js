@@ -9,6 +9,7 @@ export const defaultConfig = {
   enableDeepNamespacing: true,
   enableSelectorPicker: false,
   environment: 'test',
+  includeHubblePrefix: true,
   prefix: '',
 };
 
