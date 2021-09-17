@@ -50,7 +50,7 @@ module.exports = {
       },
       {
         text: 'Demo',
-        link: 'https://vue-hubble-demo.netlify.app/',
+        link: 'http://vue-hubble-demo.crishell.co/',
       },
     ],
     sidebar: {
