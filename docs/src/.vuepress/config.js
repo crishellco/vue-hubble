@@ -46,7 +46,7 @@ module.exports = {
       },
       {
         text: 'Demo',
-        link: 'https://vue-hubble.netlify.app/',
+        link: 'https://vue-hubble-demo.netlify.app/',
       },
     ],
     sidebar: {
