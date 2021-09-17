@@ -1,0 +1,22 @@
+{
+  "name": "vue-hubble-docs",
+  "version": "0.0.1",
+  "description": "A better way to select elements for UI testing in Vue",
+  "main": "index.js",
+  "author": "Chris Mitchell (@crishellco)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/crishellco/vue-hubble.git"
+  },
+  "scripts": {
+    "dev": "vuepress dev src",
+    "build": "vuepress build src"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "vuepress": "^1.5.3"
+  },
+  "dependencies": {
+    "vuepress-plugin-dehydrate": "^1.1.5"
+  }
+}
