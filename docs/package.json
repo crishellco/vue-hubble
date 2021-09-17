@@ -1,5 +1,5 @@
 {
-  "name": "@crishellco/vue-hubble",
+  "name": "vue-hubble-docs",
   "version": "0.0.1",
   "description": "A better way to select elements for UI testing in Vue",
   "main": "index.js",

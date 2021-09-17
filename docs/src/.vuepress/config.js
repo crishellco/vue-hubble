@@ -5,7 +5,7 @@ module.exports = {
   /**
    * Ref：https://v1.vuepress.vuejs.org/config/#title
    */
-  title: 'Vue Hubble',
+  title: 'Vue Hubble Docs',
   /**
    * Ref：https://v1.vuepress.vuejs.org/config/#description
    */
