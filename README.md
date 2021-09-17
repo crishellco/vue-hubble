@@ -10,6 +10,8 @@ Vue Hubble makes it simple to add selectors (only in your testing environment)
 and target component elements in tests without worrying
 about collisions, extraneous classes, etc.
 
+Check out the [demo](https://vue-hubble.netlify.app/)
+
 ## Table of Contents
 
 * [Install](#install)
