@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import Hubble from '../../src';
+import Hubble from '../../plugin/src';
 import App from './App.vue';
 
 Vue.use(Hubble, { enableSelectorPicker: true, prefix: 'demo' });
