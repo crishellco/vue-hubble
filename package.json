@@ -17,8 +17,7 @@
     "generate:md": "remark . --output",
     "install:demo": "cd demo && yarn",
     "install:docs": "cd docs && yarn",
-    "release": "semantic-release",
-    "postinstall": "npm-run-all --print-label --parallel install:*"
+    "release": "semantic-release"
   },
   "repository": {
     "type": "git",
