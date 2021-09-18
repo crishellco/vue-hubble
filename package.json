@@ -3,7 +3,14 @@
   "version": "3.1.6",
   "author": "Chris Mitchell (@crishellco)",
   "description": "Vue test selectors made easy",
-  "main": "dist/index.js",
+  "main": "./dist/vue-hubble.umd.js",
+  "module": "./dist/vue-hubble.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/vue-hubble.es.js",
+      "require": "./dist/vue-hubble.umd.js"
+    }
+  },
   "files": [
     "dist"
   ],
@@ -13,7 +20,7 @@
     "lint:js": "eslint --ext .js,.vue .",
     "lint:js:fix": "yarn lint:js --fix",
     "lint:md": "remark . --frail",
-    "build": "rimraf dist && rollup --config",
+    "build": "rimraf dist && vite build --mode prod",
     "generate:md": "remark . --output",
     "install:demo": "cd demo && yarn",
     "install:docs": "cd docs && yarn",
@@ -32,21 +39,12 @@
     "access": "public"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.9",
-    "@babel/plugin-proposal-class-properties": "^7.5.5",
-    "@babel/plugin-transform-runtime": "^7.5.5",
-    "@babel/preset-env": "^7.12.7",
     "@commitlint/cli": "^12.1.4",
     "@form8ion/commitlint-config": "^1.0.19",
     "@form8ion/remark-lint-preset": "^2.1.1",
     "@vue/eslint-config-prettier": "^6.0.0",
     "@vue/test-utils": "^1.0.0-beta.30",
-    "babel-core": "^7.0.0-bridge.0",
-    "babel-eslint": "^10.0.3",
-    "babel-jest": "^24.9.0",
-    "babel-loader": "^8.0.6",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-vue": "^2.0.2",
+    "babel-eslint": "^10.1.0",
     "core-js": "^3.8.1",
     "cross-env": "^7.0.3",
     "cz-conventional-changelog": "^3.3.0",
@@ -66,12 +64,8 @@
     "remark-cli": "10.0.0",
     "remark-toc": "8.0.0",
     "rimraf": "^3.0.2",
-    "rollup": "^2.34.1",
-    "rollup-plugin-babel": "^4.4.0",
-    "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-terser": "^5.2.0",
     "semantic-release": "^17.4.4",
+    "vite": "^2.5.8",
     "vue": "^2.6.11",
     "vue-html-loader": "^1.2.4",
     "vue-jest": "^3.0.5",
