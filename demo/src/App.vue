@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" v-hubble="'image'" />
+    <img v-hubble="'image'" alt="Vue logo" src="./assets/logo.png" />
     <hello-world />
   </div>
 </template>

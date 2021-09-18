@@ -19,7 +19,7 @@ const getWrapper = (
         namespace: 'test',
       },
 
-      template: `<div><span v-hubble="\'${selector}\'"></span></div>`,
+      template: `<div><span v-hubble="'${selector}'"></span></div>`,
 
       ...overrides,
 

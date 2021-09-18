@@ -3,16 +3,16 @@ export const NAMESPACE = 'vue-hubble';
 
 const COPY_MESSAGE_RESET_TIMEOUT = 1000;
 
-export const inCorrectEnvironment = (context) => {
+export const inCorrectEnvironment = context => {
   return context.$hubble.environment.includes(process.env.NODE_ENV);
 };
 
-export const selectorPickerEnabled = (context) => {
+export const selectorPickerEnabled = context => {
   return context.$hubble.enableSelectorPicker;
 };
 
 export const get = (obj, path, defaultValue) => {
-  const travel = (regexp) =>
+  const travel = regexp =>
     String.prototype.split
       .call(path, regexp)
       .filter(Boolean)
@@ -26,11 +26,11 @@ export const get = (obj, path, defaultValue) => {
   return result === undefined || result === obj ? defaultValue : result;
 };
 
-export const getClosingComment = (querySelector) => {
+export const getClosingComment = querySelector => {
   return `${CLOSING_COMMENT} ${querySelector}`;
 };
 
-export const getComponentNamespace = (component) => {
+export const getComponentNamespace = component => {
   const config = get(component.$options, ['hubble'], {});
 
   return typeof config === 'string' ? config : config.namespace;
@@ -61,13 +61,13 @@ export const getGenericSelector = (context, value) => {
   return (
     (context.$hubble.prefix ? `${context.$hubble.prefix}--` : '') +
     namespaces
-      .filter((namespace) => !!namespace)
+      .filter(namespace => !!namespace)
       .reverse()
       .join('--')
   );
 };
 
-export const getOpeningComment = (querySelector) => {
+export const getOpeningComment = querySelector => {
   return `${querySelector}`;
 };
 
@@ -200,7 +200,7 @@ export const removeExistingCommentElements = ({ nodes, element, parent, oldQuery
   }
 };
 
-export const getTooltip = (selector) => {
+export const getTooltip = selector => {
   return `'${selector}'`;
 };
 
@@ -267,7 +267,7 @@ export const addHighlight = (target, id) => {
   document.body.appendChild(highlight);
 };
 
-export const handleMouseover = (context, element, id) => (event) => {
+export const handleMouseover = (context, element, id) => event => {
   if (!selectorPickerEnabled(context)) return;
 
   const { target } = event;
@@ -292,13 +292,15 @@ export const handleBind = async (element, _, { context }) => {
 
   context.$watch(
     '$hubble',
-    function () {
+    function() {
       context.$forceUpdate();
     },
     { deep: true }
   );
 
-  const id = Math.random().toString(36).substr(2, 11);
+  const id = Math.random()
+    .toString(36)
+    .substr(2, 11);
 
   context.mouseoverCallback = handleMouseover(context, element, id);
 
