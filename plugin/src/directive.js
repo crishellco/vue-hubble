@@ -4,7 +4,7 @@ export const NAMESPACE = 'vue-hubble';
 const COPY_MESSAGE_RESET_TIMEOUT = 1000;
 
 export const inCorrectEnvironment = context => {
-  return context.$hubble.environment.includes(process.env.NODE_ENV);
+  return context.$hubble.environment.includes(process.env['NODE_ENV']);
 };
 
 export const selectorPickerEnabled = context => {
