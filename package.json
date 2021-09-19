@@ -1,6 +1,6 @@
 {
   "name": "@crishellco/vue-hubble",
-  "version": "3.1.6",
+  "version": "0.0.0-semantically-released",
   "author": "Chris Mitchell (@crishellco)",
   "description": "Vue test selectors made easy",
   "main": "./dist/vue-hubble.umd.js",
