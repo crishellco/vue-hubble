@@ -14,6 +14,7 @@ export const defaultConfig = {
 function install(Vue, options = {}) {
   const merged = Object.assign(defaultConfig, options);
   merged.environment = [].concat(merged.environment);
+  Object.defineProperty(merged, 'NODE_ENV', { value: process.env['NODE_ENV'], writable: false });
 
   let globalData = new Vue({
     data: { $hubble: merged },
