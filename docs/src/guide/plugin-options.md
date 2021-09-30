@@ -1,7 +1,7 @@
 # Plugin Options
 
 | Name                     | Type              | Default | Description                                                                                                                           |
-|--------------------------|-------------------|---------|---------------------------------------------------------------------------------------------------------------------------------------|
+| ------------------------ | ----------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------- |
 | `defaultSelectorType`    | `string`          | `attr`  | Defines the selector type if not passed into the directive `v-hubble:attr`                                                            |
 | `enableComments`         | `boolean`         | `false` | Enables or disables comments around elements with hubble selectors                                                                    |
 | `enableDeepNamespacing`  | `boolean`         | `true`  | Enables or disables auto recursive namespacing                                                                                        |

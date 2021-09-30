@@ -29,3 +29,9 @@ Finds all elements with hubble selectors matching the passed selector, mapped by
 Finds the first element with hubble selectors matching the passed selector.
 
 `window.$hubble.first(selector: string): HTMLElement | undefined`
+
+## window.$hubble.resetOptions
+
+Resets the plugin options to their initial state when the plugin was first installed.
+
+`window.$hubble.resetOptions(): void`

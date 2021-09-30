@@ -22,3 +22,4 @@ __3. Use the console in dev tools to set `window.$hubble.options.enableSelectorP
 
 ```javascript
 $ window.$hubble.options.enableSelectorPicker = true;
+```

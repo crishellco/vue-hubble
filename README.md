@@ -1,6 +1,5 @@
 <p align="center"><a href="https://vue-hubble.crishell.co/" target="_blank" rel="noopener noreferrer"><img src="docs/src/.vuepress/public/assets/img/logo.png"></a><br></p>
 
-
 <p align="center">
   <img src="https://github.com/crishellco/vue-hubble/workflows/Build/badge.svg" alt="Build">
   <a href="https://codecov.io/gh/crishellco/vue-hubble"><img src="https://codecov.io/gh/crishellco/vue-hubble/branch/master/graph/badge.svg?token=IKcXpNL84k" alt="codecov"></a>
