@@ -106,7 +106,24 @@ export const handleComments = ({ newQuerySelector, oldQuerySelector, element, va
 };
 
 export const handleInsertAndUpdate = async (element, { arg, value, oldValue }, { context }) => {
-  if (!inCorrectEnvironment(context)) return;
+  if (!inCorrectEnvironment(context)) {
+    if (element.hubbleMouseover) {
+      document.removeEventListener('mouseover', element.hubbleMouseover);
+      element.hubbleMouseover = undefined;
+    }
+
+    return;
+  }
+
+  if (!element.hubbleMouseover) {
+    const id = Math.random()
+      .toString(36)
+      .substr(2, 11);
+
+    element.hubbleMouseover = handleMouseover(context, element, id);
+
+    document.addEventListener('mouseover', element.hubbleMouseover);
+  }
 
   arg = arg || context.$hubble.defaultSelectorType;
 
@@ -204,10 +221,10 @@ export const getTooltip = selector => {
   return `'${selector}'`;
 };
 
-export const addTooltip = (target, id, context) => {
+export const addTooltip = (target, id) => {
   const { top, left, width } = target.getBoundingClientRect();
   const selector = target.getAttribute(`${NAMESPACE}-selector`);
-  const text = getTooltip(selector, context);
+  const text = getTooltip(selector);
   const tooltip = document.createElement('span');
 
   tooltip.style.position = 'fixed';
@@ -275,42 +292,38 @@ export const handleMouseover = (context, element, id) => event => {
   const oldHighlight = document.querySelector(`[${NAMESPACE}-highlight-id="${id}"]`);
   const shouldRender = target === element || target === oldTooltip || element.contains(target);
 
-  if (!shouldRender) {
-    oldTooltip && oldTooltip.remove();
+  oldTooltip && oldTooltip.remove();
+  oldHighlight && oldHighlight.remove();
 
-    return oldHighlight && oldHighlight.remove();
-  }
+  if (!shouldRender) return;
 
-  if (oldTooltip) return;
-
-  addTooltip(element, id, context);
+  addTooltip(element, id);
   addHighlight(element, id);
 };
 
 export const handleBind = async (element, _, { context }) => {
-  if (!inCorrectEnvironment(context)) return;
+  !context.hubbleUnwatch &&
+    (context.hubbleUnwatch = context.$watch(
+      '$hubble',
+      function() {
+        context.$forceUpdate();
+      },
+      { deep: true }
+    ));
 
-  context.$watch(
-    '$hubble',
-    function() {
-      context.$forceUpdate();
-    },
-    { deep: true }
-  );
+  if (!inCorrectEnvironment(context)) return;
 
   const id = Math.random()
     .toString(36)
     .substr(2, 11);
 
-  context.mouseoverCallback = handleMouseover(context, element, id);
+  element.hubbleMouseover = handleMouseover(context, element, id);
 
-  document.addEventListener('mouseover', context.mouseoverCallback);
+  document.addEventListener('mouseover', element.hubbleMouseover);
 };
 
-export const handleUnbind = async (element, _, { context }) => {
-  if (!inCorrectEnvironment(context)) return;
-
-  document.removeEventListener('mouseover', context.mouseoverCallback);
+export const handleUnbind = async element => {
+  element.hubbleMouseover && document.removeEventListener('mouseover', element.hubbleMouseover);
 };
 
 export default {

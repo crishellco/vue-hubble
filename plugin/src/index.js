@@ -1,8 +1,6 @@
 import { default as directive } from './directive';
 import api from './api';
 
-let installed = false;
-
 export const defaultConfig = {
   defaultSelectorType: 'attr',
   enableComments: false,
@@ -14,39 +12,37 @@ export const defaultConfig = {
 };
 
 function install(Vue, options = {}) {
-  if (!installed) {
-    const merged = Object.assign(defaultConfig, options);
-    merged.environment = [].concat(merged.environment);
+  const merged = Object.assign(defaultConfig, options);
+  merged.environment = [].concat(merged.environment);
+  Object.defineProperty(merged, 'NODE_ENV', { value: process.env['NODE_ENV'], writable: false });
 
-    let globalData = new Vue({
-      data: { $hubble: merged },
-    });
+  let globalData = new Vue({
+    data: { $hubble: merged },
+  });
 
-    Vue.mixin({
-      computed: {
-        $hubble: {
-          get() {
-            return { ...globalData.$data.$hubble };
-          },
+  Vue.mixin({
+    computed: {
+      $hubble: {
+        get() {
+          return { ...globalData.$data.$hubble };
+        },
 
-          set($hubble) {
-            globalData.$data.$hubble = {
-              ...$hubble,
-              environment: [].concat($hubble.environment),
-            };
-          },
+        set($hubble) {
+          globalData.$data.$hubble = {
+            ...$hubble,
+            environment: [].concat($hubble.environment),
+          };
         },
       },
-    });
+    },
+  });
 
-    window.$hubble = {
-      ...api,
-      options: globalData.$data.$hubble,
-    };
+  window.$hubble = {
+    ...api,
+    options: globalData.$data.$hubble,
+  };
 
-    Vue.directive('hubble', directive);
-    installed = true;
-  }
+  Vue.directive('hubble', directive);
 }
 
 export default install;

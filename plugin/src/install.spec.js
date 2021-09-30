@@ -6,8 +6,8 @@ import { getClosingComment, getOpeningComment, getGenericSelector, NAMESPACE } f
 Vue.use(VueHubble, { defaultSelectorType: 'class', environment: ['development', 'test'] });
 
 const getWrapper = (
-  { moutOptions = {}, hubbleOptions = {}, overrides = {}, selector = 'selector' } = {
-    moutOptions: {},
+  { mountOptions = {}, hubbleOptions = {}, overrides = {}, selector = 'selector' } = {
+    mountOptions: {},
     hubbleOptions: {},
     overrides: {},
     selector: 'selector',
@@ -27,7 +27,7 @@ const getWrapper = (
         this.$hubble = { ...defaultConfig, ...hubbleOptions };
       },
     },
-    moutOptions
+    mountOptions
   );
 };
 
@@ -84,7 +84,7 @@ describe('install.js', () => {
         },
         template: '<div><span><child /></span></div>',
       },
-      moutOptions: {
+      mountOptions: {
         stubs: {
           child: {
             template: '<div v-hubble="\'selector\'" />',
@@ -108,7 +108,7 @@ describe('install.js', () => {
         },
         template: '<div><span><child /></span></div>',
       },
-      moutOptions: {
+      mountOptions: {
         stubs: {
           child: {
             template: '<div v-hubble="\'selector\'" />',
@@ -133,7 +133,7 @@ describe('install.js', () => {
         },
         template: '<div><span><child /></span></div>',
       },
-      moutOptions: {
+      mountOptions: {
         stubs: {
           child: {
             template: '<div v-hubble="\'selector\'" />',
