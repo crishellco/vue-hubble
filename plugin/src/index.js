@@ -38,7 +38,7 @@ function install(Vue, options = {}) {
   });
 
   window.$hubble = {
-    ...api,
+    ...api({ ...merged }),
     options: globalData.$data.$hubble,
   };
 

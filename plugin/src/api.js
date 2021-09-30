@@ -1,6 +1,6 @@
 import { NAMESPACE } from './directive';
 
-const api = {
+const api = masterOptions => ({
   all() {
     return [...document.querySelectorAll(`[${NAMESPACE}]`)];
   },
@@ -24,7 +24,11 @@ const api = {
   first(selector) {
     return this.find(selector).shift();
   },
-};
+
+  resetOptions() {
+    window.$hubble.options = { ...masterOptions };
+  },
+});
 
 function mapResults(nodes) {
   return [...nodes].reduce((result, node) => {

@@ -2,7 +2,7 @@ import { mount } from '@vue/test-utils';
 import Vue from 'vue';
 
 import VueHubble from '.';
-import api from './api';
+import apiFactory from './api';
 import { getQuerySelector } from './directive';
 
 Vue.use(VueHubble);
@@ -25,6 +25,8 @@ const wrapper = mount(
   },
   { attachTo }
 );
+
+const api = apiFactory({ ...window.$hubble.options });
 
 describe('api.js', () => {
   it('all', () => {
@@ -52,5 +54,13 @@ describe('api.js', () => {
   it('first', () => {
     expect(api.find('class-selector').length).toBe(2);
     expect(api.first('class-selector')).toEqual(wrapper.element.querySelector('#first-class'));
+  });
+
+  it('reset', () => {
+    window.$hubble.options.environment = ['production'];
+
+    api.resetOptions();
+
+    expect(window.$hubble.options.environment).toEqual(['test']);
   });
 });

@@ -50,3 +50,4 @@ describe('directive.js', () => {
     expect(wrapper.contains('[vue-hubble][selector]')).toBe(true);
   });
 });
+```
