@@ -228,7 +228,7 @@ export const addTooltip = (target, id) => {
   const tooltip = document.createElement('span');
 
   tooltip.style.position = 'fixed';
-  tooltip.style.padding = '6px 10px';
+  tooltip.style.padding = '6px';
   tooltip.style.background = '#374151';
   tooltip.style.borderRadius = '2px';
   tooltip.style.boxShadow = '0 10px 15px -3px rgba(0,0,0,0.1),0 4px 6px -2px rgba(0,0,0,0.05)';
@@ -278,26 +278,27 @@ export const addHighlight = (target, id) => {
   highlight.style.pointerEvents = 'none';
   highlight.style.zIndex = '99999998';
   highlight.style.background = 'rgba(99, 102, 241, .1)';
-  highlight.style.border = '1px solid #6366F1';
+  highlight.style.border = '2px solid #6366F1';
   highlight.setAttribute(`${NAMESPACE}-highlight-id`, id);
 
   document.body.appendChild(highlight);
 };
 
 export const handleMouseover = (context, element, id) => event => {
-  if (!selectorPickerEnabled(context)) return;
-
   const { target } = event;
   const oldTooltip = document.querySelector(`[${NAMESPACE}-tooltip-id="${id}"]`);
   const oldHighlight = document.querySelector(`[${NAMESPACE}-highlight-id="${id}"]`);
   const shouldRender = target === element || target === oldTooltip || element.contains(target);
 
-  oldTooltip && oldTooltip.remove();
-  oldHighlight && oldHighlight.remove();
+  if (!shouldRender || !selectorPickerEnabled(context)) {
+    oldTooltip && oldTooltip.remove();
 
-  if (!shouldRender) return;
+    return oldHighlight && oldHighlight.remove();
+  }
 
-  addTooltip(element, id);
+  if (oldTooltip) return;
+
+  addTooltip(element, id, context);
   addHighlight(element, id);
 };
 
