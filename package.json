@@ -40,7 +40,7 @@
   },
   "devDependencies": {
     "@commitlint/cli": "^12.1.4",
-    "@form8ion/commitlint-config": "^1.0.19",
+    "@form8ion/commitlint-config": "1.0.23",
     "@form8ion/remark-lint-preset": "^2.1.1",
     "@vue/eslint-config-prettier": "^6.0.0",
     "@vue/test-utils": "^1.0.0-beta.30",
