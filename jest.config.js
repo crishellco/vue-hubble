@@ -8,6 +8,7 @@ module.exports = {
     // tell Jest to handle `*.vue` files
     'vue',
   ],
+  testEnvironment: 'jsdom',
   transform: {
     // process `*.vue` files with `vue-jest`
     '.*\\.(vue)$': 'vue-jest',

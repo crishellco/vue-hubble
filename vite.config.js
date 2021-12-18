@@ -7,7 +7,7 @@ export default defineConfig({
     sourcemap: true,
     lib: {
       entry: path.resolve(__dirname, 'plugin/src/index.js'),
-      fileName: format => `vue-hubble.${format}.js`,
+      fileName: (format) => `vue-hubble.${format}.js`,
       name: 'VueHubble',
     },
     rollupOptions: {
