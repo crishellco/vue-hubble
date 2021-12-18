@@ -1,6 +1,6 @@
 import { NAMESPACE } from './directive';
 
-const api = masterOptions => ({
+const api = (masterOptions) => ({
   all() {
     return [...document.querySelectorAll(`[${NAMESPACE}]`)];
   },
