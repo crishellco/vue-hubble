@@ -7,7 +7,7 @@ Vue.use(Hubble, { enableSelectorPicker: true, prefix: 'demo' });
 Vue.config.productionTip = false;
 
 new Vue({
-  render: function(h) {
+  render: function (h) {
     return h(App);
   },
 }).$mount('#app');
