@@ -41,7 +41,7 @@
   "devDependencies": {
     "@commitlint/cli": "15.0.0",
     "@form8ion/commitlint-config": "1.0.23",
-    "@form8ion/remark-lint-preset": "2.1.2",
+    "@form8ion/remark-lint-preset": "2.1.7",
     "@vue/eslint-config-prettier": "6.0.0",
     "@vue/test-utils": "1.3.0",
     "babel-core": "^6.26.3",
