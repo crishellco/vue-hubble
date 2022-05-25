@@ -1195,21 +1195,6 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@commitlint/cli@17.0.0":
-  version "17.0.0"
-  resolved "https://registry.yarnpkg.com/@commitlint/cli/-/cli-17.0.0.tgz#6c86c6b0eba4ba1204a19833c3c962b623f35518"
-  integrity sha512-Np6slCdVVG1XwMvwbZrXIzS1INPAD5QmN4L6al04AmCd4nAPU63gxgxC5Mz0Fmx7va23Uvb0S7yEFV1JPhvPUQ==
-  dependencies:
-    "@commitlint/format" "^17.0.0"
-    "@commitlint/lint" "^17.0.0"
-    "@commitlint/load" "^17.0.0"
-    "@commitlint/read" "^17.0.0"
-    "@commitlint/types" "^17.0.0"
-    lodash "^4.17.19"
-    resolve-from "5.0.0"
-    resolve-global "1.0.0"
-    yargs "^17.0.0"
-
 "@commitlint/cli@17.0.1":
   version "17.0.1"
   resolved "https://registry.yarnpkg.com/@commitlint/cli/-/cli-17.0.1.tgz#88c5ad3f297760ded589c3a33ed49321242e7ab0"
@@ -1437,12 +1422,12 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@form8ion/commitlint-config@1.0.33":
-  version "1.0.33"
-  resolved "https://registry.yarnpkg.com/@form8ion/commitlint-config/-/commitlint-config-1.0.33.tgz#1a45eab99b498fbadbe86713d9929d461b1c2950"
-  integrity sha512-/jQEQ5mDS6XiQ5yqnQeOccJC1yq/FgNHwiobNCJu1Ha/3g4SNR1kncRKT3jaXmXP9T55zzMkq/ZPZJLwgET/9A==
+"@form8ion/commitlint-config@1.0.34":
+  version "1.0.34"
+  resolved "https://registry.yarnpkg.com/@form8ion/commitlint-config/-/commitlint-config-1.0.34.tgz#3d95c73942514d1c65852096c03598261aee22c6"
+  integrity sha512-8zL8MKLxv0ebzT3bBWqzvA6E5Ie0PPbE9Kx7D84xncRvbMFu1MxdH8lFEp7nqms47TBr/3cqP66g6AT4gQSS+w==
   dependencies:
-    "@commitlint/cli" "17.0.0"
+    "@commitlint/cli" "17.0.1"
     "@commitlint/config-conventional" "17.0.0"
 
 "@form8ion/remark-lint-preset@4.0.0":
