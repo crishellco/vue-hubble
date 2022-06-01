@@ -1211,6 +1211,22 @@
     resolve-global "1.0.0"
     yargs "^17.0.0"
 
+"@commitlint/cli@17.0.2":
+  version "17.0.2"
+  resolved "https://registry.yarnpkg.com/@commitlint/cli/-/cli-17.0.2.tgz#57c925fb5f09b8e4a83448d94db291ddf7aa58ee"
+  integrity sha512-Axe89Js0YzGGd4gxo3JLlF7yIdjOVpG1LbOorGc6PfYF+drBh14PvarSDLzyd2TNqdylUCq9wb9/A88ZjIdyhA==
+  dependencies:
+    "@commitlint/format" "^17.0.0"
+    "@commitlint/lint" "^17.0.0"
+    "@commitlint/load" "^17.0.0"
+    "@commitlint/read" "^17.0.0"
+    "@commitlint/types" "^17.0.0"
+    execa "^5.0.0"
+    lodash "^4.17.19"
+    resolve-from "5.0.0"
+    resolve-global "1.0.0"
+    yargs "^17.0.0"
+
 "@commitlint/config-conventional@17.0.0":
   version "17.0.0"
   resolved "https://registry.yarnpkg.com/@commitlint/config-conventional/-/config-conventional-17.0.0.tgz#7dc2ef3ac1a11ff62bcd333343cc8921edd1646a"
