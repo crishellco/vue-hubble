@@ -55,7 +55,7 @@
     "eslint-loader": "4.0.2",
     "eslint-plugin-jest": "26.5.3",
     "eslint-plugin-prettier": "4.0.0",
-    "eslint-plugin-prettier-vue": "3.1.0",
+    "eslint-plugin-prettier-vue": "4.1.0",
     "eslint-plugin-vue": "9.1.0",
     "husky": "8.0.1",
     "jest": "27.5.1",
