@@ -63,7 +63,7 @@
     "poi": "12.10.3",
     "prettier": "2.7.1",
     "regenerator-runtime": "0.13.9",
-    "remark-cli": "10.0.1",
+    "remark-cli": "11.0.0",
     "remark-toc": "8.0.1",
     "rimraf": "3.0.2",
     "semantic-release": "19.0.3",
