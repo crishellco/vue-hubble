@@ -68,7 +68,7 @@
     "rimraf": "3.0.2",
     "semantic-release": "19.0.3",
     "vite": "3.0.4",
-    "vue": "2.7.8",
+    "vue": "3.2.37",
     "vue-html-loader": "1.2.4",
     "vue-jest": "3.0.7",
     "vue-loader": "17.0.0",
