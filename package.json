@@ -47,7 +47,7 @@
     "babel-core": "6.26.3",
     "babel-eslint": "10.1.0",
     "babel-jest": "27.5.1",
-    "core-js": "3.25.4",
+    "core-js": "3.25.5",
     "cross-env": "7.0.3",
     "cz-conventional-changelog": "3.3.0",
     "eslint": "7.32.0",
