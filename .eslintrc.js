@@ -7,6 +7,11 @@ module.exports = {
   plugins: ['jest'],
   extends: ['plugin:vue/recommended', 'eslint:recommended', '@vue/prettier'],
   parserOptions: {
-    parser: 'babel-eslint',
+    requireConfigFile: false,
+    babelOptions: {
+      babelrc: false,
+      configFile: false,
+      presets: ['babel-eslint'],
+    },
   },
 };
