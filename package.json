@@ -65,7 +65,7 @@
     "regenerator-runtime": "0.13.11",
     "remark-cli": "11.0.0",
     "remark-toc": "8.0.1",
-    "rimraf": "4.0.4",
+    "rimraf": "4.0.5",
     "semantic-release": "20.0.2",
     "vite": "4.0.4",
     "vue": "2.7.14",
