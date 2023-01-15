@@ -50,7 +50,7 @@
     "core-js": "3.27.1",
     "cross-env": "7.0.3",
     "cz-conventional-changelog": "3.3.0",
-    "eslint": "8.31.0",
+    "eslint": "8.32.0",
     "eslint-config-prettier": "8.6.0",
     "eslint-loader": "4.0.2",
     "eslint-plugin-jest": "27.2.1",
