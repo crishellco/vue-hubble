@@ -39,7 +39,7 @@
     "access": "public"
   },
   "devDependencies": {
-    "@commitlint/cli": "17.4.4",
+    "@commitlint/cli": "17.5.0",
     "@form8ion/commitlint-config": "1.0.45",
     "@form8ion/remark-lint-preset": "5.0.0",
     "@vue/eslint-config-prettier": "7.1.0",
