@@ -5,7 +5,6 @@ name: Node.js CI
       - master
       - alpha
       - beta
-      - 3.x
   pull_request:
     types:
       - opened

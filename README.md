@@ -17,13 +17,6 @@ about collisions, extraneous classes, etc.
 
 Check out the [demo](http://vue-hubble-demo.crishell.co)
 
----
-**NOTE**
-
-This version works with Vue 2.x only.
-
----
-
 ## Table of Contents
 
 * [Documentation](#documentation)
