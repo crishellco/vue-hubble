@@ -319,8 +319,9 @@ export const handleBind = async (element, _, { context }) => {
   document.addEventListener('mouseover', element.hubbleMouseover);
 };
 
-export const handleUnbind = async (element) => {
+export const handleUnbind = async (element, _, { context }) => {
   element.hubbleMouseover && document.removeEventListener('mouseover', element.hubbleMouseover);
+  context.hubbleUnwatch && context.hubbleUnwatch();
 };
 
 export default {
