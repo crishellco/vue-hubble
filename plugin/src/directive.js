@@ -306,7 +306,6 @@ export const handleCreated = async (element, { instance }) => {
     (instance.hubbleUnwatch = watch(
       $hubble,
       function () {
-        debugger;
         instance.$forceUpdate();
       },
       { deep: true }
