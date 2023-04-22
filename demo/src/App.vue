@@ -9,8 +9,6 @@
 import HelloWorld from './components/HelloWorld.vue';
 
 export default {
-  name: 'DemoApp',
-
   hubble: 'parent',
 
   components: {
