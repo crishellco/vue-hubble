@@ -1,7 +1,7 @@
-const { description } = require('../../package');
+const { description } = require('../../package')
 
 module.exports = {
-  base: '/',
+  base: "/",
   /**
    * Ref：https://v1.vuepress.vuejs.org/config/#title
    */
@@ -20,7 +20,7 @@ module.exports = {
     ['link', { rel: 'icon', href: '/favicon.png' }],
     ['meta', { name: 'theme-color', content: '#3eaf7c' }],
     ['meta', { name: 'apple-mobile-web-app-capable', content: 'yes' }],
-    ['meta', { name: 'apple-mobile-web-app-status-bar-style', content: 'black' }],
+    ['meta', { name: 'apple-mobile-web-app-status-bar-style', content: 'black' }]
   ],
 
   /**
@@ -52,45 +52,45 @@ module.exports = {
         text: 'Demo',
         link: 'http://vue-hubble-demo.crishell.co/',
       },
-      // {
-      // text: 'v4.x',
-      // items: [
-      //   {
-      //     text: 'v2.x',
-      //     link: 'https://v2.vuepress.vuejs.org',
-      //   },
-      //   {
-      //     text: 'v0.x',
-      //     link: 'https://v0.vuepress.vuejs.org',
-      //   },
-      // ],
-      // },
     ],
     sidebar: {
       '/guide/': [
         {
           title: 'Guide',
           collapsable: false,
-          children: ['getting-started', 'plugin-options', 'usage', 'selector-picker'],
-        },
-        {
+          children: [
+            'getting-started',
+            'plugin-options',
+            'usage',
+            'selector-picker',
+          ]
+        },{
           title: 'Advanced',
           collapsable: false,
-          children: ['namespacing'],
-        },
+          children: [
+            'namespacing',
+          ]
+        }
       ],
       '/api/': [
         {
           title: 'API',
           collapsable: false,
-          children: ['methods', 'properties'],
-        },
+          children: [
+            'methods',
+            'properties',
+          ]
+        }
       ],
-    },
+    }
   },
 
   /**
    * Apply plugins，ref：https://v1.vuepress.vuejs.org/zh/plugin/
    */
-  plugins: ['@vuepress/plugin-back-to-top', '@vuepress/plugin-medium-zoom', 'dehydrate'],
-};
+  plugins: [
+    '@vuepress/plugin-back-to-top',
+    '@vuepress/plugin-medium-zoom',
+    'dehydrate'
+  ]
+}

@@ -11,10 +11,11 @@
     "url": "git+https://github.com/crishellco/vue-hubble.git"
   },
   "dependencies": {
-    "vue": "^3"
+    "vue": "2.7.14"
   },
   "devDependencies": {
-    "@vue/cli-service": "5.0.8"
+    "@vue/cli-service": "5.0.8",
+    "vue-template-compiler": "2.7.14"
   },
   "browserslist": [
     "> 1%",

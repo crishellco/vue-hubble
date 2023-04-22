@@ -1,5 +1,4 @@
 module.exports = {
-  clearMocks: true,
   collectCoverage: true,
   collectCoverageFrom: ['plugin/**/*.{js,vue}'],
   coverageReporters: ['json-summary', 'text', 'lcov'],
