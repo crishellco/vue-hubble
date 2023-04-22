@@ -5,7 +5,7 @@ module.exports = {
   /**
    * Ref：https://v1.vuepress.vuejs.org/config/#title
    */
-  title: 'Vue Hubble',
+  title: 'Vue Hubble 4.x',
   /**
    * Ref：https://v1.vuepress.vuejs.org/config/#description
    */
@@ -52,19 +52,15 @@ module.exports = {
         text: 'Demo',
         link: 'http://vue-hubble-demo.crishell.co/',
       },
-      // {
-      // text: 'v4.x',
-      // items: [
-      //   {
-      //     text: 'v2.x',
-      //     link: 'https://v2.vuepress.vuejs.org',
-      //   },
-      //   {
-      //     text: 'v0.x',
-      //     link: 'https://v0.vuepress.vuejs.org',
-      //   },
-      // ],
-      // },
+      {
+        text: 'v4.x',
+        items: [
+          {
+            text: 'v3.x',
+            link: 'https://vue-hubble-3x.crishell.co',
+          },
+        ],
+      },
     ],
     sidebar: {
       '/guide/': [
