@@ -1,34 +1,43 @@
 import { mount } from '@vue/test-utils';
-import Vue from 'vue';
 
 import VueHubble from '.';
 import apiFactory from './api';
 import { getQuerySelector } from './directive';
-
-Vue.use(VueHubble);
 
 process.env.NODE_ENV = 'test';
 
 const attachTo = document.createElement('div');
 document.body.appendChild(attachTo);
 
-const wrapper = mount(
-  {
-    template: `
-  <div>
-    <span v-hubble:attr="'attribute-selector'"></span>
-    <span v-hubble:class="'class-selector'" id="first-class"></span>
-    <span v-hubble:class="'class-selector'"></span>
-    <span v-hubble:id="'id-selector'"></span>
-  </div>
-  `,
-  },
-  { attachTo }
-);
-
-const api = apiFactory({ ...window.$hubble.options });
+let api;
+let wrapper;
 
 describe('api.js', () => {
+  beforeEach(() => {
+    wrapper = mount(
+      {
+        template: `
+      <div>
+        <span v-hubble:attr="'attribute-selector'"></span>
+        <span v-hubble:class="'class-selector'" id="first-class"></span>
+        <span v-hubble:class="'class-selector'"></span>
+        <span v-hubble:id="'id-selector'"></span>
+      </div>
+      `,
+      },
+      {
+        attachTo,
+        global: {
+          plugins: [VueHubble],
+        },
+      }
+    );
+    api = apiFactory({ ...window.$hubble.options });
+  });
+  afterEach(() => {
+    wrapper.unmount();
+  });
+
   it('all', () => {
     const nodes = api.all();
 

@@ -1,33 +1,41 @@
 import { mount } from '@vue/test-utils';
-import Vue from 'vue';
-import VueHubble, { defaultConfig } from '../src';
-import { getClosingComment, getOpeningComment, getGenericSelector, NAMESPACE } from './directive';
 
-Vue.use(VueHubble, { defaultSelectorType: 'class', environment: ['development', 'test'] });
+import { getClosingComment, getOpeningComment, getGenericSelector, NAMESPACE } from './directive';
+import VueHubble, { defaultConfig } from '../src';
+
+// config.plugins.VueWrapper.install(VueHubble, { defaultSelectorType: 'class', environment: ['development', 'test'] });
 
 const getWrapper = (
   { mountOptions = {}, hubbleOptions = {}, overrides = {}, selector = 'selector' } = {
-    mountOptions: {},
     hubbleOptions: {},
+    mountOptions: {},
     overrides: {},
     selector: 'selector',
   }
 ) => {
   return mount(
     {
+      beforeMount() {
+        this.$hubble = {
+          ...defaultConfig,
+          defaultSelectorType: 'class',
+          environment: ['development', 'test'],
+          ...hubbleOptions,
+        };
+      },
       hubble: {
         namespace: 'test',
       },
-
       template: `<div><span v-hubble="'${selector}'"></span></div>`,
-
       ...overrides,
-
-      beforeMount() {
-        this.$hubble = { ...defaultConfig, ...hubbleOptions };
-      },
     },
-    mountOptions
+    {
+      ...mountOptions,
+      global: {
+        ...(mountOptions.global || {}),
+        plugins: [[VueHubble]],
+      },
+    }
   );
 };
 
@@ -56,7 +64,7 @@ describe('install.js', () => {
     process.env.NODE_ENV = 'development';
 
     const wrapper = getWrapper({
-      hubbleOptions: { prefix: 'qa', defaultSelectorType: 'class' },
+      hubbleOptions: { defaultSelectorType: 'class', prefix: 'qa' },
     });
 
     expect(wrapper.find('.qa--test--selector').exists()).toBe(true);
@@ -78,21 +86,23 @@ describe('install.js', () => {
   it('should allow the enableDeepNamespacing to be set to false', () => {
     const wrapper = getWrapper({
       hubbleOptions: { enableDeepNamespacing: false },
+      mountOptions: {
+        global: {
+          stubs: {
+            child: {
+              hubble: {
+                namespace: 'child',
+              },
+              template: '<div v-hubble="\'selector\'" />',
+            },
+          },
+        },
+      },
       overrides: {
         hubble: {
           namespace: 'parent',
         },
         template: '<div><span><child /></span></div>',
-      },
-      mountOptions: {
-        stubs: {
-          child: {
-            template: '<div v-hubble="\'selector\'" />',
-            hubble: {
-              namespace: 'child',
-            },
-          },
-        },
       },
     });
 
@@ -102,21 +112,23 @@ describe('install.js', () => {
 
   it('should allow the enableDeepNamespacing to be set to true', () => {
     const wrapper = getWrapper({
+      mountOptions: {
+        global: {
+          stubs: {
+            child: {
+              hubble: {
+                namespace: 'child',
+              },
+              template: '<div v-hubble="\'selector\'" />',
+            },
+          },
+        },
+      },
       overrides: {
         hubble: {
           namespace: 'parent',
         },
         template: '<div><span><child /></span></div>',
-      },
-      mountOptions: {
-        stubs: {
-          child: {
-            template: '<div v-hubble="\'selector\'" />',
-            hubble: {
-              namespace: 'child',
-            },
-          },
-        },
       },
     });
 
@@ -127,21 +139,23 @@ describe('install.js', () => {
   it('should properly prefix selectors', () => {
     const wrapper = getWrapper({
       hubbleOptions: { prefix: 'qa' },
+      mountOptions: {
+        global: {
+          stubs: {
+            child: {
+              hubble: {
+                namespace: 'child',
+              },
+              template: '<div v-hubble="\'selector\'" />',
+            },
+          },
+        },
+      },
       overrides: {
         hubble: {
           namespace: 'parent',
         },
         template: '<div><span><child /></span></div>',
-      },
-      mountOptions: {
-        stubs: {
-          child: {
-            template: '<div v-hubble="\'selector\'" />',
-            hubble: {
-              namespace: 'child',
-            },
-          },
-        },
       },
     });
 
