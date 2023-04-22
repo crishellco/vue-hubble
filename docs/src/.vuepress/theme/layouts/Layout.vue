@@ -27,11 +27,11 @@ export default {
 
 <style lang="stylus" scoped>
 .banner
-  height 3rem
-  display flex
-  justify-content center
   align-items center
   background-color #6366f1
+  display flex
+  height 3rem
+  justify-content center
 
   a
     color white
@@ -39,15 +39,15 @@ export default {
 
 <style lang="stylus">
 .navbar
-  position fixed
-  z-index 20
-  top 3rem
-  left 0
-  right 0
-  height $navbarHeight
   background-color #fff
-  box-sizing border-box
   border-bottom 1px solid $borderColor
+  box-sizing border-box
+  height $navbarHeight
+  left 0
+  position fixed
+  right 0
+  top 3rem
+  z-index 20
 
 .sidebar
   top 6.6rem
