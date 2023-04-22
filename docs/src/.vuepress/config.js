@@ -1,11 +1,11 @@
-const { description } = require('../../package')
+const { description } = require('../../package');
 
 module.exports = {
-  base: "/",
+  base: '/',
   /**
    * Ref：https://v1.vuepress.vuejs.org/config/#title
    */
-  title: 'Vue Hubble',
+  title: 'Vue Hubble 3.x',
   /**
    * Ref：https://v1.vuepress.vuejs.org/config/#description
    */
@@ -20,7 +20,7 @@ module.exports = {
     ['link', { rel: 'icon', href: '/favicon.png' }],
     ['meta', { name: 'theme-color', content: '#3eaf7c' }],
     ['meta', { name: 'apple-mobile-web-app-capable', content: 'yes' }],
-    ['meta', { name: 'apple-mobile-web-app-status-bar-style', content: 'black' }]
+    ['meta', { name: 'apple-mobile-web-app-status-bar-style', content: 'black' }],
   ],
 
   /**
@@ -50,7 +50,7 @@ module.exports = {
       },
       {
         text: 'Demo',
-        link: 'http://vue-hubble-demo.crishell.co/',
+        link: 'http://vue-hubble-demo-3x.crishell.co/',
       },
     ],
     sidebar: {
@@ -58,39 +58,26 @@ module.exports = {
         {
           title: 'Guide',
           collapsable: false,
-          children: [
-            'getting-started',
-            'plugin-options',
-            'usage',
-            'selector-picker',
-          ]
-        },{
+          children: ['getting-started', 'plugin-options', 'usage', 'selector-picker'],
+        },
+        {
           title: 'Advanced',
           collapsable: false,
-          children: [
-            'namespacing',
-          ]
-        }
+          children: ['namespacing'],
+        },
       ],
       '/api/': [
         {
           title: 'API',
           collapsable: false,
-          children: [
-            'methods',
-            'properties',
-          ]
-        }
+          children: ['methods', 'properties'],
+        },
       ],
-    }
+    },
   },
 
   /**
    * Apply plugins，ref：https://v1.vuepress.vuejs.org/zh/plugin/
    */
-  plugins: [
-    '@vuepress/plugin-back-to-top',
-    '@vuepress/plugin-medium-zoom',
-    'dehydrate'
-  ]
-}
+  plugins: ['@vuepress/plugin-back-to-top', '@vuepress/plugin-medium-zoom', 'dehydrate'],
+};
