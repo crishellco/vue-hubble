@@ -32,7 +32,8 @@ module.exports = {
     logo: '/assets/img/logo.png',
     repo: 'https://github.com/crishellco/vue-hubble',
     editLinks: false,
-    docsDir: '',
+    docsDir: 'docs',
+    docsBranch: '3.x',
     editLinkText: '',
     lastUpdated: false,
     nav: [
@@ -83,6 +84,7 @@ module.exports = {
         },
       ],
     },
+    search: true,
   },
 
   /**
