@@ -30,7 +30,7 @@ module.exports = {
    */
   themeConfig: {
     logo: '/assets/img/logo.png',
-    repo: 'https://github.com/crishellco/vue-hubble',
+    repo: 'https://github.com/crishellco/vue-hubble/tree/3.x',
     editLinks: false,
     docsDir: '',
     editLinkText: '',
