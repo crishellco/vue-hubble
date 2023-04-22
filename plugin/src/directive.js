@@ -320,8 +320,9 @@ export const handleCreated = async (element, { instance }) => {
   document.addEventListener('mouseover', element.hubbleMouseover);
 };
 
-export const handleUnmounted = (element) => {
+export const handleUnmounted = (element, { instance }) => {
   element.hubbleMouseover && document.removeEventListener('mouseover', element.hubbleMouseover);
+  instance.hubbleUnwatch && instance.hubbleUnwatch();
 };
 
 export default ($h) => {
