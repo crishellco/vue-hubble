@@ -6,7 +6,7 @@
   "author": "Chris Mitchell (@crishellco)",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/crishellco/vue-hubble/tree/3.x"
+    "url": "git+https://github.com/crishellco/vue-hubble.git"
   },
   "scripts": {
     "dev": "vuepress dev src",

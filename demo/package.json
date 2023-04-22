@@ -8,7 +8,7 @@
   "author": "Chris Mitchell (@crishellco)",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/crishellco/vue-hubble/tree/3.x"
+    "url": "git+https://github.com/crishellco/vue-hubble.git"
   },
   "dependencies": {
     "vue": "2.7.14"
