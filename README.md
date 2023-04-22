@@ -1,10 +1,15 @@
 <p align="center"><a href="https://vue-hubble-3x.crishell.co/" target="_blank" rel="noopener noreferrer"><img src="docs/src/.vuepress/public/assets/img/logo.png"></a><br></p>
 
 <p align="center">
-  <img src="https://github.com/crishellco/vue-hubble/workflows/Build/badge.svg" alt="Build">
-  <a href="https://codecov.io/gh/crishellco/vue-hubble"><img src="https://codecov.io/gh/crishellco/vue-hubble/branch/master/graph/badge.svg?token=IKcXpNL84k" alt="codecov"></a>
-  <a href="https://codeclimate.com/github/crishellco/vue-hubble/maintainability"><img src="https://api.codeclimate.com/v1/badges/e1f2536b9be3c32e6fef/maintainability" alt="Maintainability"></a>
-  <br>
+  <a href="https://github.com/crishellco/vue-hubble/actions/workflows/node-ci.yml">
+    <img src="https://github.com/crishellco/vue-hubble/actions/workflows/node-ci.yml/badge.svg?branch=3.x" alt="Build">
+  </a>
+  <a href="https://codecov.io/gh/crishellco/vue-hubble" >
+    <img src="https://codecov.io/gh/crishellco/vue-hubble/branch/3.x/graph/badge.svg?token=IKcXpNL84k"/>
+  </a>
+  <a href="https://codeclimate.com/github/crishellco/vue-hubble/maintainability">
+    <img src="https://api.codeclimate.com/v1/badges/e1f2536b9be3c32e6fef/maintainability" alt="Maintainability">
+  </a>
 </p>
 
 # Vue Hubble
