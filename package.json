@@ -34,7 +34,7 @@
   "bugs": {
     "url": "https://github.com/crishellco/vue-hubble/issues"
   },
-  "homepage": "https://vue-hubble.crishell.co/",
+  "homepage": "https://vue-hubble-3x.crishell.co/",
   "publishConfig": {
     "access": "public"
   },
