@@ -13,6 +13,8 @@
 
 <script>
 export default {
+  name: 'DemoHelloWorld',
+
   hubble: 'child',
 };
 </script>

@@ -1,14 +1,17 @@
+import { watch } from 'vue';
 export const CLOSING_COMMENT = '//';
 export const NAMESPACE = 'vue-hubble';
 
 const COPY_MESSAGE_RESET_TIMEOUT = 1000;
 
-export const inCorrectEnvironment = (context) => {
-  return context.$hubble.environment.includes(process.env['NODE_ENV']);
+let $hubble;
+
+export const inCorrectEnvironment = (instance) => {
+  return instance.$hubble.environment.includes(process.env['NODE_ENV']);
 };
 
-export const selectorPickerEnabled = (context) => {
-  return context.$hubble.enableSelectorPicker;
+export const selectorPickerEnabled = (instance) => {
+  return instance.$hubble.enableSelectorPicker;
 };
 
 export const get = (obj, path, defaultValue) => {
@@ -36,17 +39,17 @@ export const getComponentNamespace = (component) => {
   return typeof config === 'string' ? config : config.namespace;
 };
 
-export const getGenericSelector = (context, value) => {
+export const getGenericSelector = (instance, value) => {
   if (!value) return '';
 
   const namespaces = [value];
-  let enableDeepNamespacing = context.$hubble.enableDeepNamespacing;
-  let namespace = getComponentNamespace(context);
+  let enableDeepNamespacing = instance.$hubble.enableDeepNamespacing;
+  let namespace = getComponentNamespace(instance);
 
   if (!enableDeepNamespacing) {
     namespaces.push(namespace);
   } else {
-    let $component = context;
+    let $component = instance;
 
     do {
       const namespace = getComponentNamespace($component);
@@ -59,7 +62,7 @@ export const getGenericSelector = (context, value) => {
   }
 
   return (
-    (context.$hubble.prefix ? `${context.$hubble.prefix}--` : '') +
+    (instance.$hubble.prefix ? `${instance.$hubble.prefix}--` : '') +
     namespaces
       .filter((namespace) => !!namespace)
       .reverse()
@@ -71,8 +74,8 @@ export const getOpeningComment = (querySelector) => {
   return `${querySelector}`;
 };
 
-export const getQuerySelector = (selector, selectorType, context) => {
-  const prefix = context.$hubble.enableGroupedSelectors ? `[${NAMESPACE}]` : '';
+export const getQuerySelector = (selector, selectorType, instance) => {
+  const prefix = instance.$hubble.enableGroupedSelectors ? `[${NAMESPACE}]` : '';
 
   switch (selectorType) {
     case 'class':
@@ -91,7 +94,7 @@ export const handleComments = ({ newQuerySelector, oldQuerySelector, element, va
   const newOpeningComment = getOpeningComment(newQuerySelector);
   const nodes = parent.childNodes;
 
-  removeExistingCommentElements({ nodes, element, parent, oldQuerySelector });
+  removeExistingCommentElements({ element, nodes, oldQuerySelector, parent });
 
   /**
    * Add new opening and closing comment elements
@@ -105,8 +108,8 @@ export const handleComments = ({ newQuerySelector, oldQuerySelector, element, va
   }
 };
 
-export const handleInsertAndUpdate = async (element, { arg, value, oldValue }, { context }) => {
-  if (!inCorrectEnvironment(context)) {
+export const handleMountedAndUpdated = async (element, { instance, arg, value, oldValue }) => {
+  if (!inCorrectEnvironment(instance)) {
     if (element.hubbleMouseover) {
       document.removeEventListener('mouseover', element.hubbleMouseover);
       element.hubbleMouseover = undefined;
@@ -118,35 +121,33 @@ export const handleInsertAndUpdate = async (element, { arg, value, oldValue }, {
   if (!element.hubbleMouseover) {
     const id = Math.random().toString(36).substr(2, 11);
 
-    element.hubbleMouseover = handleMouseover(context, element, id);
-
+    element.hubbleMouseover = handleMouseover(instance, element, id);
     document.addEventListener('mouseover', element.hubbleMouseover);
   }
 
-  arg = arg || context.$hubble.defaultSelectorType;
+  arg = arg || instance.$hubble.defaultSelectorType;
 
   const parent = element.parentElement;
-  const newSelector = getGenericSelector(context, value);
-  const oldSelector = getGenericSelector(context, oldValue);
+  const newSelector = getGenericSelector(instance, value);
+  const oldSelector = getGenericSelector(instance, oldValue);
+  const newQuerySelector = getQuerySelector(newSelector, arg, instance);
+  const oldQuerySelector = getQuerySelector(oldSelector, arg, instance);
 
-  const newQuerySelector = getQuerySelector(newSelector, arg, context);
-  const oldQuerySelector = getQuerySelector(oldSelector, arg, context);
-
-  if (context.$hubble.enableComments && parent) {
-    handleComments({ newQuerySelector, oldQuerySelector, element, value, parent });
+  if (instance.$hubble.enableComments && parent) {
+    handleComments({ element, newQuerySelector, oldQuerySelector, parent, value });
   } else if (parent) {
     const nodes = parent.childNodes;
 
-    removeExistingCommentElements({ nodes, element, parent, oldQuerySelector });
+    removeExistingCommentElements({ element, nodes, oldQuerySelector, parent });
   }
 
-  handleNamespaceAttribute({ element, oldSelector, newSelector, newQuerySelector });
+  handleNamespaceAttribute({ element, newQuerySelector, newSelector, oldSelector });
   handleHubbleSelector({
     arg,
     element,
-    oldSelector,
-    newSelector,
     newQuerySelector,
+    newSelector,
+    oldSelector,
   });
 };
 
@@ -282,13 +283,13 @@ export const addHighlight = (target, id) => {
   document.body.appendChild(highlight);
 };
 
-export const handleMouseover = (context, element, id) => (event) => {
+export const handleMouseover = (instance, element, id) => (event) => {
   const { target } = event;
   const oldTooltip = document.querySelector(`[${NAMESPACE}-tooltip-id="${id}"]`);
   const oldHighlight = document.querySelector(`[${NAMESPACE}-highlight-id="${id}"]`);
   const shouldRender = target === element || target === oldTooltip || element.contains(target);
 
-  if (!shouldRender || !selectorPickerEnabled(context)) {
+  if (!shouldRender || !selectorPickerEnabled(instance)) {
     oldTooltip && oldTooltip.remove();
 
     return oldHighlight && oldHighlight.remove();
@@ -296,36 +297,41 @@ export const handleMouseover = (context, element, id) => (event) => {
 
   if (oldTooltip) return;
 
-  addTooltip(element, id, context);
+  addTooltip(element, id, instance);
   addHighlight(element, id);
 };
 
-export const handleBind = async (element, _, { context }) => {
-  !context.hubbleUnwatch &&
-    (context.hubbleUnwatch = context.$watch(
-      '$hubble',
+export const handleCreated = async (element, { instance }) => {
+  !instance.hubbleUnwatch &&
+    (instance.hubbleUnwatch = watch(
+      $hubble,
       function () {
-        context.$forceUpdate();
+        debugger;
+        instance.$forceUpdate();
       },
       { deep: true }
     ));
 
-  if (!inCorrectEnvironment(context)) return;
+  if (!inCorrectEnvironment(instance)) return;
 
   const id = Math.random().toString(36).substr(2, 11);
 
-  element.hubbleMouseover = handleMouseover(context, element, id);
+  element.hubbleMouseover = handleMouseover(instance, element, id);
 
   document.addEventListener('mouseover', element.hubbleMouseover);
 };
 
-export const handleUnbind = async (element) => {
+export const handleUnmounted = (element) => {
   element.hubbleMouseover && document.removeEventListener('mouseover', element.hubbleMouseover);
 };
 
-export default {
-  bind: handleBind,
-  inserted: handleInsertAndUpdate,
-  update: handleInsertAndUpdate,
-  unbind: handleUnbind,
+export default ($h) => {
+  $hubble = $h;
+
+  return {
+    created: handleCreated,
+    mounted: handleMountedAndUpdated,
+    unmounted: handleUnmounted,
+    updated: handleMountedAndUpdated,
+  };
 };

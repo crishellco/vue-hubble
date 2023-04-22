@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils';
-import Vue from 'vue';
+
 import VueHubble, { defaultConfig } from '.';
 import {
   get,
@@ -12,32 +12,49 @@ import {
 
 jest.useFakeTimers();
 
-Vue.use(VueHubble);
-
-const getWrapper = (type = 'attr', selector = 'selector', overrides = {}) => {
+const getWrapper = (
+  { mountOptions = {}, hubbleOptions = {}, overrides = {}, selector = 'selector' } = {
+    hubbleOptions: {},
+    mountOptions: {},
+    overrides: {},
+    selector: 'selector',
+  }
+) => {
   global.console.warn = jest.fn();
 
-  const wrapper = mount({
-    attachToDocument: true,
-    data() {
-      return {
-        selector,
-      };
+  const wrapper = mount(
+    {
+      beforeMount() {
+        this.$hubble = {
+          ...defaultConfig,
+          ...hubbleOptions,
+        };
+      },
+      data() {
+        return {
+          selector,
+        };
+      },
+      template: `<div><span v-hubble="selector"><span v-hubble="'child'"></span></span></div>`,
+      ...overrides,
     },
-    beforeMount() {
-      this.$hubble = { ...defaultConfig, ...overrides };
-    },
-    template: `<div><span v-hubble:${type}="selector"><span v-hubble:${type}="'child'"></span></span></div>`,
-  });
+    {
+      ...mountOptions,
+      global: {
+        ...(mountOptions.global || {}),
+        plugins: [[VueHubble]],
+      },
+    }
+  );
 
   return wrapper;
 };
 
-beforeEach(() => {
-  process.env.NODE_ENV = 'test';
-});
-
 describe('directive.js', () => {
+  beforeEach(() => {
+    process.env.NODE_ENV = 'test';
+  });
+
   it(`should add a the ${NAMESPACE} attribute`, () => {
     const wrapper = getWrapper();
 
@@ -51,13 +68,13 @@ describe('directive.js', () => {
   });
 
   it('should add a class selector', () => {
-    const wrapper = getWrapper('class');
+    const wrapper = getWrapper({ hubbleOptions: { defaultSelectorType: 'class' } });
 
     expect(wrapper.find(`[${NAMESPACE}].selector`).exists()).toBe(true);
   });
 
   it('should add an id selector', () => {
-    const wrapper = getWrapper('id');
+    const wrapper = getWrapper({ hubbleOptions: { defaultSelectorType: 'id' } });
 
     expect(wrapper.find(`[${NAMESPACE}]#selector`).exists()).toBe(true);
   });
@@ -71,39 +88,46 @@ describe('directive.js', () => {
   });
 
   it('should use component tree to namespace the selector', () => {
-    const wrapper = mount(
-      {
-        hubble: 'parent',
-        template: '<div><span><child /></span></div>',
-      },
-      {
-        stubs: {
-          child: {
-            template: '<div v-hubble="\'selector\'" />',
-            hubble: {
-              namespace: 'child',
+    const wrapper = getWrapper({
+      mountOptions: {
+        global: {
+          stubs: {
+            child: {
+              hubble: 'child',
+              template: '<div v-hubble="\'selector\'" />',
             },
           },
         },
-      }
-    );
+      },
+      overrides: {
+        hubble: {
+          namespace: 'parent',
+        },
+        template: '<div><span><child /></span></div>',
+      },
+    });
 
     expect(wrapper.find(`[${NAMESPACE}][parent--child--selector]`).exists()).toBe(true);
   });
+
   it('should use component tree to namespace the selector and skip empty namespaces', () => {
-    const wrapper = mount(
-      {
-        hubble: 'parent',
-        template: '<div><span><child /></span></div>',
-      },
-      {
-        stubs: {
-          child: {
-            template: '<div v-hubble="\'selector\'" />',
+    const wrapper = getWrapper({
+      mountOptions: {
+        global: {
+          stubs: {
+            child: {
+              template: '<div v-hubble="\'selector\'" />',
+            },
           },
         },
-      }
-    );
+      },
+      overrides: {
+        hubble: {
+          namespace: 'parent',
+        },
+        template: '<div><span><child /></span></div>',
+      },
+    });
 
     expect(wrapper.find(`[${NAMESPACE}][parent--selector]`).exists()).toBe(true);
   });
@@ -112,7 +136,10 @@ describe('directive.js', () => {
     const prefix = 'qa';
     const value = 'selector';
 
-    const wrapper = getWrapper('attr', value, { prefix, enableComments: true });
+    const wrapper = getWrapper({
+      hubbleOptions: { defaultSelectorType: 'attr', enableComments: true, prefix },
+      selector: value,
+    });
 
     const selector = getGenericSelector(wrapper.vm, value);
     const querySelector = getQuerySelector(selector, 'attr', wrapper.vm);
@@ -134,8 +161,7 @@ describe('directive.js', () => {
   });
 
   it('should handle reactive class selectors', async () => {
-    const wrapper = getWrapper('class', 'old');
-
+    const wrapper = getWrapper({ hubbleOptions: { defaultSelectorType: 'class' }, selector: 'old' });
     expect(wrapper.find(`[${NAMESPACE}].old`).exists()).toBe(true);
 
     wrapper.setData({
@@ -147,7 +173,7 @@ describe('directive.js', () => {
   });
 
   it('should handle reactive class selectors starting empty', async () => {
-    const wrapper = getWrapper('class', '');
+    const wrapper = getWrapper({ hubbleOptions: { defaultSelectorType: 'class' }, selector: '' });
 
     expect(wrapper.find(`[${NAMESPACE}].new`).exists()).toBe(false);
 
@@ -160,7 +186,7 @@ describe('directive.js', () => {
   });
 
   it('should handle reactive invalid selectors starting empty', async () => {
-    const wrapper = getWrapper('invalid', '');
+    const wrapper = getWrapper({ hubbleOptions: { defaultSelectorType: 'invalid' }, selector: '' });
 
     expect(wrapper.find(`[${NAMESPACE}].new`).exists()).toBe(false);
     expect(global.console.warn).toHaveBeenCalledWith('invalid is not a valid selector type, using attr instead');
@@ -174,7 +200,7 @@ describe('directive.js', () => {
   });
 
   it('should handle reactive invalid selectors', async () => {
-    const wrapper = getWrapper('invalid', 'old');
+    const wrapper = getWrapper({ hubbleOptions: { defaultSelectorType: 'invalid' }, selector: 'old' });
 
     expect(wrapper.find(`[${NAMESPACE}].old`).exists()).toBe(false);
     expect(global.console.warn).toHaveBeenCalledWith('invalid is not a valid selector type, using attr instead');
@@ -200,11 +226,11 @@ describe('directive.js', () => {
       const element = wrapper.find(`[${NAMESPACE}][selector]`);
 
       const event = new MouseEvent('mouseover', {
-        view: window,
         bubbles: true,
         cancelable: true,
+        view: window,
       });
-      Object.defineProperty(event, 'target', { value: element.element, enumerable: true });
+      Object.defineProperty(event, 'target', { enumerable: true, value: element.element });
 
       document.dispatchEvent(event);
 
@@ -214,35 +240,44 @@ describe('directive.js', () => {
     });
 
     it('should render if enableSelectorPicker is true', async () => {
-      const wrapper = getWrapper(undefined, undefined, { enableSelectorPicker: true });
+      const wrapper = getWrapper({
+        hubbleOptions: { defaultSelectorType: undefined, enableSelectorPicker: true },
+        selector: undefined,
+      });
 
       const element = wrapper.find(`[${NAMESPACE}][selector]`);
 
       const event = new MouseEvent('mouseover', {
-        view: window,
         bubbles: true,
         cancelable: true,
+        view: window,
       });
-      Object.defineProperty(event, 'target', { value: element.element, enumerable: true });
-
+      Object.defineProperty(event, 'target', { enumerable: true, value: element.element });
       document.dispatchEvent(event);
-
       await wrapper.vm.$nextTick();
+      const tooltip = document.querySelector(`[${NAMESPACE}-tooltip]`);
+      expect(tooltip).toBeTruthy();
 
-      expect(document.querySelector(`[${NAMESPACE}-tooltip]`)).toBeTruthy();
+      Object.defineProperty(event, 'target', { enumerable: true, value: element.element });
+      document.dispatchEvent(event);
+      await wrapper.vm.$nextTick();
+      expect(document.querySelector(`[${NAMESPACE}-tooltip]`)).toEqual(tooltip);
     });
 
     it('should render if a child is hovered over', async () => {
-      const wrapper = getWrapper(undefined, undefined, { enableSelectorPicker: true });
+      const wrapper = getWrapper({
+        hubbleOptions: { defaultSelectorType: undefined, enableSelectorPicker: true },
+        selector: undefined,
+      });
 
       const element = wrapper.find(`[${NAMESPACE}][child]`);
 
       const event = new MouseEvent('mouseover', {
-        view: window,
         bubbles: true,
         cancelable: true,
+        view: window,
       });
-      Object.defineProperty(event, 'target', { value: element.element, enumerable: true });
+      Object.defineProperty(event, 'target', { enumerable: true, value: element.element });
 
       document.dispatchEvent(event);
 
@@ -254,16 +289,19 @@ describe('directive.js', () => {
     it('should copy the selector to clipboard', async () => {
       document.execCommand = jest.fn();
 
-      const wrapper = getWrapper(undefined, undefined, { enableSelectorPicker: true });
+      const wrapper = getWrapper({
+        hubbleOptions: { defaultSelectorType: undefined, enableSelectorPicker: true },
+        selector: undefined,
+      });
 
       const element = wrapper.find(`[${NAMESPACE}][selector]`);
 
       const event = new MouseEvent('mouseover', {
-        view: window,
         bubbles: true,
         cancelable: true,
+        view: window,
       });
-      Object.defineProperty(event, 'target', { value: element.element, enumerable: true });
+      Object.defineProperty(event, 'target', { enumerable: true, value: element.element });
 
       document.dispatchEvent(event);
 
@@ -280,17 +318,36 @@ describe('directive.js', () => {
       expect(document.execCommand).toHaveBeenCalledWith('copy');
     });
 
+    it('should remove event listeners', async () => {
+      const wrapper = getWrapper({
+        hubbleOptions: { defaultSelectorType: 'attr', enableSelectorPicker: true },
+        selector: 'selector',
+      });
+
+      wrapper.vm.$hubble.environment = 'woot';
+
+      jest.spyOn(document, 'removeEventListener');
+      await wrapper.vm.$forceUpdate();
+
+      wrapper.vm.$hubble.environment = defaultConfig.environment;
+
+      expect(document.removeEventListener).toHaveBeenCalledWith('mouseover', expect.anything());
+      jest.spyOn(document, 'addEventListener');
+
+      await wrapper.vm.$forceUpdate();
+
+      expect(document.addEventListener).toHaveBeenCalledWith('mouseover', expect.anything());
+    });
+
     it('should remove event listeners', () => {
       jest.spyOn(document, 'removeEventListener');
 
-      const wrapper = getWrapper();
+      const wrapper = getWrapper({
+        hubbleOptions: { defaultSelectorType: 'attr', enableSelectorPicker: true },
+        selector: 'selector',
+      });
 
-      wrapper.$hubble = {
-        ...wrapper.$hubble,
-        enableSelectorPicker: true,
-      };
-
-      wrapper.destroy();
+      wrapper.unmount();
 
       expect(document.removeEventListener).toHaveBeenCalledWith('mouseover', expect.anything());
     });
