@@ -52,6 +52,15 @@ module.exports = {
         text: 'Demo',
         link: 'http://vue-hubble-demo-3x.crishell.co/',
       },
+      {
+        text: 'v3.x',
+        items: [
+          {
+            text: 'v4.x',
+            link: 'https://vue-hubble.crishell.co',
+          },
+        ],
+      },
     ],
     sidebar: {
       '/guide/': [
