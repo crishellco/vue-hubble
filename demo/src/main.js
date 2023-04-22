@@ -1,13 +1,16 @@
-import Vue from 'vue';
-import Hubble from '../../plugin/src';
+// import Vue from 'vue';
+import { createApp, h } from 'vue';
+
 import App from './App.vue';
+import Hubble from '../../plugin/src';
 
-Vue.use(Hubble, { enableSelectorPicker: true, prefix: 'demo' });
+const app = createApp({
+  name: 'DemoMain',
 
-Vue.config.productionTip = false;
-
-new Vue({
-  render: function (h) {
+  render() {
     return h(App);
   },
-}).$mount('#app');
+});
+
+app.use(Hubble, { enableSelectorPicker: true, environment: 'development', prefix: 'demo' });
+app.mount('#app');

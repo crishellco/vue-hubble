@@ -1,36 +1,36 @@
-import { default as directive } from './directive';
+import { reactive } from 'vue';
+
 import api from './api';
+import { default as directive } from './directive';
 
 export const defaultConfig = {
   defaultSelectorType: 'attr',
   enableComments: false,
   enableDeepNamespacing: true,
+  enableGroupedSelectors: true,
   enableSelectorPicker: false,
   environment: 'test',
-  enableGroupedSelectors: true,
   prefix: '',
 };
 
-function install(Vue, options = {}) {
-  const merged = Object.assign(defaultConfig, options);
+function install(vue, options = {}) {
+  const merged = { ...defaultConfig, ...options };
   merged.environment = [].concat(merged.environment);
   Object.defineProperty(merged, 'NODE_ENV', { value: process.env['NODE_ENV'], writable: false });
 
-  let globalData = new Vue({
-    data: { $hubble: merged },
-  });
+  let $hubble = reactive(merged);
 
-  Vue.mixin({
+  vue.mixin({
     computed: {
       $hubble: {
         get() {
-          return { ...globalData.$data.$hubble };
+          return $hubble;
         },
 
-        set($hubble) {
-          globalData.$data.$hubble = {
-            ...$hubble,
-            environment: [].concat($hubble.environment),
+        set($h) {
+          $hubble = {
+            ...$h,
+            environment: [].concat($h.environment),
           };
         },
       },
@@ -39,15 +39,10 @@ function install(Vue, options = {}) {
 
   window.$hubble = {
     ...api({ ...merged }),
-    options: globalData.$data.$hubble,
+    options: $hubble,
   };
 
-  Vue.directive('hubble', directive);
+  vue.directive('hubble', directive($hubble));
 }
 
 export default install;
-
-/* istanbul ignore next */
-if (typeof window !== 'undefined' && window.Vue) {
-  window.Vue.use(install);
-}
