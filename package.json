@@ -42,7 +42,7 @@
   },
   "devDependencies": {
     "@babel/eslint-parser": "7.22.9",
-    "@commitlint/cli": "17.6.6",
+    "@commitlint/cli": "17.6.7",
     "@crishellco/eslint-plugin": "^1.3.0",
     "@form8ion/commitlint-config": "1.0.52",
     "@form8ion/remark-lint-preset": "5.0.1",
