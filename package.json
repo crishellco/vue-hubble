@@ -74,7 +74,7 @@
     "remark-toc": "8.0.1",
     "rimraf": "5.0.1",
     "semantic-release": "21.0.7",
-    "vite": "4.4.8",
+    "vite": "4.4.9",
     "vue": "^3.0.0",
     "vue-html-loader": "1.2.4",
     "vue-jest": "5.0.0-alpha.10",
