@@ -1154,22 +1154,6 @@
   resolved "https://registry.yarnpkg.com/@colors/colors/-/colors-1.5.0.tgz#bb504579c1cae923e6576a4f5da43d25f97bdbd9"
   integrity sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==
 
-"@commitlint/cli@17.7.0":
-  version "17.7.0"
-  resolved "https://registry.yarnpkg.com/@commitlint/cli/-/cli-17.7.0.tgz#c62213abdf47764704c8dc3d2ca5f53fb1fa1371"
-  integrity sha512-28PNJaGuBQZNoz3sd+6uO3b4+5PY+vWzyBfy5JOvFB7QtoZVXf2FYTQs5VO1cn7yAd3y9/0Rx0x6Vx82W/zhuA==
-  dependencies:
-    "@commitlint/format" "^17.4.4"
-    "@commitlint/lint" "^17.7.0"
-    "@commitlint/load" "^17.7.0"
-    "@commitlint/read" "^17.5.1"
-    "@commitlint/types" "^17.4.4"
-    execa "^5.0.0"
-    lodash.isfunction "^3.0.9"
-    resolve-from "5.0.0"
-    resolve-global "1.0.0"
-    yargs "^17.0.0"
-
 "@commitlint/cli@17.7.1":
   version "17.7.1"
   resolved "https://registry.yarnpkg.com/@commitlint/cli/-/cli-17.7.1.tgz#f3ab35bd38d82fcd4ab03ec5a1e9db26d57fe1b0"
@@ -1263,23 +1247,6 @@
     lodash "^4.17.19"
     resolve-from "^5.0.0"
     typescript "^4.4.3"
-
-"@commitlint/load@^17.7.0":
-  version "17.7.0"
-  resolved "https://registry.yarnpkg.com/@commitlint/load/-/load-17.7.0.tgz#2d69479bff3feec7966906988a39584aedd08574"
-  integrity sha512-jHKErVteyENYKkUiESNE6JYbaU4Sx58HXqv09/p7cKHzTtfyperlRvyqqTnxS8bas5Jjg4MP3MDZwdBrgRm8lw==
-  dependencies:
-    "@commitlint/config-validator" "^17.6.7"
-    "@commitlint/execute-rule" "^17.4.0"
-    "@commitlint/resolve-extends" "^17.6.7"
-    "@commitlint/types" "^17.4.4"
-    chalk "^4.1.0"
-    cosmiconfig "^8.0.0"
-    cosmiconfig-typescript-loader "^5.0.0"
-    lodash.isplainobject "^4.0.6"
-    lodash.merge "^4.6.2"
-    lodash.uniq "^4.5.0"
-    resolve-from "^5.0.0"
 
 "@commitlint/load@^17.7.1":
   version "17.7.1"
@@ -1567,12 +1534,12 @@
   resolved "https://registry.yarnpkg.com/@eslint/js/-/js-8.39.0.tgz#58b536bcc843f4cd1e02a7e6171da5c040f4d44b"
   integrity sha512-kf9RB0Fg7NZfap83B3QOqOGg9QmD9yBudqQXzzOtn3i4y7ZUXe5ONeW34Gwi+TxhH4mvj72R1Zc300KUMa9Bng==
 
-"@form8ion/commitlint-config@1.0.54":
-  version "1.0.54"
-  resolved "https://registry.yarnpkg.com/@form8ion/commitlint-config/-/commitlint-config-1.0.54.tgz#6576cbb6664a4fb7eee0e51488bf449fe3f77352"
-  integrity sha512-8j5XFSVPURYHILFL1kaDKSa6EsHl8DVDlCGyES/kV9Mz3tn0afJBs66mUKfzhMWgti9FuvbF9lDy25v85wKMlQ==
+"@form8ion/commitlint-config@1.0.55":
+  version "1.0.55"
+  resolved "https://registry.yarnpkg.com/@form8ion/commitlint-config/-/commitlint-config-1.0.55.tgz#38108d68d9d00df6a5adaddd5e63d2426bb76c9d"
+  integrity sha512-5VBYptSnI8bvgpucRjOEBkjppOyENXuegG20iy+ytXnvDpi1NfsV4hrJs/5RK2RDWuz+H/Z0ZS0/qQZjbWKS3w==
   dependencies:
-    "@commitlint/cli" "17.7.0"
+    "@commitlint/cli" "17.7.1"
     "@commitlint/config-conventional" "17.7.0"
 
 "@form8ion/remark-lint-preset@5.0.1":
@@ -5109,13 +5076,6 @@ cosmiconfig-typescript-loader@^4.0.0:
   version "4.4.0"
   resolved "https://registry.yarnpkg.com/cosmiconfig-typescript-loader/-/cosmiconfig-typescript-loader-4.4.0.tgz#f3feae459ea090f131df5474ce4b1222912319f9"
   integrity sha512-BabizFdC3wBHhbI4kJh0VkQP9GkBfoHPydD0COMce1nJ1kJAB3F2TmJ/I7diULBKtmEWSwEbuN/KDtgnmUUVmw==
-
-cosmiconfig-typescript-loader@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/cosmiconfig-typescript-loader/-/cosmiconfig-typescript-loader-5.0.0.tgz#0d3becfe022a871f7275ceb2397d692e06045dc8"
-  integrity sha512-+8cK7jRAReYkMwMiG+bxhcNKiHJDM6bR9FD/nGBXOWdMLuYawjF5cGrtLilJ+LGd3ZjCXnJjR5DkfWPoIVlqJA==
-  dependencies:
-    jiti "^1.19.1"
 
 cosmiconfig@^5.0.0:
   version "5.2.1"
@@ -9306,11 +9266,6 @@ jest@27.5.1:
     "@jest/core" "^27.5.1"
     import-local "^3.0.2"
     jest-cli "^27.5.1"
-
-jiti@^1.19.1:
-  version "1.19.1"
-  resolved "https://registry.yarnpkg.com/jiti/-/jiti-1.19.1.tgz#fa99e4b76a23053e0e7cde098efe1704a14c16f1"
-  integrity sha512-oVhqoRDaBXf7sjkll95LHVS6Myyyb1zaunVwk4Z0+WPSW4gjS0pl01zYKHScTuyEhQsFxV5L4DR5r+YqSyqyyg==
 
 joycon@^2.2.1:
   version "2.2.5"
