@@ -73,7 +73,7 @@
     "remark-cli": "11.0.0",
     "remark-toc": "8.0.1",
     "rimraf": "5.0.1",
-    "semantic-release": "21.0.7",
+    "semantic-release": "21.0.9",
     "vite": "4.4.9",
     "vue": "^3.0.0",
     "vue-html-loader": "1.2.4",
