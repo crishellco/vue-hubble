@@ -41,7 +41,7 @@
     "access": "public"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "7.22.10",
+    "@babel/eslint-parser": "7.22.11",
     "@commitlint/cli": "17.7.1",
     "@crishellco/eslint-plugin": "^1.3.0",
     "@form8ion/commitlint-config": "1.0.55",
