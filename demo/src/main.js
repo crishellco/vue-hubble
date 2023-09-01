@@ -12,5 +12,5 @@ const app = createApp({
   },
 });
 
-app.use(Hubble, { enableSelectorPicker: true, environment: 'test', prefix: 'demo' });
+app.use(Hubble, { enableSelectorPicker: true, environment: ['development', 'production', 'test'], prefix: 'demo' });
 app.mount('#app');
