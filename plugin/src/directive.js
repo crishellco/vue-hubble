@@ -22,7 +22,7 @@ export const get = (obj, path, defaultValue) => {
 };
 
 export const inCorrectEnvironment = (instance) => {
-  return get(instance.$hubble, ['environment'], []).includes(process.env['NODE_ENV']);
+  return instance.$hubble.environment.includes(process.env['NODE_ENV']);
 };
 
 export const selectorPickerEnabled = (instance) => {
