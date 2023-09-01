@@ -6,14 +6,6 @@ const COPY_MESSAGE_RESET_TIMEOUT = 1000;
 
 let $hubble;
 
-export const inCorrectEnvironment = (instance) => {
-  return instance.$hubble.environment.includes(process.env['NODE_ENV']);
-};
-
-export const selectorPickerEnabled = (instance) => {
-  return instance.$hubble.enableSelectorPicker;
-};
-
 export const get = (obj, path, defaultValue) => {
   const travel = (regexp) =>
     String.prototype.split
@@ -27,6 +19,14 @@ export const get = (obj, path, defaultValue) => {
   const result = travel(/[,[\]]+?/) || travel(/[,[\].]+?/);
 
   return result === undefined || result === obj ? defaultValue : result;
+};
+
+export const inCorrectEnvironment = (instance) => {
+  return get(instance.$hubble, ['environment'], []).includes(process.env['NODE_ENV']);
+};
+
+export const selectorPickerEnabled = (instance) => {
+  return get(instance.$hubble, ['enableSelectorPicker'], false);
 };
 
 export const getClosingComment = (querySelector) => {
