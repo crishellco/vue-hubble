@@ -20,7 +20,7 @@ Check out the [demo](http://vue-hubble-demo.crishell.co)
 ---
 **NOTE**
 
-This version works with Vue 3.x only.
+This version works with **Vue 3.x and options API** only. Vue 3.x composition API support coming soon.
 
 ---
 
