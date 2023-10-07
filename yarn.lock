@@ -16678,10 +16678,10 @@ vue-jest@5.0.0-alpha.10:
     source-map "0.5.6"
     tsconfig "^7.0.0"
 
-vue-loader@17.2.2:
-  version "17.2.2"
-  resolved "https://registry.yarnpkg.com/vue-loader/-/vue-loader-17.2.2.tgz#96148eb70c1365cc8c5bab4274923596811c79df"
-  integrity sha512-aqNvKJvnz2A/6VWeJZodAo8XLoAlVwBv+2Z6dama+LHsAF+P/xijQ+OfWrxIs0wcGSJduvdzvTuATzXbNKkpiw==
+vue-loader@17.3.0:
+  version "17.3.0"
+  resolved "https://registry.yarnpkg.com/vue-loader/-/vue-loader-17.3.0.tgz#15b8cb8bc5bab013d8861825c0ea78d3bca33aff"
+  integrity sha512-VUURABiN0TIUz0yvJJ/V/rZjGUh10JZtD+IDI5bXFslzFi9mV6ebKkPzoqiSi8e0vh8Ip7JHJx+I0AzAG0KsCA==
   dependencies:
     chalk "^4.1.0"
     hash-sum "^2.0.0"
