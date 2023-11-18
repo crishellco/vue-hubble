@@ -13,10 +13,10 @@ export const defaultConfig = {
   prefix: '',
 };
 
-function install(vue, options = {}) {
+export default function install(vue, options = {}) {
   const merged = { ...defaultConfig, ...options };
   merged.environment = [].concat(merged.environment);
-  Object.defineProperty(merged, 'NODE_ENV', { value: process.env['NODE_ENV'], writable: false });
+  Object.defineProperty(merged, 'NODE_ENV', { value: process.env.NODE_ENV, writable: false });
 
   let $hubble = reactive(merged);
 
@@ -44,5 +44,3 @@ function install(vue, options = {}) {
 
   vue.directive('hubble', directive($hubble));
 }
-
-export default install;
