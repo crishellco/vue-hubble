@@ -21,8 +21,10 @@ export const get = (obj, path, defaultValue) => {
   return result === undefined || result === obj ? defaultValue : result;
 };
 
-export const inCorrectEnvironment = (instance) => {
-  return instance.$hubble.environment.includes(process.env['NODE_ENV']);
+export const inCorrectEnvironment = (instance, vnode) => {
+  const $hubble = get(instance, '$hubble', get(vnode, 'ctx.setupState.$hubble'));
+
+  return $hubble.environment.includes(process.env.NODE_ENV);
 };
 
 export const selectorPickerEnabled = (instance) => {
@@ -43,8 +45,8 @@ export const getGenericSelector = (instance, value) => {
   if (!value) return '';
 
   const namespaces = [value];
-  let enableDeepNamespacing = instance.$hubble.enableDeepNamespacing;
-  let namespace = getComponentNamespace(instance);
+  const enableDeepNamespacing = instance.$hubble.enableDeepNamespacing;
+  const namespace = getComponentNamespace(instance);
 
   if (!enableDeepNamespacing) {
     namespaces.push(namespace);
@@ -108,8 +110,8 @@ export const handleComments = ({ newQuerySelector, oldQuerySelector, element, va
   }
 };
 
-export const handleMountedAndUpdated = async (element, { instance, arg, value, oldValue }) => {
-  if (!inCorrectEnvironment(instance)) {
+export const handleMountedAndUpdated = async (element, { instance, arg, value, oldValue }, vnode) => {
+  if (!inCorrectEnvironment(instance, vnode)) {
     if (element.hubbleMouseover) {
       document.removeEventListener('mouseover', element.hubbleMouseover);
       element.hubbleMouseover = undefined;
@@ -301,7 +303,7 @@ export const handleMouseover = (instance, element, id) => (event) => {
   addHighlight(element, id);
 };
 
-export const handleCreated = async (element, { instance }) => {
+export const handleCreated = async (element, { instance }, vnode) => {
   !instance.hubbleUnwatch &&
     (instance.hubbleUnwatch = watch(
       $hubble,
@@ -311,7 +313,7 @@ export const handleCreated = async (element, { instance }) => {
       { deep: true }
     ));
 
-  if (!inCorrectEnvironment(instance)) return;
+  if (!inCorrectEnvironment(instance, vnode)) return;
 
   const id = Math.random().toString(36).substr(2, 11);
 
