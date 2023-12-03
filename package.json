@@ -44,7 +44,7 @@
     "@babel/eslint-parser": "7.22.15",
     "@commitlint/cli": "18.0.0",
     "@crishellco/eslint-plugin": "^1.3.0",
-    "@form8ion/commitlint-config": "1.0.59",
+    "@form8ion/commitlint-config": "1.0.65",
     "@form8ion/remark-lint-preset": "5.0.1",
     "@vue/eslint-config-prettier": "8.0.0",
     "@vue/test-utils": "^2.0.0",
