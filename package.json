@@ -69,7 +69,7 @@
     "npm-run-all2": "5.0.2",
     "poi": "12.10.3",
     "prettier": "3.1.0",
-    "regenerator-runtime": "0.14.0",
+    "regenerator-runtime": "0.14.1",
     "remark-cli": "11.0.0",
     "remark-toc": "9.0.0",
     "rimraf": "5.0.5",
