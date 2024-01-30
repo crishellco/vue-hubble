@@ -64,7 +64,7 @@
     "eslint-plugin-sort-keys-fix": "^1.1.2",
     "eslint-plugin-unused-imports": "^3.0.0",
     "eslint-plugin-vue": "9.20.1",
-    "husky": "8.0.3",
+    "husky": "9.0.7",
     "jest": "27.5.1",
     "npm-run-all2": "5.0.2",
     "poi": "12.10.3",
