@@ -1,0 +1,18 @@
+# Table of contents
+
+* [README](README.md)
+* [.github](.github/README.md)
+  * [PULL\_REQUEST\_TEMPLATE](.github/PULL\_REQUEST\_TEMPLATE.md)
+* [demo](demo/README.md)
+* [docs](docs/README.md)
+  * [src](docs/src/README.md)
+    * [index](docs/src/index.md)
+    * [api](docs/src/api/README.md)
+      * [Methods](docs/src/api/methods.md)
+      * [Properties](docs/src/api/properties.md)
+    * [guide](docs/src/guide/README.md)
+      * [Getting Started](docs/src/guide/getting-started.md)
+      * [Namespacing](docs/src/guide/namespacing.md)
+      * [Plugin Options](docs/src/guide/plugin-options.md)
+      * [Selector Picker](docs/src/guide/selector-picker.md)
+      * [Usage](docs/src/guide/usage.md)
