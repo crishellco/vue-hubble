@@ -68,7 +68,7 @@
     "jest": "27.5.1",
     "npm-run-all2": "6.1.2",
     "poi": "12.10.3",
-    "prettier": "3.2.4",
+    "prettier": "3.2.5",
     "regenerator-runtime": "0.14.1",
     "remark-cli": "11.0.0",
     "remark-toc": "9.0.0",
