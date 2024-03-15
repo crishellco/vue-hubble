@@ -17,12 +17,14 @@ about collisions, extraneous classes, etc.
 
 Check out the [demo](http://vue-hubble-demo.crishell.co)
 
----
-**NOTE**
+***
 
-This version works with Vue 3.x only.
+__NOTE__
 
----
+This version works with __Vue 3.x and options API__ only.
+Vue 3.x composition API support coming soon.
+
+***
 
 ## Table of Contents
 
