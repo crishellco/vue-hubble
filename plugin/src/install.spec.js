@@ -3,8 +3,6 @@ import { mount } from '@vue/test-utils';
 import { getClosingComment, getOpeningComment, getGenericSelector, NAMESPACE } from './directive';
 import VueHubble, { defaultConfig } from '../src';
 
-// config.plugins.VueWrapper.install(VueHubble, { defaultSelectorType: 'class', environment: ['development', 'test'] });
-
 const getWrapper = (
   { mountOptions = {}, hubbleOptions = {}, overrides = {}, selector = 'selector' } = {
     hubbleOptions: {},
@@ -15,14 +13,6 @@ const getWrapper = (
 ) => {
   return mount(
     {
-      beforeMount() {
-        this.$hubble = {
-          ...defaultConfig,
-          defaultSelectorType: 'class',
-          environment: ['development', 'test'],
-          ...hubbleOptions,
-        };
-      },
       hubble: {
         namespace: 'test',
       },
@@ -33,7 +23,17 @@ const getWrapper = (
       ...mountOptions,
       global: {
         ...(mountOptions.global || {}),
-        plugins: [[VueHubble]],
+        plugins: [
+          [
+            VueHubble,
+            {
+              ...defaultConfig,
+              defaultSelectorType: 'class',
+              environment: ['development', 'test'],
+              ...hubbleOptions,
+            },
+          ],
+        ],
       },
     }
   );
@@ -74,7 +74,7 @@ describe('install.js', () => {
     let selector = 'selector';
     const wrapper = getWrapper();
 
-    selector = getGenericSelector(wrapper.vm, selector);
+    selector = getGenericSelector(wrapper.vm, wrapper.vm.$el.__vnode, selector);
     const closingComment = getClosingComment(selector);
     const openingComment = getOpeningComment(selector);
 
@@ -167,7 +167,7 @@ describe('install.js', () => {
     let selector = 'selector';
     const wrapper = getWrapper();
 
-    selector = getGenericSelector(wrapper.vm, selector);
+    selector = getGenericSelector(wrapper.vm, wrapper.vm.$el.__vnode, selector);
 
     expect(wrapper.find(`[${NAMESPACE}].${selector}`).attributes(`${NAMESPACE}-selector`)).toBe(
       `[${NAMESPACE}].${selector}`
@@ -178,7 +178,7 @@ describe('install.js', () => {
     let selector = 'selector';
     const wrapper = getWrapper({ hubbleOptions: { enableGroupedSelectors: false } });
 
-    selector = getGenericSelector(wrapper.vm, selector);
+    selector = getGenericSelector(wrapper.vm, wrapper.vm.$el.__vnode, selector);
 
     expect(wrapper.find(`.${selector}`).attributes(`${NAMESPACE}-selector`)).toBe(`.${selector}`);
   });

@@ -15,6 +15,8 @@ ancestral namespaces.
 
 ### Example
 
+#### Options API
+
 ```html
 <!-- Form Component (child) -->
 <template>
@@ -22,31 +24,48 @@ ancestral namespaces.
 </template>
 
 <script>
-  export default {
-    hubble: {
-      namespace: 'form'
-    }
-  };
+export default {
+  hubble: 'login'
+};
 </script>
 
 <!-- Login Component (parent) -->
 <template>
-  <form />
+  <Form />
 </template>
 
 <script>
-  export default {
-    components: {
-      Form
-    },
-    hubble: {
-      namespace: 'login'
-    }
-    /**
-     * Or shorthand...
-     * hubble: 'login'
-     **/
-  };
+export default {
+  hubble: 'login',
+  components: {
+    Form
+  }
+};
+</script>
+
+<div vue-hubble-selector="[vue-hubble][login--form--attribute-selector]" vue-hubble login--form--attribute-selector></div>
+```
+
+#### Composition API
+
+```html
+<!-- Form Component (child) -->
+<template>
+  <div v-hubble="'attribute-selector'"></div>
+</template>
+
+<script setup>
+const hubble = 'form';
+</script>
+
+
+<!-- Login Component (parent) -->
+<template>
+  <Form />
+</template>
+
+<script setup>
+const hubble = 'login';
 </script>
 
 <div vue-hubble-selector="[vue-hubble][login--form--attribute-selector]" vue-hubble login--form--attribute-selector></div>
@@ -60,6 +79,8 @@ component by using only it's own component namespace.
 
 ### Example
 
+#### Options API
+
 ```html
 <!-- Form Component (child) -->
 <template>
@@ -67,31 +88,46 @@ component by using only it's own component namespace.
 </template>
 
 <script>
-  export default {
-    hubble: {
-      namespace: 'form'
-    }
-  };
+export default {
+  hubble: 'login'
+};
 </script>
 
 <!-- Login Component (parent) -->
 <template>
-  <form />
+  <Form />
 </template>
 
 <script>
-  export default {
-    components: {
-      Form
-    },
-    hubble: {
-      namespace: 'login'
-    }
-    /**
-     * Or shorthand...
-     * hubble: 'login'
-     **/
-  };
+export default {
+  hubble: 'login',
+  components: {
+    Form
+  }
+};
+</script>
+
+<div vue-hubble-selector="[vue-hubble][form--attribute-selector]" vue-hubble form--attribute-selector></div>
+```
+
+#### Composition API
+```html
+<!-- Form Component (child) -->
+<template>
+  <div v-hubble="'attribute-selector'"></div>
+</template>
+
+<script setup>
+const hubble = 'form';
+</script>
+
+<!-- Login Component (parent) -->
+<template>
+  <Form />
+</template>
+
+<script setup>
+const hubble = 'login';
 </script>
 
 <div vue-hubble-selector="[vue-hubble][form--attribute-selector]" vue-hubble form--attribute-selector></div>
