@@ -47,22 +47,18 @@ export const getGenericSelector = (instance, vnode, value) => {
   const enableDeepNamespacing = $hubble.enableDeepNamespacing;
   const namespace = getComponentNamespace(instance, vnode);
 
-  let $component;
+  let $component = instance;
   let $vnode;
 
   if (!enableDeepNamespacing) {
     namespaces.push(namespace);
   } else {
-    $component = instance;
-
     do {
       $vnode = $component.$el.__vnode;
 
       const namespace = getComponentNamespace($component, $vnode);
 
-      if (namespace) {
-        namespaces.push(namespace);
-      }
+      namespace && namespaces.push(namespace);
 
       if ($component.$el === $component.$parent.$el) break;
 
