@@ -8,7 +8,6 @@ import {
   getGenericSelector,
   getQuerySelector,
   NAMESPACE,
-  ENV_WILDCARD,
 } from './directive';
 
 jest.useFakeTimers();
@@ -25,6 +24,12 @@ const getWrapper = (
 
   const wrapper = mount(
     {
+      beforeMount() {
+        this.$hubble = {
+          ...defaultConfig,
+          ...hubbleOptions,
+        };
+      },
       data() {
         return {
           selector,
@@ -37,15 +42,7 @@ const getWrapper = (
       ...mountOptions,
       global: {
         ...(mountOptions.global || {}),
-        plugins: [
-          [
-            VueHubble,
-            {
-              ...defaultConfig,
-              ...hubbleOptions,
-            },
-          ],
-        ],
+        plugins: [[VueHubble]],
       },
     }
   );
@@ -80,14 +77,6 @@ describe('directive.js', () => {
     const wrapper = getWrapper({ hubbleOptions: { defaultSelectorType: 'id' } });
 
     expect(wrapper.find(`[${NAMESPACE}]#selector`).exists()).toBe(true);
-  });
-
-  it('should add a selector if NODE_ENV is not test but environment includes wildcard', () => {
-    process.env.NODE_ENV = 'not-test';
-
-    const wrapper = getWrapper({ hubbleOptions: { environment: [ENV_WILDCARD] } });
-
-    expect(wrapper.find(`[${NAMESPACE}][selector]`).exists()).toBe(true);
   });
 
   it('should not add a selector if NODE_ENV is not test', () => {
@@ -152,7 +141,7 @@ describe('directive.js', () => {
       selector: value,
     });
 
-    const selector = getGenericSelector(wrapper.vm, wrapper.vm.$el.__vnode, value);
+    const selector = getGenericSelector(wrapper.vm, value);
     const querySelector = getQuerySelector(selector, 'attr', wrapper.vm);
     const closingComment = getClosingComment(querySelector);
     const openingComment = getOpeningComment(querySelector);

@@ -26,6 +26,13 @@ export default function install(vue, options = {}) {
         get() {
           return $hubble;
         },
+
+        set($h) {
+          $hubble = {
+            ...$h,
+            environment: [].concat($h.environment),
+          };
+        },
       },
     },
   });

@@ -1,7 +1,7 @@
 <p align="center"><a href="https://vue-hubble.crishell.co/" target="_blank" rel="noopener noreferrer"><img src="docs/src/.vuepress/public/assets/img/logo.png"></a><br></p>
 
 <p align="center">
-  <img src="https://github.com/crishellco/vue-hubble/actions/workflows/node-ci.yml/badge.svg?branch=master" alt="Build">
+  <img src="https://github.com/crishellco/vue-hubble/workflows/Build/badge.svg" alt="Build">
   <a href="https://codecov.io/gh/crishellco/vue-hubble"><img src="https://codecov.io/gh/crishellco/vue-hubble/branch/master/graph/badge.svg?token=IKcXpNL84k" alt="codecov"></a>
   <a href="https://codeclimate.com/github/crishellco/vue-hubble/maintainability"><img src="https://api.codeclimate.com/v1/badges/e1f2536b9be3c32e6fef/maintainability" alt="Maintainability"></a>
   <br>
@@ -16,6 +16,15 @@ and target component elements in tests without worrying
 about collisions, extraneous classes, etc.
 
 Check out the [demo](http://vue-hubble-demo.crishell.co)
+
+***
+
+__NOTE__
+
+This version works with __Vue 3.x and options API__ only.
+Vue 3.x composition API support coming soon.
+
+***
 
 ## Table of Contents
 
