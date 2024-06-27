@@ -10,10 +10,11 @@
   },
   "scripts": {
     "dev": "vuepress dev src",
-    "build": "vuepress build src -d dist"
+    "build": "cross-env NODE_OPTIONS=--openssl-legacy-provider vuepress build src -d dist"
   },
   "license": "MIT",
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "vuepress": "1.9.10"
   },
   "dependencies": {
