@@ -38,7 +38,7 @@ Use the directive to add test selectors to elements you wish to test.
 
 ## Writing Tests
 
-[Examples](https://github.com/crishellco/vue-hubble/blob/master/plugin/src/directive.spec.js)
+[Examples](https://github.com/crishellco/vue-hubble/blob/master/src/directive.spec.js)
 
 ```javascript
 describe('directive.js', () => {
