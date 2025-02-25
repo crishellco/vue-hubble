@@ -67,7 +67,7 @@
     "eslint-plugin-vue": "9.32.0",
     "husky": "9.1.7",
     "jest": "27.5.1",
-    "npm-run-all2": "6.2.6",
+    "npm-run-all2": "7.0.2",
     "poi": "12.10.3",
     "prettier": "3.5.2",
     "regenerator-runtime": "0.14.1",
