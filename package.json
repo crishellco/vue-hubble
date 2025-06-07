@@ -45,7 +45,7 @@
     "@commitlint/cli": "19.8.1",
     "@crishellco/eslint-plugin": "^1.3.0",
     "@form8ion/commitlint-config": "2.0.6",
-    "@form8ion/remark-lint-preset": "5.0.1",
+    "@form8ion/remark-lint-preset": "5.0.9",
     "@vue/eslint-config-prettier": "10.2.0",
     "@vue/test-utils": "^2.0.0",
     "babel-core": "6.26.3",
