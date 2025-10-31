@@ -7086,9 +7086,9 @@ eslint-plugin-sort-keys-fix@^1.1.2:
     requireindex "~1.2.0"
 
 eslint-plugin-unused-imports@^4.0.0:
-  version "4.1.4"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-unused-imports/-/eslint-plugin-unused-imports-4.1.4.tgz#62ddc7446ccbf9aa7b6f1f0b00a980423cda2738"
-  integrity sha512-YptD6IzQjDardkl0POxnnRBhU1OEePMV0nd6siHaRBbd+lyh6NAhFEobiznKU7kTsSsDeSD62Pe7kAM1b7dAZQ==
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-unused-imports/-/eslint-plugin-unused-imports-4.3.0.tgz#69ff9c4f83f02f7789808bbbab77636cb742af50"
+  integrity sha512-ZFBmXMGBYfHttdRtOG9nFFpmUvMtbHSjsKrS20vdWdbfiVYsO3yA2SGYy9i9XmZJDfMGBflZGBCm70SEnFQtOA==
 
 eslint-plugin-vue@8.4.0:
   version "8.4.0"
